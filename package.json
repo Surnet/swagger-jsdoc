@@ -23,5 +23,5 @@
     "yaml",
     "restful"
   ],
-  "repository": "git://github.com/fliptoo/swagger-too"
+  "repository": "git://github.com/fliptoo/swagger-express"
 }
