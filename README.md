@@ -37,8 +37,8 @@ app.configure(function(){
   ...
 });
 ``` 
-- Read from jsdoc
-- 
+## Read from jsdoc
+
 Example 'api.js'
 
 ```js
@@ -92,7 +92,7 @@ exports.login = function (req, res) {
  */
 ```
 
-- Read from yaml file
+## Read from yaml file
 
 Example 'api.yml'
 
