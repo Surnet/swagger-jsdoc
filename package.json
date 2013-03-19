@@ -1,0 +1,27 @@
+{
+  "name": "swagger-express",
+  "description": "Swagger + Express = {swagger-express}",
+  "version": "1.0.0",
+  "author": "fliptoo <fliptoo.studio@gmail.com>",
+  "main": "./index",
+  "dependencies": {
+      "express": "*"
+    , "underscore": "*"
+    , "doctrine": "*"
+    , "js-yaml": "*"
+  },
+  "devDependencies": {
+    "jade": "*"
+  },
+  "keywords": [
+    "swagger",
+    "swagger-ui",
+    "express",
+    "api",
+    "jsdoc",
+    "yml",
+    "yaml",
+    "restful"
+  ],
+  "repository": "git://github.com/fliptoo/swagger-too"
+}

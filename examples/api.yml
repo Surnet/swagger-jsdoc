@@ -1,0 +1,36 @@
+resourcePath: /api
+description: All about API
+apis: 
+
+- path: /login
+  operations:
+
+  - httpMethod: POST
+    summary: Login with username and password
+    notes: Returns a user based on username
+    responseClass: User
+    nickname: login
+    consumes: 
+      - text/html
+    parameters:
+
+    - name: username
+      dataType: string
+      paramType: query
+      required: true
+      description: Your username
+
+    - name: password
+      dataType: string
+      paramType: query
+      required: true
+      description: Your password
+
+models:
+    User:
+      id: User
+      properties:
+        username:
+          type: String
+        password:
+          type: String    
