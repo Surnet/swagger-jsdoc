@@ -10,15 +10,16 @@ Just another swagger + express integration, but this is much simple and clean.
 
 Configure {swagger-express} as express middleware.
 
-'apiVersion'      -> Your api version.
 
-'swaggerVersion'  -> Swagger version.
+`apiVersion`      -> Your api version.
 
-'basePath'        -> This is the base path of the server declaring the apis.
+`swaggerVersion`  -> Swagger version.
 
-'swaggerUI'       -> Where is your swagger-ui?
+`basePath`        -> This is the base path of the server declaring the apis.
 
-'apis'            -> Define your api array.
+`swaggerUI`       -> Where is your swagger-ui?
+
+`apis`            -> Define your api array.
 
 ```
 var swagger = require('../');
@@ -37,6 +38,7 @@ app.configure(function(){
 });
 ``` 
 - Read from jsdoc
+- 
 Example 'api.js'
 
 ```js
@@ -91,8 +93,8 @@ exports.login = function (req, res) {
 ```
 
 - Read from yaml file
-Example 'api.yml'
 
+Example 'api.yml'
 
 ```yml
 resourcePath: /api
@@ -131,7 +133,7 @@ models:
           type: String
         password:
           type: String    
-...
+```
 
 
 ## Examples
