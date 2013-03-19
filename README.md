@@ -1,6 +1,11 @@
 {swagger-express}
 =========
-Just another swagger + express integration, but this is much simple and clean.
+
+[Swagger](https://developers.helloreverb.com/swagger/) is a specification and complete framework 
+implementation for describing, producing, consuming, and visualizing RESTful web services.
+View [demo](http://petstore.swagger.wordnik.com/).
+
+__{swagger-express}__ is a simple and clean solution to integrate swagger with express.
 
 ## Installation
 
