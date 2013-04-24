@@ -5,13 +5,18 @@
   "author": "fliptoo <fliptoo.studio@gmail.com>",
   "main": "./index",
   "dependencies": {
-      "express": "*"
-    , "underscore": "*"
-    , "doctrine": "*"
-    , "js-yaml": "*"
+    "express": "*",
+    "underscore": "*",
+    "doctrine": "*",
+    "js-yaml": "*",
+    "async": "~0.2.7"
   },
   "devDependencies": {
-    "jade": "*"
+    "jade": "*",
+    "jshint": "*"
+  },
+  "scripts": {
+    "test": "jshint --config jshint.cfg $(find . -name *.js | grep -v './node_modules')"
   },
   "keywords": [
     "swagger",
