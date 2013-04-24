@@ -1,6 +1,6 @@
 {
   "name": "swagger-express",
-  "description": "Swagger + Express = {swagger-express}",
+  "description": "Document your express rest api by jsDoc or yaml.",
   "version": "1.0.0",
   "author": "fliptoo <fliptoo.studio@gmail.com>",
   "main": "./index",
