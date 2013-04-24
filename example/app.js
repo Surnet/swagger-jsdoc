@@ -22,8 +22,8 @@ app.configure(function(){
   app.use(swagger.init(app, {
     swaggerUI: './public/swagger/',
     basePath: 'http://localhost:3000',
-    //apis: ['./api.js']
-    apis: ['./api.yml']
+    apis: ['./api.js']
+    //apis: ['./api.yml']
   }));
   app.use(app.router);
   app.use(express.static(path.join(__dirname, 'public')));
