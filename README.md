@@ -27,7 +27,7 @@ Configure {swagger-express} as express middleware.
 `apis`            -> Define your api array.
 
 ```
-var swagger = require('../');
+var swagger = require('swagger-express');
 
 app.configure(function(){
   ...
