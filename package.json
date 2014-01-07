@@ -8,7 +8,7 @@
     "express": "*",
     "underscore": "*",
     "doctrine": "*",
-    "js-yaml": "~2.1.0",
+    "js-yaml": "*",
     "async": "~0.2.7"
   },
   "devDependencies": {
