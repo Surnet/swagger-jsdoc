@@ -20,13 +20,10 @@ app.configure(function(){
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(swagger.init(app, {
-    apiVersion: '1.0',
-    swaggerVersion: '1.0',
-    basePath: 'http://localhost:3000',
-    swaggerURL: '/swagger',
-    swaggerJSON: '/api-docs.json',
     swaggerUI: './public/swagger/',
-    apis: ['./api.js', './api.yml']
+    basePath: 'http://localhost:3000',
+    apis: ['./api.js']
+    //apis: ['./api.yml']
   }));
   app.use(app.router);
   app.use(express.static(path.join(__dirname, 'public')));
