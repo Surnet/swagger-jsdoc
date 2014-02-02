@@ -26,6 +26,8 @@ Configure {swagger-express} as express middleware.
 
 `swaggerJSON`       -> Path to use for swagger ui JSON.
 
+`basePath`        -> (optional) The basePath for swagger.js
+
 `apis`            -> Define your api array.
 
 ```
@@ -39,6 +41,7 @@ app.configure(function(){
     swaggerURL: '/swagger',
     swaggerJSON: '/api-docs.json',
     swaggerUI: './public/swagger/',
+    basePath: 'http://localhost:3000',
     apis: ['./api.js', './api.yml']
   }));
   app.use(app.router);
