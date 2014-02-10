@@ -1,7 +1,7 @@
 {
   "name": "swagger-express",
   "description": "Document your express rest api by jsDoc or yaml.",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "author": "fliptoo <fliptoo.studio@gmail.com>",
   "main": "./index",
   "dependencies": {
