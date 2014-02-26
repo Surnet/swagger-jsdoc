@@ -1,11 +1,11 @@
 
-/**
+###
  * @swagger
- * resourcePath: /apiJs
+ * resourcePath: /apiCoffee
  * description: All about API
- */
+###
 
-/**
+###
  * @swagger
  * path: /login
  * operations:
@@ -27,15 +27,10 @@
  *          paramType: query
  *          required: true
  *          dataType: string
- */
-exports.login = function (req, res) {
-  var user = {};
-  user.username = req.param('username');
-  user.password = req.param('password');
-  res.json(user);
-}
 
-/**
+###
+
+###
  * @swagger
  * models:
  *   User:
@@ -45,4 +40,4 @@ exports.login = function (req, res) {
  *         type: String
  *       password:
  *         type: String    
- */
+###
