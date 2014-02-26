@@ -26,7 +26,7 @@ app.configure(function(){
     swaggerURL: '/swagger',
     swaggerJSON: '/api-docs.json',
     swaggerUI: './public/swagger/',
-    apis: ['./api.js', './api.yml']
+    apis: ['./api.js', './api.yml', 'api.coffee']
   }));
   app.use(app.router);
   app.use(express.static(path.join(__dirname, 'public')));

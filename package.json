@@ -2,13 +2,14 @@
   "name": "swagger-express",
   "description": "Document your express rest api by jsDoc or yaml.",
   "version": "1.0.4",
-  "author": "fliptoo <fliptoo.studio@gmail.com>",
+  "author": "fliptoo <fliptoo.studio@gmail.com>, sposmen <sposmen@gmail.com>",
   "main": "./index",
   "dependencies": {
     "express": "*",
     "underscore": "*",
     "doctrine": "*",
     "js-yaml": "~2.1.0",
+    "coffee-script": "*",
     "async": "~0.2.7"
   },
   "devDependencies": {
@@ -26,6 +27,7 @@
     "jsdoc",
     "yml",
     "yaml",
+    "coffee-script",
     "restful"
   ],
   "repository": "git://github.com/fliptoo/swagger-express"
