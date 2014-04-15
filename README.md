@@ -26,7 +26,7 @@ Configure {swagger-express} as express middleware.
 
 `swaggerJSON`       -> Path to use for swagger ui JSON.
 
-`basePath`        -> (optional) The basePath for swagger.js
+`basePath`        -> The basePath for swagger.js
 
 `apis`            -> Define your api array.
 

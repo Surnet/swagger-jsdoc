@@ -5,7 +5,7 @@
   "author": "fliptoo <fliptoo.studio@gmail.com>, sposmen <sposmen@gmail.com>",
   "main": "./index",
   "dependencies": {
-    "express": "*",
+    "express": "3.5.1",
     "underscore": "*",
     "doctrine": "*",
     "js-yaml": "~2.1.0",
