@@ -28,6 +28,8 @@ Configure {swagger-express} as express middleware.
 
 `basePath`        -> The basePath for swagger.js
 
+`info`            -> [Metadata][info] about the API
+
 `apis`            -> Define your api array.
 
 `middleware`      -> Function before response.
@@ -44,13 +46,20 @@ app.configure(function(){
     swaggerJSON: '/api-docs.json',
     swaggerUI: './public/swagger/',
     basePath: 'http://localhost:3000',
+    info: {
+      title: 'swagger-express sample app',
+      description: 'Swagger + Express = {swagger-express}'
+    },
     apis: ['./api.js', './api.yml'],
     middleware: function(req, res){}
   }));
   app.use(app.router);
   ...
 });
-``` 
+```
+
+[info]: https://github.com/wordnik/swagger-spec/blob/master/versions/1.2.md#513-info-object
+
 ## Read from jsdoc
 
 Example 'api.js'
