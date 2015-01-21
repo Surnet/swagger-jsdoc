@@ -19,6 +19,11 @@ app.configure(function(){
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
+  app.all('/*', function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    next();
+});
+
   app.use(swagger.init(app, {
     apiVersion: '1.0',
     swaggerVersion: '1.0',
