@@ -1,34 +1,40 @@
 {
   "name": "swagger-express",
-  "description": "Document your express rest api by jsDoc or yaml.",
-  "version": "1.0.4",
-  "author": "fliptoo <fliptoo.studio@gmail.com>, sposmen <sposmen@gmail.com>",
-  "main": "./index",
-  "dependencies": {
-    "async": "~0.2.7",
-    "coffee-script": "*",
-    "doctrine": "*",
-    "express": "3.5.1",
-    "js-yaml": "~2.1.0",
-    "underscore": "*"
-  },
-  "devDependencies": {
-    "jade": "*",
-    "jshint": "*"
-  },
+  "version": "1.0.0",
+  "description": "Document your Express REST API with Swagger.",
+  "main": "index.js",
   "scripts": {
-    "test": "jshint --config jshint.cfg $(find . -name *.js | grep -v './node_modules')"
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/devlouisc/swagger-express.git"
   },
   "keywords": [
     "swagger",
-    "swagger-ui",
     "express",
+    "restful",
     "api",
     "jsdoc",
-    "yml",
     "yaml",
-    "coffee-script",
-    "restful"
+    "coffee-script"
   ],
-  "repository": "git://github.com/fliptoo/swagger-express"
+  "author": "devlouisc",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/devlouisc/swagger-express/issues"
+  },
+  "homepage": "https://github.com/devlouisc/swagger-express#readme",
+  "dependencies": {
+    "async": "^1.2.0",
+    "coffee-script": "^1.9.3",
+    "doctrine": "^0.6.4",
+    "js-yaml": "^3.3.1",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "eslint": "^0.22.1",
+    "express": "^4.12.4",
+    "jade": "^1.10.0"
+  }
 }
