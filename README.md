@@ -1,7 +1,7 @@
 {swagger-express}
 =========
 
-[Swagger](https://developers.helloreverb.com/swagger/) is a specification and complete framework 
+[Swagger](https://developers.helloreverb.com/swagger/) is a specification and complete framework
 implementation for describing, producing, consuming, and visualizing RESTful web services.
 View [demo](http://petstore.swagger.wordnik.com/).
 
@@ -9,7 +9,7 @@ __{swagger-express}__ is a simple and clean solution to integrate swagger with e
 
 ## Installation
 
-    $ npm install -g swagger-express
+    $ npm install swagger-express
 
 ## Quick Start
 
@@ -81,7 +81,7 @@ Example 'api.js'
  *      notes: Returns a user based on username
  *      responseClass: User
  *      nickname: login
- *      consumes: 
+ *      consumes:
  *        - text/html
  *      parameters:
  *        - name: username
@@ -111,7 +111,7 @@ exports.login = function (req, res) {
  *       username:
  *         type: String
  *       password:
- *         type: String    
+ *         type: String
  */
 ```
 
@@ -122,7 +122,7 @@ Example 'api.yml'
 ```yml
 resourcePath: /api
 description: All about API
-apis: 
+apis:
 
 - path: /login
   operations:
@@ -132,7 +132,7 @@ apis:
     notes: Returns a user based on username
     responseClass: User
     nickname: login
-    consumes: 
+    consumes:
       - text/html
     parameters:
 
@@ -155,7 +155,7 @@ models:
         username:
           type: String
         password:
-          type: String    
+          type: String
 ```
 
 ## Read from jsdoc
@@ -220,7 +220,7 @@ and run the example:
 
     $ cd example
     $ node app.js
-    
+
 # Credits
 
 - [Express](https://github.com/visionmedia/express)
