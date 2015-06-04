@@ -4,7 +4,7 @@
   "description": "Document your Express REST API with Swagger.",
   "main": "index.js",
   "scripts": {
-    "lint": "./node_modules/eslint/bin/eslint.js **/*.js || exit 0"
+    "lint": "./node_modules/eslint/bin/eslint.js . || exit 0"
   },
   "repository": {
     "type": "git",
@@ -29,12 +29,12 @@
     "async": "^1.2.0",
     "coffee-script": "^1.9.3",
     "doctrine": "^0.6.4",
-    "express": "^4.12.4",
     "js-yaml": "^3.3.1",
     "underscore": "^1.8.3"
   },
   "devDependencies": {
     "eslint": "^0.22.1",
+    "express": "^4.12.4",
     "jade": "^1.10.0"
   }
 }
