@@ -1,5 +1,5 @@
 {
-  "name": "swagger-express",
+  "name": "jsdoc-express-with-swagger",
   "version": "1.0.0",
   "description": "Document your Express REST API with Swagger.",
   "main": "index.js",
@@ -8,33 +8,27 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/devlouisc/swagger-express.git"
+    "url": "https://github.com/devlouisc/jsdoc-express-with-swagger.git"
   },
   "keywords": [
-    "swagger",
-    "express",
+    "jsdoc",
     "restful",
     "api",
-    "jsdoc",
-    "yaml",
-    "coffee-script"
+    "express",
+    "swagger"
   ],
   "author": "devlouisc",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/devlouisc/swagger-express/issues"
+    "url": "https://github.com/devlouisc/jsdoc-express-with-swagger/issues"
   },
-  "homepage": "https://github.com/devlouisc/swagger-express#readme",
+  "homepage": "https://github.com/devlouisc/jsdoc-express-with-swagger#readme",
   "dependencies": {
-    "async": "^1.2.0",
-    "coffee-script": "^1.9.3",
     "doctrine": "^0.6.4",
-    "js-yaml": "^3.3.1",
-    "underscore": "^1.8.3"
+    "js-yaml": "^3.3.1"
   },
   "devDependencies": {
     "eslint": "^0.22.1",
-    "express": "^4.12.4",
-    "jade": "^1.10.0"
+    "express": "^4.12.4"
   }
 }
