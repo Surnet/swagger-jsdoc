@@ -4,7 +4,7 @@
   "description": "Document your Express REST API with Swagger.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "./node_modules/eslint/bin/eslint.js **/*.js || exit 0"
   },
   "repository": {
     "type": "git",
