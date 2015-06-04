@@ -14,7 +14,7 @@
  *      notes: Returns a user based on username
  *      responseClass: User
  *      nickname: login
- *      consumes: 
+ *      consumes:
  *        - text/html
  *      parameters:
  *        - name: username
@@ -44,5 +44,34 @@ exports.login = function (req, res) {
  *       username:
  *         type: String
  *       password:
- *         type: String    
+ *         type: String
  */
+
+// ---------------------------------------------------------------------------------------------------------------------
+
+'use strict';
+
+/**
+ *	Sets up the routes.
+ *	@param {object} app - Express app
+ */
+module.exports.setup = function (app) {
+	app.get('/', rootHandler)
+	app.get('/login', loginHandler);
+}
+
+/**
+ *	@swagger
+ *
+ */
+function rootHandler(req, res) {
+    res.send('Hello World!');
+});
+
+/**
+ *	@swagger
+ *
+ */
+function loginHandler(req, res) {
+	res.send('login');
+}
