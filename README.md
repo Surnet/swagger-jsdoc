@@ -1,6 +1,9 @@
 {swagger-express}
 =========
 
+# Notes
+* YAML does not like tabs. Do no use them in the Swagger JSDoc comments!!!
+
 [Swagger](https://developers.helloreverb.com/swagger/) is a specification and complete framework
 implementation for describing, producing, consuming, and visualizing RESTful web services.
 View [demo](http://petstore.swagger.wordnik.com/).
