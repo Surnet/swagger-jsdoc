@@ -9,7 +9,7 @@ module.exports.setup = function (app) {
 	/**
 	 *	@swagger
 	 */
-	app.get('/', rootHandler)
+	app.get('/', rootHandler);
 
 	/**
 	 *  @swagger
@@ -35,11 +35,11 @@ module.exports.setup = function (app) {
 	 *          dataType: string
 	 */
 	app.get('/login', loginHandler);
-}
+};
 
 function rootHandler(req, res) {
     res.send('Hello World!');
-});
+}
 
 function loginHandler(req, res) {
 	var user = {};

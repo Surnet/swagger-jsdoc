@@ -12,7 +12,7 @@ swagger.init(app, {
 	info: {
 		title: 'Hello World',
 		version: '1.0.0',
-		apis: ['./routes.js'],
+		apis: ['./routes.js']
 	}
 });
 
@@ -23,4 +23,7 @@ var server = app.listen(3000, function () {
 	var port = server.address().port;
 
 	console.log('Example app listening at http://%s:%s', host, port);
+
+	// FIXME: This is here for testing. Remove when finished.
+	console.dir(swagger.swaggerObject);
 });
