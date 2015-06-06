@@ -6,17 +6,17 @@
  */
 module.exports.setup = function (app) {
 
-	/**
-	 *	@swagger
+    /**
+     *	@swagger
      *  /:
      *      get:
      *          responses:
      *              200:
      *                  description: hello world
-	 */
-	app.get('/', rootHandler);
+     */
+    app.get('/', rootHandler);
 
-	/**
+    /**
      *  @swagger
      *  /login:
      *      post:
@@ -24,7 +24,7 @@ module.exports.setup = function (app) {
      *              200:
      *                  description: login
      */
-	app.get('/login', loginHandler);
+    app.get('/login', loginHandler);
 };
 
 function rootHandler(req, res) {
@@ -32,8 +32,8 @@ function rootHandler(req, res) {
 }
 
 function loginHandler(req, res) {
-	var user = {};
-	user.username = req.param('username');
-	user.password = req.param('password');
-	res.json(user);
+    var user = {};
+    user.username = req.param('username');
+    user.password = req.param('password');
+    res.json(user);
 }
