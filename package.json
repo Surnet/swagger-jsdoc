@@ -25,7 +25,8 @@
   "homepage": "https://github.com/devlouisc/jsdoc-express-with-swagger#readme",
   "dependencies": {
     "doctrine": "^0.6.4",
-    "js-yaml": "^3.3.1"
+    "js-yaml": "^3.3.1",
+    "swagger-tools": "^0.8.7"
   },
   "devDependencies": {
     "eslint": "^0.22.1",
