@@ -7,8 +7,8 @@ var express = require('express'),
 var app = express();
 
 swagger.init(app, {
-	swaggerJsonPath: '/api.json',
-	swaggerUiPath: '/api',
+	apiDocs: '/api.json',
+	swaggerUi: '/api',
 	info: {
 		title: 'Hello World',
 		version: '1.0.0'
