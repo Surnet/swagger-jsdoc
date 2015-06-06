@@ -2,11 +2,16 @@
 
 // Dependencies
 var express = require('express'),
+    bodyParser = require('body-parser'),
     routes = require('./routes'),
     swagger = require('../');
 
 // Initialize express
 var app = express();
+app.use(bodyParser.json()); // To support JSON-encoded bodies
+app.use(bodyParser.urlencoded({ // To support URL-encoded bodies
+    extended: true
+}));
 
 // Swagger definition (https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md#schema)
 var swaggerDefinition = {
