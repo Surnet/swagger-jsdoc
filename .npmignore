@@ -1,3 +1,5 @@
 .DS_Store
 .git*
 example/
+swagger-example.json
+swagger-example.yml

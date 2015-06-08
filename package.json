@@ -29,6 +29,7 @@
     "swagger-tools": "^0.8.7"
   },
   "devDependencies": {
+    "body-parser": "^1.12.4",
     "eslint": "^0.22.1",
     "express": "^4.12.4"
   }
