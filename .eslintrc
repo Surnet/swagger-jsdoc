@@ -1,9 +1,0 @@
-{
-    "env": {
-        "node": true
-    },
-    "rules": {
-    	"no-use-before-define": [2, "nofunc"],
-        "quotes": [2, "single"]
-    }
-}
