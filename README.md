@@ -1,5 +1,9 @@
 # swagger-jsdoc
 
+[![npm Version](https://img.shields.io/npm/v/swagger-jsdoc.svg)](https://www.npmjs.com/package/swagger-jsdoc)
+[![npm Downloads](https://img.shields.io/npm/dm/swagger-jsdoc.svg)](https://www.npmjs.com/package/swagger-jsdoc)
+[![Donate](https://img.shields.io/gratipay/Surnet.svg)](https://gratipay.com/Surnet)
+
 [![Circle CI](https://img.shields.io/circleci/project/Surnet/swagger-jsdoc/master.svg)](https://circleci.com/gh/Surnet/swagger-jsdoc)
 [![Codacy Badge](https://img.shields.io/codacy/c5d3d458d11a4fb88b55cd527b1c708f.svg)](https://www.codacy.com/app/Surnet/swagger-jsdoc)
 [![Dependency Status](https://img.shields.io/gemnasium/Surnet/swagger-jsdoc.svg)](https://gemnasium.com/Surnet/swagger-jsdoc)
