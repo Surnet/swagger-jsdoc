@@ -11,7 +11,7 @@ machine:
     environment: # Add some environment variables
       JUNIT_REPORT_PATH: "$CIRCLE_TEST_REPORTS/junit/test-results.xml"
       JUNIT_REPORT_STACK: 1
-      CODACY_REPO_TOKEN: "---------------------"
+      CODACY_REPO_TOKEN: "a64579ce1f114344a745eb24df33ecd5"
 
 ## Customize dependencies
 dependencies:
