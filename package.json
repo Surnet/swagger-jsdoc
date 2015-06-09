@@ -1,7 +1,7 @@
 {
-  "name": "jsdoc-express-with-swagger",
+  "name": "swagger-jsdoc",
   "version": "1.0.0",
-  "description": "Document your Express REST API with Swagger.",
+  "description": "Generates swagger doc based on JSDoc",
   "main": "index.js",
   "scripts": {
     "start": "node ./example/app.js",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/devlouisc/jsdoc-express-with-swagger.git"
+    "url": "https://github.com/Surnet/swagger-jsdoc.git"
   },
   "keywords": [
     "jsdoc",
@@ -18,12 +18,12 @@
     "express",
     "swagger"
   ],
-  "author": "devlouisc",
+  "author": "https://github.com/Surnet/swagger-jsdoc/graphs/contributors",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/devlouisc/jsdoc-express-with-swagger/issues"
+    "url": "https://github.com/Surnet/swagger-jsdoc/issues"
   },
-  "homepage": "https://github.com/devlouisc/jsdoc-express-with-swagger#readme",
+  "homepage": "https://github.com/Surnet/swagger-jsdoc",
   "dependencies": {
     "doctrine": "^0.6.4",
     "js-yaml": "^3.3.1",
