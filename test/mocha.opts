@@ -1,0 +1,5 @@
+--reporter spec
+--ui bdd
+--recursive
+--slow 1000
+--no-timeouts

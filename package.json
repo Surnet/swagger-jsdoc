@@ -4,7 +4,8 @@
   "description": "Document your Express REST API with Swagger.",
   "main": "index.js",
   "scripts": {
-    "lint": "./node_modules/eslint/bin/eslint.js . || exit 0"
+    "start": "node ./example/app.js",
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -30,7 +31,10 @@
   },
   "devDependencies": {
     "body-parser": "^1.12.4",
-    "eslint": "^0.22.1",
-    "express": "^4.12.4"
+    "express": "^4.12.4",
+    "jscs": "^1.13.1",
+    "mocha": "^2.2.5",
+    "mocha-jscs": "^1.1.0",
+    "mocha-jshint": "^2.2.3"
   }
 }
