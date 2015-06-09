@@ -5,7 +5,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var routes = require('./routes');
-var swagger = require('../');
+var swaggerJSDoc = require('../');
 
 
 // Initialize express
@@ -32,15 +32,20 @@ var swaggerDefinition = {
 
 // Options for the swagger docs
 var options = {
-  apiDocs: '/api-docs.json', // Default: '/api-docs', optional
-  swaggerUi: '/docs', // Path to the swaggerUI (default: '/docs', optional)
   swaggerDefinition: swaggerDefinition, // Import swaggerDefinitions
   apis: ['./example/routes.js'], // Path to the API docs
 };
 
 
-// Initialize swagger-jsdoc
-swagger.init(app, options);
+// Initialize swagger-jsdoc -> returns validated swagger spec in json format
+var swaggerSpec = swaggerJSDoc(options);
+
+
+// Serve swagger docs the way you like (Recommendation: swagger-tools)
+app.get('/api-docs.json', function(req, res) {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(swaggerSpec);
+});
 
 
 // Set up the routes

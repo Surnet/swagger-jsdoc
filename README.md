@@ -12,9 +12,53 @@
 
 ## Install
 
+```bash
+$ npm install swagger-jsdoc --save
+```
 
 ## Quick Start
 
+swagger-jsdoc returns the validated swagger specification as JSON.
+
+```javascript
+var swaggerJSDoc = require('swagger-jsdoc');
+
+var options = {
+  swaggerDefinition: {
+    info: {
+      title: 'Hello World', // Title (required)
+      version: '1.0.0', // Version (required)
+    },
+  },
+  apis: ['./routes.js'], // Path to the API docs
+};
+
+// Initialize swagger-jsdoc -> returns validated swagger spec in json format
+var swaggerSpec = swaggerJSDoc(options);
+```
+
+At this time you can do with the swaggerSpec whatever you want.
+The simplest way would be serving it straight to the outside world:
+
+```javascript
+app.get('/api-docs.json', function(req, res) {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(swaggerSpec);
+});
+```
+
+You could also use a framework like [swagger-tools](https://www.npmjs.com/package/swagger-tools) to serve the spec and a swagger-ui.
 
 ## Example App
 
+There is an example app in the example subdirectory.
+To use it you can use the following commands:
+
+```bash
+$ git clone https://github.com/Surnet/swagger-jsdoc.git
+$ cd swagger-jsdoc
+$ npm install
+$ npm start
+```
+
+The swagger spec will be served at http://localhost:3000/api-docs.json

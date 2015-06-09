@@ -15,9 +15,9 @@
  */
  
 /**
- * Various tools for using and integrating with Swagger.
- * @external module:swagger-tools
+ * Swagger JSON/YAML parser and validator for Node and browsers
+ * @external module:swagger-parser
  * @global
- * @see https://www.npmjs.com/package/swagger-tools
+ * @see https://www.npmjs.com/package/swagger-parser
  * @license MIT
  */
