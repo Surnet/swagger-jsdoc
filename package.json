@@ -1,11 +1,12 @@
 {
   "name": "swagger-jsdoc",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "Generates swagger doc based on JSDoc",
   "main": "index.js",
   "scripts": {
-    "start": "node ./example/app.js",
-    "test": "mocha"
+    "start": "cd example && node app.js",
+    "test": "mocha",
+    "jsdoc": "jsdoc --configure .jsdocconf"
   },
   "repository": {
     "type": "git",
