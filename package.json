@@ -4,9 +4,10 @@
   "description": "Generates swagger doc based on JSDoc",
   "main": "index.js",
   "scripts": {
+    "coverage": "istanbul cover _mocha --report html && istanbul check-coverage --statement 95",
+    "jsdoc": "jsdoc --configure .jsdocconf",
     "start": "cd example && node app.js",
-    "test": "mocha",
-    "jsdoc": "jsdoc --configure .jsdocconf"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -33,6 +34,7 @@
   "devDependencies": {
     "body-parser": "^1.12.4",
     "express": "^4.12.4",
+    "istanbul": "^0.3.14",
     "jscs": "^1.13.1",
     "mocha": "^2.2.5",
     "mocha-jscs": "^1.1.0",
