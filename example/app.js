@@ -35,7 +35,7 @@ var options = {
   apiDocs: '/api-docs.json', // Default: '/api-docs', optional
   swaggerUi: '/docs', // Path to the swaggerUI (default: '/docs', optional)
   swaggerDefinition: swaggerDefinition, // Import swaggerDefinitions
-  apis: ['./routes.js'], // Path to the API docs
+  apis: ['./example/routes.js'], // Path to the API docs
 };
 
 
@@ -45,6 +45,10 @@ swagger.init(app, options);
 
 // Set up the routes
 routes.setup(app);
+
+
+// Expose app
+exports = module.exports = app;
 
 
 // Start the server

@@ -6,7 +6,7 @@
   "scripts": {
     "coverage": "istanbul cover _mocha --report html && istanbul check-coverage --statement 95",
     "jsdoc": "jsdoc --configure .jsdocconf",
-    "start": "cd example && node app.js",
+    "start": "node example/app.js",
     "test": "mocha"
   },
   "repository": {
@@ -38,6 +38,7 @@
     "jscs": "^1.13.1",
     "mocha": "^2.2.5",
     "mocha-jscs": "^1.1.0",
-    "mocha-jshint": "^2.2.3"
+    "mocha-jshint": "^2.2.3",
+    "supertest": "^1.0.1"
   }
 }

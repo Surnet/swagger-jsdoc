@@ -1,0 +1,51 @@
+{
+  "info": {
+    "title": "Hello World",
+    "version": "1.0.0",
+    "description": "A sample API"
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "swagger": "2.0",
+  "paths": {
+    "/": {
+      "get": {
+        "description": "Returns Hello World!",
+        "responses": {
+          "200": {
+            "description": "hello world"
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "description": "Login to the application",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "username",
+            "description": "Username to use for login.",
+            "in": "formData",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "password",
+            "description": "User's password.",
+            "in": "formData",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "login"
+          }
+        }
+      }
+    }
+  }
+}
