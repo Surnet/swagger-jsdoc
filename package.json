@@ -39,7 +39,6 @@
     "mocha": "^2.2.5",
     "mocha-jscs": "^1.1.0",
     "mocha-jshint": "^2.2.3",
-    "supertest": "^1.0.1",
-    "swagger-tools": "^0.8.7"
+    "supertest": "^1.0.1"
   }
 }

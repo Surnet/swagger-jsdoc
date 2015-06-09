@@ -4,7 +4,6 @@
 // Dependencies
 var express = require('express');
 var bodyParser = require('body-parser');
-var swaggerTools = require('swagger-tools');
 var routes = require('./routes');
 var swaggerJSDoc = require('../');
 
@@ -42,20 +41,11 @@ var options = {
 var swaggerSpec = swaggerJSDoc(options);
 
 
-// Swagger Tools Options
-var swaggerToolsUIOptions = {
-  apiDocs: '/api-docs.json',
-  swaggerUi: '/docs',
-};
-
-
-// Initialize the Swagger middleware
-swaggerTools.initializeMiddleware(swaggerSpec,
-  function(middleware) {
-    // Serve the Swagger documents and Swagger UI
-    app.use(middleware.swaggerUi(swaggerToolsUIOptions));
-  }
-);
+// Serve swagger docs the way you like (Recommendation: swagger-tools)
+app.get('/api-docs.json', function(req, res) {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(swaggerSpec);
+});
 
 
 // Set up the routes
