@@ -1,10 +1,12 @@
 'use strict';
 
+
 // Dependencies
 var express = require('express');
 var bodyParser = require('body-parser');
 var routes = require('./routes');
 var swagger = require('../');
+
 
 // Initialize express
 var app = express();
@@ -13,7 +15,9 @@ app.use(bodyParser.urlencoded({ // To support URL-encoded bodies
   extended: true,
 }));
 
+
 // Swagger definition
+// You can set every attribute except paths and swagger
 // https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md
 var swaggerDefinition = {
   info: { // API informations (required)
@@ -25,6 +29,7 @@ var swaggerDefinition = {
   basePath: '/', // Base path (optional)
 };
 
+
 // Options for the swagger docs
 var options = {
   apiDocs: '/api-docs.json', // Default: '/api-docs', optional
@@ -33,11 +38,14 @@ var options = {
   apis: ['./routes.js'], // Path to the API docs
 };
 
+
 // Initialize swagger-jsdoc
 swagger.init(app, options);
 
+
 // Set up the routes
 routes.setup(app);
+
 
 // Start the server
 var server = app.listen(3000, function() {

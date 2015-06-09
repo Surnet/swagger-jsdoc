@@ -1,28 +1,21 @@
 'use strict';
 
-/**
- *	Handler for the Homepage
- *	@param {object} req - Express request
- *  @param {object} res - Express response
- */
+
+// Handler for the Homepage
 function rootHandler(req, res) {
   res.send('Hello World!');
 }
 
-/**
- *	Handler for the Login
- *	@param {object} req - Express request
- *  @param {object} res - Express response
- */
+
+// Handler for Login
 function loginHandler(req, res) {
   res.json(req.body);
 }
 
-/**
- *	Sets up the routes.
- *	@param {object} app - Express app
- */
+
+// Sets up the routes.
 module.exports.setup = function(app) {
+
 
   /**
    *	@swagger
@@ -34,6 +27,7 @@ module.exports.setup = function(app) {
    *          description: hello world
    */
   app.get('/', rootHandler);
+
 
   /**
    *  @swagger
