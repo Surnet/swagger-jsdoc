@@ -1,4 +1,4 @@
-# swaggger-jsdoc
+# swagger-jsdoc
 
 **swagger-jsdoc** enables to integrate [Swagger](http://swagger.io) using JSDoc.
 
