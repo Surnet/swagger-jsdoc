@@ -1,0 +1,23 @@
+/**
+ * JSDoc parser
+ * @external module:doctrine
+ * @global
+ * @see https://www.npmjs.com/package/doctrine
+ * @license BSD
+ */
+ 
+/**
+ * YAML 1.2 parser and serializer
+ * @external module:js-yaml
+ * @global
+ * @see https://www.npmjs.com/package/js-yaml
+ * @license MIT
+ */
+ 
+/**
+ * Various tools for using and integrating with Swagger.
+ * @external module:swagger-tools
+ * @global
+ * @see https://www.npmjs.com/package/swagger-tools
+ * @license MIT
+ */
