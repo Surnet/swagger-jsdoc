@@ -11,8 +11,6 @@ var swaggerSpec = require('./swagger-spec.json');
 function equalsToBeSwaggerSpec(res) {
 
   // Check if result equals expected spec
-  console.log(JSON.stringify(res.body));
-  console.log(JSON.stringify(swaggerSpec));
   if (JSON.stringify(res.body) !== JSON.stringify(swaggerSpec)) {
     throw new Error('Returned spec does not equal the expected result');
   }
