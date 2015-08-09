@@ -46,6 +46,39 @@
           }
         }
       }
+    },
+    "/users": {
+      "get": {
+        "description": "Returns users",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "users"
+          }
+        }
+      },
+      "post": {
+        "description": "Returns users",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "username",
+            "description": "username for user",
+            "in": "formData",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "users"
+          }
+        }
+      }
     }
   }
 }
