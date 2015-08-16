@@ -44,4 +44,43 @@ module.exports.setup = function(app) {
   app.post('/login', function(req, res) {
     res.json(req.body);
   });
+
+  /**
+   * @swagger
+   * /users:
+   *   get:
+   *     description: Returns users
+   *     produces:
+   *      - application/json
+   *     responses:
+   *       200:
+   *         description: users
+   */
+  app.get('/users', function(req, res) {
+    res.json({
+      username: 'jsmith',
+    });
+  });
+
+  /**
+   * @swagger
+   * /users:
+   *   post:
+   *     description: Returns users
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: username
+   *         description: username for user
+   *         in: formData
+   *         required: true
+   *         type: string
+   *     responses:
+   *       200:
+   *         description: users
+   */
+  app.post('/users', function(req, res) {
+    res.json(req.body);
+  });
+
 };
