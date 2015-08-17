@@ -55,6 +55,8 @@ module.exports.setup = function(app) {
    *     responses:
    *       200:
    *         description: users
+   *         schema:
+   *            $ref: '#/definitions/User'
    */
   app.get('/users', function(req, res) {
     res.json({
