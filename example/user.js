@@ -9,5 +9,5 @@
  */
 
 module.exports = {
-    username:'jsmith'
+  username: 'jsmith',
 };
