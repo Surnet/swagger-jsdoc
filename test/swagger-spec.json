@@ -1,5 +1,6 @@
 {
-  "info": {
+  "info":
+  {
     "title": "Hello World",
     "version": "1.0.0",
     "description": "A sample API"
@@ -7,24 +8,34 @@
   "host": "localhost:3000",
   "basePath": "/",
   "swagger": "2.0",
-  "paths": {
-    "/": {
-      "get": {
+  "paths":
+  {
+    "/":
+    {
+      "get":
+      {
         "description": "Returns the homepage",
-        "responses": {
-          "200": {
+        "responses":
+        {
+          "200":
+          {
             "description": "hello world"
           }
         }
       }
     },
-    "/login": {
-      "post": {
+    "/login":
+    {
+      "post":
+      {
         "description": "Login to the application",
-        "produces": [
+        "produces":
+        [
           "application/json"
         ],
-        "parameters": [
+        "parameters":
+        [
+
           {
             "name": "username",
             "description": "Username to use for login.",
@@ -32,6 +43,7 @@
             "required": true,
             "type": "string"
           },
+
           {
             "name": "password",
             "description": "User's password.",
@@ -40,31 +52,46 @@
             "type": "string"
           }
         ],
-        "responses": {
-          "200": {
+        "responses":
+        {
+          "200":
+          {
             "description": "login"
           }
         }
       }
     },
-    "/users": {
-      "get": {
+    "/users":
+    {
+      "get":
+      {
         "description": "Returns users",
-        "produces": [
+        "produces":
+        [
           "application/json"
         ],
-        "responses": {
-          "200": {
-            "description": "users"
+        "responses":
+        {
+          "200":
+          {
+            "description": "users",
+            "schema":
+            {
+              "$ref": "#/definitions/User"
+            }
           }
         }
       },
-      "post": {
+      "post":
+      {
         "description": "Returns users",
-        "produces": [
+        "produces":
+        [
           "application/json"
         ],
-        "parameters": [
+        "parameters":
+        [
+
           {
             "name": "username",
             "description": "username for user",
@@ -73,10 +100,25 @@
             "type": "string"
           }
         ],
-        "responses": {
-          "200": {
+        "responses":
+        {
+          "200":
+          {
             "description": "users"
           }
+        }
+      }
+    }
+  },
+  "definitions":
+  {
+    "User":
+    {
+      "properties":
+      {
+        "username":
+        {
+          "description": "The users alias"
         }
       }
     }
