@@ -34,6 +34,7 @@ var swaggerDefinition = {
 var options = {
   swaggerDefinition: swaggerDefinition, // Import swaggerDefinitions
   apis: ['./example/routes.js'], // Path to the API docs
+  models: ['./example/user.js'], // Path to the model definitions
 };
 
 
