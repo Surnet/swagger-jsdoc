@@ -18,6 +18,19 @@ module.exports.setup = function(app) {
     res.send('Hello World!');
   });
 
+  /**
+   * @swagger
+   * definition:
+   *   Login:
+   *     required:
+   *       - username
+   *       - password
+   *     properties:
+   *       username:
+   *         type: string
+   *       password:
+   *         type: string
+   */
 
   /**
    * @swagger
@@ -40,6 +53,9 @@ module.exports.setup = function(app) {
    *     responses:
    *       200:
    *         description: login
+   *         schema:
+   *           type: object
+   *           $ref: '#/definitions/Login'
    */
   app.post('/login', function(req, res) {
     res.json(req.body);

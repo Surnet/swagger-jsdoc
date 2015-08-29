@@ -42,7 +42,11 @@
         ],
         "responses": {
           "200": {
-            "description": "login"
+            "description": "login",
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/Login"
+            }
           }
         }
       }
@@ -77,6 +81,22 @@
           "200": {
             "description": "users"
           }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Login": {
+      "required": [
+        "username",
+        "password"
+      ],
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
         }
       }
     }
