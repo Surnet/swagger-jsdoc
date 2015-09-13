@@ -85,6 +85,93 @@ app.post('/login', function(req, res) {
 });
 ```
 
+### Re-using Model Definitions
+
+A model may be the same for multiple endpoints (Ex. User POST,PUT responses).
+In place of writing (or copy and pasting) the same code into multiple locations,
+which can be error prone when adding a new field to the schema. You can define 
+a model and re-use it across multiple endpoints. You can also reference another
+model and add fields.
+```javascript
+/**
+ * @swagger
+ * definition:
+ *   NewUser:
+ *     type: object
+ *     required:
+ *       - username
+ *       - password
+ *     properties:
+ *       username:
+ *         type: string
+ *       password:
+ *         type: string
+ *         format: password
+ *   User:
+ *     allOf:
+ *       - $ref: '#/definitions/NewUser'
+ *       - required:
+ *         - id
+ *       - properties:
+ *         id:
+ *           type: integer
+ *           format: int64
+ */
+
+/**
+   * @swagger
+   * /users:
+   *   get:
+   *     description: Returns users
+   *     produces:
+   *      - application/json
+   *     responses:
+   *       200:
+   *         description: users
+   *         schema:
+   *           type: array
+   *           items: 
+   *             $ref: '#/definitions/User'
+   */
+  app.get('/users', function(req, res) {
+    res.json([ {
+      id: 1,
+      username: 'jsmith',
+    }, {1
+      id: 2,
+      username: 'jdoe',
+    } ]);
+  });
+
+  /**
+   * @swagger
+   * /users:
+   *   post:
+   *     description: Returns users
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: user
+   *         description: User object
+   *         in:  body
+   *         required: true
+   *         type: string
+   *         schema:
+   *           $ref: '#/definitions/NewUser'
+   *     responses:
+   *       200:
+   *         description: users
+   *         schema:
+   *           $ref: '#/definitions/User'
+   */
+  app.post('/users', function(req, res) {
+    // Generate ID
+    req.body.id = Math.floor(Math.random() * 100) * 1
+    res.json(req.body);
+  });
+```
+
+
 ## Example App
 
 There is an example app in the example subdirectory.
