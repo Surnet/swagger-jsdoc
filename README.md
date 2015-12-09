@@ -171,6 +171,21 @@ model and add fields.
   });
 ```
 
+### Load external definitions 
+
+You can load external definitions or paths after ``swaggerJSDoc()`` function.
+```javascript
+// Initialize swagger-jsdoc -> returns validated swagger spec in json format
+var swaggerSpec = swaggerJSDoc(options);
+// load external schema json
+swaggerSpec.definitions.in_login = require("config/schemajson/in.login.schema.json");
+swaggerSpec.definitions.out_login = require("config/schemajson/out.login.schema.json");
+// or set manual paths
+swaggerSpec.paths["api/v1/cool"] = {"get" : { ... } }
+};
+```
+
+
 
 ## Example App
 
