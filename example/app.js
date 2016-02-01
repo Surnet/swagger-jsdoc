@@ -40,7 +40,6 @@ var options = {
 // Initialize swagger-jsdoc -> returns validated swagger spec in json format
 var swaggerSpec = swaggerJSDoc(options);
 
-
 // Serve swagger docs the way you like (Recommendation: swagger-tools)
 app.get('/api-docs.json', function(req, res) {
   res.setHeader('Content-Type', 'application/json');
