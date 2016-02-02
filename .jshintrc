@@ -58,6 +58,6 @@
     "prototypejs": false,
     "maxparams": 4,
     "maxdepth": 4,
-    "maxstatements": 18,
+    "maxstatements": 19,
     "maxcomplexity": 8
 }

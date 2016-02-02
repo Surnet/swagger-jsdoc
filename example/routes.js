@@ -3,16 +3,6 @@
 
 // Sets up the routes.
 module.exports.setup = function(app) {
-  /**
-   * @swagger
-   * parameter:
-   *   username:
-   *     name: username
-   *     description: Username to use for login.
-   *     in: formData
-   *     required: true
-   *     type: string
-   */
 
   /**
    * @swagger
@@ -91,11 +81,7 @@ module.exports.setup = function(app) {
    *     produces:
    *       - application/json
    *     parameters:
-   *       - name: username
-   *         description: username for user
-   *         in: formData
-   *         required: true
-   *         type: string
+   *       - $ref: '#/parameters/username'
    *     responses:
    *       200:
    *         description: users

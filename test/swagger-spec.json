@@ -66,11 +66,7 @@
         ],
         "parameters": [
           {
-            "name": "username",
-            "description": "username for user",
-            "in": "formData",
-            "required": true,
-            "type": "string"
+            "$ref": "#/parameters/username"
           }
         ],
         "responses": {
