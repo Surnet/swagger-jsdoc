@@ -26,11 +26,7 @@
         ],
         "parameters": [
           {
-            "name": "username",
-            "description": "Username to use for login.",
-            "in": "formData",
-            "required": true,
-            "type": "string"
+            "$ref": "#/parameters/username"
           },
           {
             "name": "password",
@@ -70,11 +66,7 @@
         ],
         "parameters": [
           {
-            "name": "username",
-            "description": "username for user",
-            "in": "formData",
-            "required": true,
-            "type": "string"
+            "$ref": "#/parameters/username"
           }
         ],
         "responses": {
@@ -100,5 +92,16 @@
         }
       }
     }
-  }
+  },
+  "responses": {},
+  "parameters": {
+    "username": {
+      "name": "username",
+      "description": "Username to use for login.",
+      "in": "formData",
+      "required": true,
+      "type": "string"
+    }
+  },
+  "securityDefinitions": {}
 }

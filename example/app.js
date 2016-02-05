@@ -32,15 +32,16 @@ var swaggerDefinition = {
 
 // Options for the swagger docs
 var options = {
-  swaggerDefinition: swaggerDefinition, // Import swaggerDefinitions
-  apis: ['./example/routes.js'], // Path to the API docs
+  // Import swaggerDefinitions
+  swaggerDefinition: swaggerDefinition,
+  // Path to the API docs
+  apis: ['./example/routes.js', './example/parameters.yaml'],
 };
 
 
 // Initialize swagger-jsdoc -> returns validated swagger spec in json format
 var swaggerSpec = swaggerJSDoc(options);
-
-
+console.log(require('util').inspect(swaggerSpec, {depth: 5}));
 // Serve swagger docs the way you like (Recommendation: swagger-tools)
 app.get('/api-docs.json', function(req, res) {
   res.setHeader('Content-Type', 'application/json');
