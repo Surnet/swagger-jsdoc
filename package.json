@@ -1,6 +1,6 @@
 {
   "name": "swagger-jsdoc",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "description": "Generates swagger doc based on JSDoc",
   "main": "index.js",
   "scripts": {
@@ -27,18 +27,18 @@
   },
   "homepage": "https://github.com/Surnet/swagger-jsdoc",
   "dependencies": {
-    "doctrine": "^0.7.0",
-    "js-yaml": "^3.4.2",
-    "swagger-parser": "^3.0.1"
+    "doctrine": "^1.2.0",
+    "js-yaml": "^3.5.3",
+    "swagger-parser": "^3.4.0"
   },
   "devDependencies": {
-    "body-parser": "^1.14.0",
-    "express": "^4.13.3",
-    "istanbul": "^0.3.21",
-    "jscs": "^2.1.1",
-    "mocha": "^2.3.3",
-    "mocha-jscs": "^3.0.0",
-    "mocha-jshint": "^2.2.3",
-    "supertest": "^1.1.0"
+    "body-parser": "^1.15.0",
+    "express": "^4.13.4",
+    "istanbul": "^0.4.2",
+    "jscs": "^2.10.1",
+    "mocha": "^2.4.5",
+    "mocha-jscs": "^4.2.0",
+    "mocha-jshint": "^2.3.1",
+    "supertest": "^1.2.0"
   }
 }
