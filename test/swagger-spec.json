@@ -75,10 +75,34 @@
           }
         }
       }
+    },
+    "/hello": {
+      "get": {
+        "description": "Returns the homepage",
+        "responses": {
+          "200": {
+            "description": "hello world"
+          }
+        }
+      }
     }
   },
   "definitions": {
     "Login": {
+      "required": [
+        "username",
+        "password"
+      ],
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "Login2": {
       "required": [
         "username",
         "password"

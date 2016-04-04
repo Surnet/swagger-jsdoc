@@ -5,6 +5,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var routes = require('./routes');
+var routes2 = require('./routes2');
 var swaggerJSDoc = require('../');
 
 
@@ -35,7 +36,7 @@ var options = {
   // Import swaggerDefinitions
   swaggerDefinition: swaggerDefinition,
   // Path to the API docs
-  apis: ['./example/routes.js', './example/parameters.yaml'],
+  apis: ['./example/routes*.js', './example/parameters.yaml'],
 };
 
 
@@ -51,7 +52,7 @@ app.get('/api-docs.json', function(req, res) {
 
 // Set up the routes
 routes.setup(app);
-
+routes2.setup(app);
 
 // Expose app
 exports = module.exports = app;
