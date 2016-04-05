@@ -2,7 +2,6 @@
 
 
 module.exports.setup = function(app) {
-
   /**
    * @swagger
    * /hello:
@@ -15,18 +14,4 @@ module.exports.setup = function(app) {
   app.get('/hello', function(req, res) {
     res.send('Hello World (Version 2)!');
   });
-
-  /**
-   * @swagger
-   * definition:
-   *   Login2:
-   *     required:
-   *       - username
-   *       - password
-   *     properties:
-   *       username:
-   *         type: string
-   *       password:
-   *         type: string
-   */
 };
