@@ -21,6 +21,9 @@
     "/login": {
       "post": {
         "description": "Login to the application",
+        "tag": [
+          "Users"
+        ],
         "produces": [
           "application/json"
         ],
@@ -50,6 +53,9 @@
     "/users": {
       "get": {
         "description": "Returns users",
+        "tag": [
+          "Users"
+        ],
         "produces": [
           "application/json"
         ],
@@ -61,6 +67,9 @@
       },
       "post": {
         "description": "Returns users",
+        "tag": [
+          "Users"
+        ],
         "produces": [
           "application/json"
         ],
@@ -113,5 +122,11 @@
       "type": "string"
     }
   },
-  "securityDefinitions": {}
+  "securityDefinitions": {},
+  "tags": [
+    {
+      "name": "Users",
+      "description": "User management and login"
+    }
+  ]
 }
