@@ -9,6 +9,9 @@
     "start": "node example/app.js",
     "test": "mocha"
   },
+  "bin": {
+    "swag-jsdoc": "./bin/swag-jsdoc.js"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/Surnet/swagger-jsdoc.git"
