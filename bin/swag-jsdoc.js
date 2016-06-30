@@ -22,17 +22,24 @@ if (!input.length) {
   program.help();
 }
 
-// No swagger definition file provided by input.
-if (program.args.length) {
-  console.log(program.args);
-  console.log(program.apis);
-//   fs.readdir(folder, function(err, files) {
-// if (err) throw Error(err);
-// files.forEach(function(file){
-//   var fileExtension = path.extname(file);
-//   if ((fileExtension.substring(1, fileExtension.length)) == extension) {
-//     console.log(file);
-//   }
-// });
-// });
+// Require a definition file
+if (!program.definition) {
+  console.error('Definition file is required.');
+  return;
 }
+
+// Definition file is specified:
+fs.readFile(program.definition, 'utf-8', function(err, data) {
+  if (err) console.error(err);
+  // Check if the definition provided can be used:
+  if (data == undefined) {
+    console.error('Definition file provided is not good.');
+    return;
+  } 
+  // Check whether the definition file is actually a usable .js file
+  if (path.extname(program.definition) != '.js') {
+    console.error('Definition file should be a .js file.')
+    return;
+  }
+  
+});
