@@ -25,6 +25,9 @@ if (!input.length) {
 // Require a definition file
 if (!program.definition) {
   console.error('Definition file is required.');
+  console.log('You can do that by example: ');
+  console.log('$ swag-jsdoc -d swaggerDef.js ' + input.join(' '));
+  program.help();
   return;
 }
 
@@ -37,11 +40,20 @@ fs.readFile(program.definition, 'utf-8', function (err, data) {
     return;
   }
   // Check whether the definition file is actually a usable .js file
-  if (path.extname(program.definition) != '.js') {
-    console.error('Definition file should be a .js file.')
+  if (
+    path.extname(program.definition) != '.js' &&
+    path.extname(program.definition) != '.json'
+  ) {
+    console.error('Definition file should be .js or .json');
+    console.log('Format as a module, it will be imported with require().');
     return;
   }
-  // Read the definition file:
-  // Example:
-  console.log(data);
+
+  var definitionFile = require(path.resolve(program.definition));
+  if (!definitionFile.hasOwnProperty('info')) {
+    console.error('Definition file should contain info object!');
+    console.log('Read more at http://swagger.io/specification/#infoObject');
+    return;
+  }
+
 });
