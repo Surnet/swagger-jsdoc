@@ -25,7 +25,7 @@ if (!input.length) {
 // Require a definition file
 if (!program.definition) {
   console.error('Definition file is required.');
-  console.log('You can do that by example: ');
+  console.log('You can do that, for example: ');
   console.log('$ swag-jsdoc -d swaggerDef.js ' + input.join(' '));
   program.help();
   return;
@@ -39,9 +39,9 @@ fs.readFile(program.definition, 'utf-8', function (err, data) {
     console.error('Definition file provided is not good.');
     return;
   }
+
   // Check whether the definition file is actually a usable .js file
-  if (
-    path.extname(program.definition) != '.js' &&
+  if (path.extname(program.definition) != '.js' &&
     path.extname(program.definition) != '.json'
   ) {
     console.error('Definition file should be .js or .json');
@@ -49,11 +49,39 @@ fs.readFile(program.definition, 'utf-8', function (err, data) {
     return;
   }
 
-  var definitionFile = require(path.resolve(program.definition));
-  if (!definitionFile.hasOwnProperty('info')) {
+  // Get an object of the definition file configuration.
+  var swaggerDefinition = require(path.resolve(program.definition));
+
+  // Check for info object in the definition.
+  if (!swaggerDefinition.hasOwnProperty('info')) {
     console.error('Definition file should contain info object!');
     console.log('Read more at http://swagger.io/specification/#infoObject');
     return;
   }
+
+  // Check for info object in the definition.
+  if (!swaggerDefinition.info.hasOwnProperty('title') ||
+    !swaggerDefinition.info.hasOwnProperty('version')
+  ) {
+    console.error('The title and version properties are required!');
+    console.log('Read more at http://swagger.io/specification/#infoObject');
+    return;
+  }
+
+  // Aggregate information about APIs.
+  if (program.args.length) {
+    // Iterate arguments and figure out which is what.
+    var apis = [];
+    program.args.forEach(function (argument) {
+      // Try to resolve the argument:
+      var result = fs.lstatSync(path.resolve(argument));
+      if (result) {
+        if (result.isFile() || result.isDirectory()) {
+          apis.push(argument);
+        }
+      }
+    });
+  }
+  
 
 });
