@@ -8,7 +8,11 @@
 var program = require('commander');
 var fs = require('fs');
 var path = require('path');
+var swaggerJSDoc = require('../');
+
+// Useful input.
 var input = process.argv.slice(2);
+var output = 'swaggerSpec.json';
 
 program
   .version('1.3.0')
@@ -27,26 +31,26 @@ if (!program.definition) {
   console.error('Definition file is required.');
   console.log('You can do that, for example: ');
   console.log('$ swag-jsdoc -d swaggerDef.js ' + input.join(' '));
-  program.help();
-  return;
+  return program.help();
+}
+
+// Override default output file if provided.
+if (program.output) {
+  output = program.output;
 }
 
 // Definition file is specified:
 fs.readFile(program.definition, 'utf-8', function (err, data) {
-  if (err) console.error(err);
-  // Check if the definition provided can be used:
-  if (data == undefined) {
-    console.error('Definition file provided is not good.');
-    return;
+  if (err || data == undefined) {
+    return console.error('Definition file provided is not good.');
   }
 
   // Check whether the definition file is actually a usable .js file
   if (path.extname(program.definition) != '.js' &&
     path.extname(program.definition) != '.json'
   ) {
-    console.error('Definition file should be .js or .json');
     console.log('Format as a module, it will be imported with require().');
-    return;
+    return console.error('Definition file should be .js or .json');
   }
 
   // Get an object of the definition file configuration.
@@ -55,8 +59,7 @@ fs.readFile(program.definition, 'utf-8', function (err, data) {
   // Check for info object in the definition.
   if (!swaggerDefinition.hasOwnProperty('info')) {
     console.error('Definition file should contain info object!');
-    console.log('Read more at http://swagger.io/specification/#infoObject');
-    return;
+    return console.log('Read more at http://swagger.io/specification/#infoObject');
   }
 
   // Check for info object in the definition.
@@ -64,8 +67,7 @@ fs.readFile(program.definition, 'utf-8', function (err, data) {
     !swaggerDefinition.info.hasOwnProperty('version')
   ) {
     console.error('The title and version properties are required!');
-    console.log('Read more at http://swagger.io/specification/#infoObject');
-    return;
+    return console.log('Read more at http://swagger.io/specification/#infoObject');
   }
 
   // Aggregate information about APIs.
@@ -82,6 +84,22 @@ fs.readFile(program.definition, 'utf-8', function (err, data) {
       }
     });
   }
-  
+
+  // Options for the swagger docs
+  var options = {
+    // Import swaggerDefinitions
+    swaggerDefinition: swaggerDefinition,
+    // Path to the API docs
+    apis: apis,
+  };
+
+  // Initialize swagger-jsdoc -> returns validated swagger spec in json format
+  var swaggerSpec = swaggerJSDoc(options);
+
+  // Create the output file with swagger specification.
+  fs.writeFile(output, JSON.stringify(swaggerSpec, null, 2), function (err) {
+    if (err) throw err;
+    console.log('Swagger specification created successfully.');
+  });
 
 });
