@@ -40,7 +40,7 @@ if (program.output) {
 }
 
 // Definition file is specified:
-fs.readFile(program.definition, 'utf-8', function (err, data) {
+fs.readFile(program.definition, 'utf-8', function(err, data) {
   if (err || data === undefined) {
     return console.error('Definition file provided is not good.');
   }
@@ -59,7 +59,7 @@ fs.readFile(program.definition, 'utf-8', function (err, data) {
   // Check for info object in the definition.
   if (!swaggerDefinition.hasOwnProperty('info')) {
     console.error('Definition file should contain info object!');
-    return console.log('Read more at http://swagger.io/specification/#infoObject');
+    return console.log('More at http://swagger.io/specification/#infoObject');
   }
 
   // Check for info object in the definition.
@@ -67,41 +67,42 @@ fs.readFile(program.definition, 'utf-8', function (err, data) {
     !swaggerDefinition.info.hasOwnProperty('version')
   ) {
     console.error('The title and version properties are required!');
-    return console.log('Read more at http://swagger.io/specification/#infoObject');
+    return console.log('More at http://swagger.io/specification/#infoObject');
   }
 
   // Continue only if arguments provided.
-  if (program.args.length) {
-    // Aggregate information about APIs.
-    var apis = [];
-    program.args.forEach(function (argument) {
-      // Try to resolve the argument:
-      var result = fs.lstatSync(path.resolve(argument));
-      if (result) {
-        if (result.isFile() || result.isDirectory()) {
-          apis.push(argument);
-        }
-      }
-    });
-
-    // Options for the swagger docs
-    var options = {
-      // Import swaggerDefinitions
-      swaggerDefinition: swaggerDefinition,
-      // Path to the API docs
-      apis: apis,
-    };
-
-    // Initialize swagger-jsdoc -> returns validated swagger spec in json format
-    var swaggerSpec = swaggerJSDoc(options);
-
-    // Create the output file with swagger specification.
-    fs.writeFile(output, JSON.stringify(swaggerSpec, null, 2), function (err) {
-      if (err) {
-        throw err;
-      }
-      console.log('Swagger specification created successfully.');
-    });
+  if (!program.args.length) {
+    return console.error('You must provide arguments for reading APIs.');
   }
+  // Aggregate information about APIs.
+  var apis = [];
+  program.args.forEach(function(argument) {
+    // Try to resolve the argument:
+    var result = fs.lstatSync(path.resolve(argument));
+    if (result) {
+      if (result.isFile() || result.isDirectory()) {
+        apis.push(argument);
+      }
+    }
+  });
+
+  // Options for the swagger docs
+  var options = {
+    // Import swaggerDefinitions
+    swaggerDefinition: swaggerDefinition,
+    // Path to the API docs
+    apis: apis,
+  };
+
+  // Initialize swagger-jsdoc -> returns validated swagger spec in json format
+  var swaggerSpec = swaggerJSDoc(options);
+
+  // Create the output file with swagger specification.
+  fs.writeFile(output, JSON.stringify(swaggerSpec, null, 2), function(err) {
+    if (err) {
+      throw err;
+    }
+    console.log('Swagger specification created successfully.');
+  });
 
 });
