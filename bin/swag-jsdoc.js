@@ -41,13 +41,13 @@ if (program.output) {
 
 // Definition file is specified:
 fs.readFile(program.definition, 'utf-8', function (err, data) {
-  if (err || data == undefined) {
+  if (err || data === undefined) {
     return console.error('Definition file provided is not good.');
   }
 
   // Check whether the definition file is actually a usable .js file
-  if (path.extname(program.definition) != '.js' &&
-    path.extname(program.definition) != '.json'
+  if (path.extname(program.definition) !== '.js' &&
+    path.extname(program.definition) !== '.json'
   ) {
     console.log('Format as a module, it will be imported with require().');
     return console.error('Definition file should be .js or .json');
@@ -70,9 +70,9 @@ fs.readFile(program.definition, 'utf-8', function (err, data) {
     return console.log('Read more at http://swagger.io/specification/#infoObject');
   }
 
-  // Aggregate information about APIs.
+  // Continue only if arguments provided.
   if (program.args.length) {
-    // Iterate arguments and figure out which is what.
+    // Aggregate information about APIs.
     var apis = [];
     program.args.forEach(function (argument) {
       // Try to resolve the argument:
@@ -83,23 +83,25 @@ fs.readFile(program.definition, 'utf-8', function (err, data) {
         }
       }
     });
+
+    // Options for the swagger docs
+    var options = {
+      // Import swaggerDefinitions
+      swaggerDefinition: swaggerDefinition,
+      // Path to the API docs
+      apis: apis,
+    };
+
+    // Initialize swagger-jsdoc -> returns validated swagger spec in json format
+    var swaggerSpec = swaggerJSDoc(options);
+
+    // Create the output file with swagger specification.
+    fs.writeFile(output, JSON.stringify(swaggerSpec, null, 2), function (err) {
+      if (err) {
+        throw err;
+      }
+      console.log('Swagger specification created successfully.');
+    });
   }
-
-  // Options for the swagger docs
-  var options = {
-    // Import swaggerDefinitions
-    swaggerDefinition: swaggerDefinition,
-    // Path to the API docs
-    apis: apis,
-  };
-
-  // Initialize swagger-jsdoc -> returns validated swagger spec in json format
-  var swaggerSpec = swaggerJSDoc(options);
-
-  // Create the output file with swagger specification.
-  fs.writeFile(output, JSON.stringify(swaggerSpec, null, 2), function (err) {
-    if (err) throw err;
-    console.log('Swagger specification created successfully.');
-  });
 
 });
