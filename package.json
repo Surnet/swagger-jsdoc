@@ -10,7 +10,7 @@
     "test": "mocha"
   },
   "bin": {
-    "swag-jsdoc": "./bin/swag-jsdoc.js"
+    "swagger-jsdoc": "./bin/swagger-jsdoc.js"
   },
   "repository": {
     "type": "git",
