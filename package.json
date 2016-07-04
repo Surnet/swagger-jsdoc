@@ -38,7 +38,6 @@
   },
   "devDependencies": {
     "body-parser": "^1.15.0",
-    "chai": "^3.5.0",
     "express": "^4.13.4",
     "istanbul": "^0.4.2",
     "jscs": "^2.10.1",
