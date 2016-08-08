@@ -61,5 +61,16 @@ describe('command line interface', function () {
       done();
     });
   });
+  
+  it('should require arguments with jsDoc data about an API', function (done) {
+    var missingApis = process.env.PWD + '/bin/swagger-jsdoc.js -d example/swaggerDef.js';
+    exec(missingApis, function (error, stdout, stderr) {
+      if (error) {
+        throw new Error(error, stderr);
+      }
+      expect(stdout).to.contain('You must provide arguments for reading APIs.');
+      done();
+    });
+  });  
 
 });
