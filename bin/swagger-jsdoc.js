@@ -42,7 +42,7 @@ if (program.output) {
 // Definition file is specified:
 fs.readFile(program.definition, 'utf-8', function(err, data) {
   if (err || data === undefined) {
-    return console.error('Definition file provided is not good.');
+    return console.log('Definition file provided is not good.');
   }
 
   // Check whether the definition file is actually a usable .js file
@@ -50,7 +50,7 @@ fs.readFile(program.definition, 'utf-8', function(err, data) {
     path.extname(program.definition) !== '.json'
   ) {
     console.log('Format as a module, it will be imported with require().');
-    return console.error('Definition file should be .js or .json');
+    return console.log('Definition file should be .js or .json');
   }
 
   // Get an object of the definition file configuration.
@@ -58,21 +58,21 @@ fs.readFile(program.definition, 'utf-8', function(err, data) {
 
   // Check for info object in the definition.
   if (!swaggerDefinition.hasOwnProperty('info')) {
-    console.error('Definition file should contain info object!');
+    console.log('Definition file should contain an info object!');
     return console.log('More at http://swagger.io/specification/#infoObject');
   }
 
-  // Check for info object in the definition.
+  // Check for title and version properties in the info object.
   if (!swaggerDefinition.info.hasOwnProperty('title') ||
     !swaggerDefinition.info.hasOwnProperty('version')
   ) {
-    console.error('The title and version properties are required!');
+    console.log('The title and version properties are required!');
     return console.log('More at http://swagger.io/specification/#infoObject');
   }
 
   // Continue only if arguments provided.
   if (!program.args.length) {
-    return console.error('You must provide arguments for reading APIs.');
+    return console.log('You must provide arguments for reading APIs.');
   }
   // Aggregate information about APIs.
   var apis = [];

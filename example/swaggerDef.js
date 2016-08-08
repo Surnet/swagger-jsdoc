@@ -9,4 +9,3 @@ module.exports = {
   host: host, // Host (optional)
   basePath: '/', // Base path (optional)
 };
-
