@@ -28,7 +28,7 @@ if (!input.length) {
 
 // Require a definition file
 if (!program.definition) {
-  console.error('Definition file is required.');
+  console.log('Definition file is required.');
   console.log('You can do that, for example: ');
   console.log('$ swag-jsdoc -d swaggerDef.js ' + input.join(' '));
   return program.help();
