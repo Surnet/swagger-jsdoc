@@ -4,6 +4,7 @@
 var exec = require('child_process').exec;
 var chai = require('chai');
 var expect = chai.expect;
+var fs = require('fs');
 
 describe('command line interface', function () {
 
@@ -71,6 +72,26 @@ describe('command line interface', function () {
       expect(stdout).to.contain('You must provide arguments for reading APIs.');
       done();
     });
-  });  
+  });
+  
+  it('should create swaggerSpec.json by default when the API input is good', function (done) {
+    var goodInput = process.env.PWD + '/bin/swagger-jsdoc.js -d example/swaggerDef.js example/routes.js';
+    exec(goodInput, function (error, stdout, stderr) {
+      if (error) {
+        throw new Error(error, stderr);
+      }
+      expect(stdout).to.contain('Swagger specification created successfully.');
+      var specification = fs.statSync('swaggerSpec.json');
+      // Check that the physical file was created.
+      expect(specification.nlink).to.be.above(0);
+      done();
+    });
+  });
+  
+  // Cleanup test files if any.
+  after(function() {
+    var testSpecification = process.env.PWD + '/swaggerSpec.json';
+    fs.unlinkSync(testSpecification);
+  });
 
 });
