@@ -30,7 +30,7 @@ describe('command line interface', function () {
     });
   });
 
-  it('should require definition file', function (done) {
+  it('should require a definition file', function (done) {
     var wrongDefinition = process.env.PWD + '/bin/swagger-jsdoc.js wrongDefinition';
     exec(wrongDefinition, function (error, stdout, stderr) {
       if (error) {
@@ -88,10 +88,26 @@ describe('command line interface', function () {
     });
   });
   
+  it('should accept custom configuration for output specification', function (done) {
+    var goodInput = process.env.PWD + '/bin/swagger-jsdoc.js -d example/swaggerDef.js -o customSpec.json example/routes.js';
+    exec(goodInput, function (error, stdout, stderr) {
+      if (error) {
+        throw new Error(error, stderr);
+      }
+      expect(stdout).to.contain('Swagger specification created successfully.');
+      var specification = fs.statSync('customSpec.json');
+      // Check that the physical file was created.
+      expect(specification.nlink).to.be.above(0);
+      done();
+    });
+  });  
+  
   // Cleanup test files if any.
   after(function() {
-    var testSpecification = process.env.PWD + '/swaggerSpec.json';
-    fs.unlinkSync(testSpecification);
+    var defaultSpecification = process.env.PWD + '/swaggerSpec.json';
+    var customSpecification = process.env.PWD + '/customSpec.json';
+    fs.unlinkSync(defaultSpecification);
+    fs.unlinkSync(customSpecification);
   });
 
 });
