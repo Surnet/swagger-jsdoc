@@ -80,7 +80,7 @@ fs.readFile(program.definition, 'utf-8', function(err, data) {
     // Try to resolve the argument:
     var result = fs.lstatSync(path.resolve(argument));
     if (result) {
-      if (result.isFile() || result.isDirectory()) {
+      if (result.isFile()) {
         apis.push(argument);
       }
     }
