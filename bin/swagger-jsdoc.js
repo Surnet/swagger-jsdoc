@@ -15,7 +15,7 @@ var input = process.argv.slice(2);
 var output = 'swaggerSpec.json';
 
 program
-  .version('1.3.0')
+  .version('1.4.0')
   .usage('[options] <path ...>')
   .option('-d, --definition <swaggerDef.js>', 'Input swagger definition.')
   .option('-o, --output [swaggerSpec.json]', 'Output swagger specification.')
