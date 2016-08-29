@@ -78,7 +78,8 @@ module.exports.setup = function(app) {
    * /users:
    *   get:
    *     description: Returns users
-   *     tag: [Users]
+   *     tag:
+   *      - Users
    *     produces:
    *      - application/json
    *     responses:
