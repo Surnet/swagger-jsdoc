@@ -9,13 +9,14 @@ var program = require('commander');
 var fs = require('fs');
 var path = require('path');
 var swaggerJSDoc = require('../');
+var pkg = require('../package.json');
 
 // Useful input.
 var input = process.argv.slice(2);
 var output = 'swaggerSpec.json';
 
 program
-  .version('1.4.0')
+  .version(pkg.version)
   .usage('[options] <path ...>')
   .option('-d, --definition <swaggerDef.js>', 'Input swagger definition.')
   .option('-o, --output [swaggerSpec.json]', 'Output swagger specification.')
