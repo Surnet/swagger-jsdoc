@@ -1,3 +1,3 @@
 'use strict';
 
-require('mocha-jscs')();
+require('mocha-jscs')(["./lib", "./bin", "./example"]);

@@ -200,3 +200,16 @@ $ npm start
 ```
 
 The swagger spec will be served at http://localhost:3000/api-docs.json
+
+
+### Using a CLI
+
+If the module is installed globally, a command line helper `$ swagger-jsdoc` will be available.
+Otherwise `./bin/swagger-jsdoc` accesses to the same interface.
+
+Common usage:
+
+- Help menu: `./bin/swagger-jsdoc -h`
+- Specify a swagger definition file: `./bin/swagger-jsdoc -d example/swaggerDef.js` - could be any .js or .json file which will be `require()`-ed and parsed/validated as JSON.
+- Specify files with documentation: `./bin/swagger-jsdoc example/routes.js example/routes2.js` - free form input, can be before or after definition
+- Specify output file (optional): `./bin/swagger-jsdoc -o output.json` - swaggerSpec.json will be created if this is not set.

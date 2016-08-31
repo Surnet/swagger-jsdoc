@@ -40,10 +40,19 @@ module.exports.setup = function(app) {
 
   /**
    * @swagger
+   * tag:
+   *   - name: Login
+   *     description: Login
+   *   - name: Accounts
+   *     description: Accounts
+   */
+
+  /**
+   * @swagger
    * /login:
    *   post:
    *     description: Login to the application
-   *     tag: [Users]
+   *     tag: [Users, Login]
    *     produces:
    *       - application/json
    *     parameters:
@@ -69,7 +78,8 @@ module.exports.setup = function(app) {
    * /users:
    *   get:
    *     description: Returns users
-   *     tag: [Users]
+   *     tag:
+   *      - Users
    *     produces:
    *      - application/json
    *     responses:

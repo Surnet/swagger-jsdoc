@@ -22,7 +22,8 @@
       "post": {
         "description": "Login to the application",
         "tag": [
-          "Users"
+          "Users",
+          "Login"
         ],
         "produces": [
           "application/json"
@@ -127,6 +128,14 @@
     {
       "name": "Users",
       "description": "User management and login"
+    },
+    {
+      "name": "Login",
+      "description": "Login"
+    },
+    {
+      "name": "Accounts",
+      "description": "Accounts"
     }
   ]
 }
