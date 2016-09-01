@@ -2,6 +2,7 @@
 
 // Dependencies
 var request = require('supertest');
+/*jshint -W098*/
 var chai = require('chai').should();
 var expect = require('chai').expect;
 
@@ -16,6 +17,7 @@ describe('swaggerJsDoc parsing features', function () {
     request(app)
       .get('/api-docs.json')
       .on('response', function (response) {
+        /*jshint -W030*/
         response.body.should.contain.tags;
       })
       .end(function (err) {
@@ -36,6 +38,7 @@ describe('swaggerJsDoc parsing features', function () {
       apis: exampleApis,
     };
     var swaggerSpecification = swaggerJSDoc(options);
+    /*jshint -W030*/
     swaggerSpecification.should.contain.tags;
     done();
   });
@@ -50,6 +53,7 @@ describe('swaggerJsDoc parsing features', function () {
       apis: wrongTags,
     };
     var swaggerSpecification = swaggerJSDoc(options);
+    /*jshint -W030*/
     swaggerSpecification.should.contain.tags;
     expect(swaggerSpecification.tags).to.be.empty;
     done();    
@@ -65,6 +69,7 @@ describe('swaggerJsDoc parsing features', function () {
       apis: exampleApis,
     };
     var swaggerSpecification = swaggerJSDoc(options);
+    /*jshint -W030*/
     swaggerSpecification.should.contain.tags;
     expect(swaggerSpecification.tags).to.not.be.empty;
     done();   
