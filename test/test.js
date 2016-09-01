@@ -8,23 +8,20 @@ var swaggerSpec = require('./swagger-spec.json');
 
 
 // Check against saved swagger spec
-function equalsToBeSwaggerSpec(res) {
-
+function swaggerSpecIsCompliant(res) {
   // Check if result equals expected spec
   if (JSON.stringify(res.body) !== JSON.stringify(swaggerSpec)) {
     throw new Error('Returned spec does not equal the expected result');
   }
-
 }
 
-
-describe('example app', function() {
-
-  it('homepage', function(done) {
+// Testing an example app parsing documentation with swagger-jsdoc.
+describe('example app', function () {
+  it('homepage returns a success code', function (done) {
     request(app)
       .get('/')
       .expect(200)
-      .end(function(err) {
+      .end(function (err) {
         if (err) {
           return done(err);
         }
@@ -32,7 +29,7 @@ describe('example app', function() {
       });
   });
 
-  it('login', function(done) {
+  it('login authentication returns a success code', function (done) {
     request(app)
       .post('/login')
       .send({
@@ -40,7 +37,7 @@ describe('example app', function() {
         password: 'Password',
       })
       .expect(200)
-      .end(function(err) {
+      .end(function (err) {
         if (err) {
           return done(err);
         }
@@ -48,22 +45,16 @@ describe('example app', function() {
       });
   });
 
-});
-
-
-describe('swagger spec', function() {
-
-  it('equals expected result', function(done) {
+  it('produced swagger spec is as expected', function (done) {
     request(app)
       .get('/api-docs.json')
       .expect(200)
-      .expect(equalsToBeSwaggerSpec)
-      .end(function(err) {
+      .expect(swaggerSpecIsCompliant)
+      .end(function (err) {
         if (err) {
           return done(err);
         }
         done();
       });
   });
-
 });
