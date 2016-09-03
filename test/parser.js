@@ -42,7 +42,7 @@ describe('swaggerJsDoc parsing features', function () {
     swaggerSpecification.should.contain.tags;
     done();
   });
-  
+
   it('parser should ignore "tag" variant when building the tags operation object', function (done) {
     var wrongTags = ['/fixtures/wrong_tags_property.js'];
     // Options for the swagger docs
@@ -56,23 +56,7 @@ describe('swaggerJsDoc parsing features', function () {
     /*jshint -W030*/
     swaggerSpecification.should.contain.tags;
     expect(swaggerSpecification.tags).to.be.empty;
-    done();    
-  });
-  
-  it('example files contain correct tags properties', function (done) {
-    var exampleApis = ['../example.routes.js', '../example.route2.js'];
-    // Options for the swagger docs
-    var options = {
-      // Import swaggerDefinitions
-      swaggerDefinition: swaggerDefinition,
-      // Path to the API docs
-      apis: exampleApis,
-    };
-    var swaggerSpecification = swaggerJSDoc(options);
-    /*jshint -W030*/
-    swaggerSpecification.should.contain.tags;
-    expect(swaggerSpecification.tags).to.not.be.empty;
-    done();   
+    done();
   });
 
 });

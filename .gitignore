@@ -29,5 +29,6 @@ node_modules
 # JSDoc
 jsdoc
 
-# Cloud9 editor
+# Editors
 .c9
+.idea
