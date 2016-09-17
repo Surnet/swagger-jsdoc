@@ -7,6 +7,8 @@
 var swaggerHelpers = require('../lib/swagger-helpers');
 var chai = require('chai');
 var expect = chai.expect;
+var swaggerObject = require('./fixtures/swaggerObject.json');
+var testData = require('./fixtures/testData');
 
 describe('swagger-helpers submodule', function () {
 
@@ -18,6 +20,11 @@ describe('swagger-helpers submodule', function () {
 
   it('addDataToSwaggerObject() should require correct input', function (done) {
     expect(swaggerHelpers.addDataToSwaggerObject).to.throw(Error);
+    done();
+  });
+
+  it('addDataToSwaggerObject() handles tags "tags" field', function(done) {
+    swaggerHelpers.addDataToSwaggerObject(swaggerObject, testData.tags);
     done();
   });
 
