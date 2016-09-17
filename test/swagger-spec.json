@@ -21,25 +21,22 @@
     "/login": {
       "post": {
         "description": "Login to the application",
-        "tag": [
+        "tags": [
           "Users",
           "Login"
         ],
         "produces": [
           "application/json"
         ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/username"
-          },
-          {
-            "name": "password",
-            "description": "User's password.",
-            "in": "formData",
-            "required": true,
-            "type": "string"
-          }
-        ],
+        "parameters": [{
+          "$ref": "#/parameters/username"
+        }, {
+          "name": "password",
+          "description": "User's password.",
+          "in": "formData",
+          "required": true,
+          "type": "string"
+        }],
         "responses": {
           "200": {
             "description": "login",
@@ -54,7 +51,7 @@
     "/users": {
       "get": {
         "description": "Returns users",
-        "tag": [
+        "tags": [
           "Users"
         ],
         "produces": [
@@ -68,17 +65,15 @@
       },
       "post": {
         "description": "Returns users",
-        "tag": [
+        "tags": [
           "Users"
         ],
         "produces": [
           "application/json"
         ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/username"
-          }
-        ],
+        "parameters": [{
+          "$ref": "#/parameters/username"
+        }],
         "responses": {
           "200": {
             "description": "users"
@@ -124,18 +119,14 @@
     }
   },
   "securityDefinitions": {},
-  "tags": [
-    {
-      "name": "Users",
-      "description": "User management and login"
-    },
-    {
-      "name": "Login",
-      "description": "Login"
-    },
-    {
-      "name": "Accounts",
-      "description": "Accounts"
-    }
-  ]
+  "tags": [{
+    "name": "Users",
+    "description": "User management and login"
+  }, {
+    "name": "Login",
+    "description": "Login"
+  }, {
+    "name": "Accounts",
+    "description": "Accounts"
+  }]
 }
