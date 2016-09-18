@@ -23,8 +23,13 @@ describe('swagger-helpers submodule', function () {
     done();
   });
 
-  it('addDataToSwaggerObject() handles tags "tags" field', function(done) {
-    swaggerHelpers.addDataToSwaggerObject(swaggerObject, testData.tags);
+  it('addDataToSwaggerObject() handles "definition" and "definitions"', function(done) {
+    swaggerHelpers.addDataToSwaggerObject(swaggerObject, testData.definitions);
+    expect(swaggerObject.definitions).to.exist;
+    // Case 'definition'.
+    expect(swaggerObject.definitions).to.include.keys('Login');
+    // Case 'definitions'.
+    expect(swaggerObject.definitions).to.include.keys('Login2');
     done();
   });
 
