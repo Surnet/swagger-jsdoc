@@ -27,11 +27,21 @@ describe('swagger-helpers submodule', function () {
     swaggerHelpers.addDataToSwaggerObject(swaggerObject, testData.definitions);
     expect(swaggerObject.definitions).to.exist;
     // Case 'definition'.
-    expect(swaggerObject.definitions).to.include.keys('Login');
+    expect(swaggerObject.definitions).to.include.keys('DefinitionSingular');
     // Case 'definitions'.
-    expect(swaggerObject.definitions).to.include.keys('Login2');
+    expect(swaggerObject.definitions).to.include.keys('DefinitionPlural');
     done();
   });
+  
+  it('addDataToSwaggerObject() handles "parameter" and "parameters"', function(done) {
+    swaggerHelpers.addDataToSwaggerObject(swaggerObject, testData.parameters);
+    expect(swaggerObject.parameters).to.exist;
+    // Case 'parameter'.
+    expect(swaggerObject.parameters).to.include.keys('ParameterSingular');
+    // Case 'parameters'.
+    expect(swaggerObject.parameters).to.include.keys('ParameterPlural');
+    done();
+  });  
 
   it('should have a method swaggerizeObj()', function (done) {
     expect(swaggerHelpers).to.include.keys('swaggerizeObj');

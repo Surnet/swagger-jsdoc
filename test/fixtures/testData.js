@@ -1,7 +1,7 @@
 var testDataDefinitions = [
   {
     "definition": {
-      "Login": {
+      "DefinitionSingular": {
         "required": ["username", "password"],
         "properties": {
           "username": {
@@ -16,7 +16,7 @@ var testDataDefinitions = [
   },
   {
     "definitions": {
-      "Login2": {
+      "DefinitionPlural": {
         "required": ["username", "password"],
         "properties": {
           "username": {
@@ -31,6 +31,33 @@ var testDataDefinitions = [
   }
 ];
 
+var testDataParameters = [
+  {
+    "parameter": {
+      "ParameterSingular": {
+        "name": "username",
+        "description": "Username to use for login.",
+        "in": "formData",
+        "required": true,
+        "type": "string"
+      }
+    }
+  },
+  {
+    "parameters": {
+      "ParameterPlural": {
+        "name": "limit",
+        "in": "query",
+        "description": "max records to return",
+        "required": true,
+        "type": "integer",
+        "format": "int32"
+      }
+    }
+  }
+  ];
+
 module.exports = {
-  definitions: testDataDefinitions
+  definitions: testDataDefinitions,
+  parameters: testDataParameters,
 };

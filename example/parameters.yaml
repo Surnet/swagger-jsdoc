@@ -1,4 +1,4 @@
-parameter:
+parameters:
   username:
     name: username
     description: Username to use for login.
