@@ -19,7 +19,7 @@ module.exports.setup = function(app) {
 
   /**
    * @swagger
-   * definition:
+   * definitions:
    *   Login:
    *     required:
    *       - username
