@@ -95,7 +95,7 @@ model and add fields.
 ```javascript
 /**
  * @swagger
- * definition:
+ * definitions:
  *   NewUser:
  *     type: object
  *     required:
