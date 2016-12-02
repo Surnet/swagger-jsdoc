@@ -32,7 +32,8 @@ if (!program.definition) {
   console.log('Definition file is required.');
   console.log('You can do that, for example: ');
   console.log('$ swag-jsdoc -d swaggerDef.js ' + input.join(' '));
-  return program.help();
+  program.help();
+  process.exit(1);
 }
 
 // Override default output file if provided.

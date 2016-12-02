@@ -31,7 +31,7 @@
   "homepage": "https://github.com/Surnet/swagger-jsdoc",
   "dependencies": {
     "commander": "^2.9.0",
-    "doctrine": "^1.2.0",
+    "doctrine": "^2.0.0",
     "glob": "^7.0.3",
     "js-yaml": "^3.5.3",
     "recursive-iterator": "^2.0.3",
@@ -42,10 +42,10 @@
     "chai": "^3.5.0",
     "express": "^4.13.4",
     "istanbul": "^0.4.2",
-    "jscs": "^2.10.1",
-    "mocha": "^2.4.5",
-    "mocha-jscs": "^4.2.0",
+    "jscs": "^3.0.0",
+    "mocha": "^3.2.0",
+    "mocha-jscs": "^5.0.0",
     "mocha-jshint": "^2.3.1",
-    "supertest": "^1.2.0"
+    "supertest": "^2.0.1"
   }
 }
