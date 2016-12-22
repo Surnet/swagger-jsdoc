@@ -104,6 +104,9 @@
         },
         "password": {
           "type": "string"
+        },
+        "path": {
+          "type": "string"
         }
       }
     }
