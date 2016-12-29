@@ -29,6 +29,8 @@ module.exports.setup = function(app) {
    *         type: string
    *       password:
    *         type: string
+   *       path:
+   *         type: string
    */
 
   /**

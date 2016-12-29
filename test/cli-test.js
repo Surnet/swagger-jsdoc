@@ -62,7 +62,18 @@ describe('command line interface', function () {
       done();
     });
   });
-  
+
+  it('should warn when deprecated properties are used', function (done) {
+    var deprecatedProperties = process.env.PWD + '/bin/swagger-jsdoc.js -d example/swaggerDef.js test/fixtures/deprecated_routes.js';
+    exec(deprecatedProperties, function (error, stdout, stderr) {
+      if (error) {
+        throw new Error(error, stderr);
+      }
+      expect(stderr).to.contain('You are using properties to be deprecated');
+      done();
+    });
+  });
+
   it('should require arguments with jsDoc data about an API', function (done) {
     var missingApis = process.env.PWD + '/bin/swagger-jsdoc.js -d example/swaggerDef.js';
     exec(missingApis, function (error, stdout, stderr) {
@@ -73,7 +84,7 @@ describe('command line interface', function () {
       done();
     });
   });
-  
+
   it('should create swaggerSpec.json by default when the API input is good', function (done) {
     var goodInput = process.env.PWD + '/bin/swagger-jsdoc.js -d example/swaggerDef.js example/routes.js';
     exec(goodInput, function (error, stdout, stderr) {
@@ -81,13 +92,14 @@ describe('command line interface', function () {
         throw new Error(error, stderr);
       }
       expect(stdout).to.contain('Swagger specification created successfully.');
+      expect(stderr).to.not.contain('You are using properties to be deprecated');
       var specification = fs.statSync('swaggerSpec.json');
       // Check that the physical file was created.
       expect(specification.nlink).to.be.above(0);
       done();
     });
   });
-  
+
   it('should accept custom configuration for output specification', function (done) {
     var goodInput = process.env.PWD + '/bin/swagger-jsdoc.js -d example/swaggerDef.js -o customSpec.json example/routes.js';
     exec(goodInput, function (error, stdout, stderr) {
@@ -100,8 +112,8 @@ describe('command line interface', function () {
       expect(specification.nlink).to.be.above(0);
       done();
     });
-  });  
-  
+  });
+
   // Cleanup test files if any.
   after(function() {
     var defaultSpecification = process.env.PWD + '/swaggerSpec.json';
