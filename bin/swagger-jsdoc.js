@@ -5,21 +5,80 @@
 /**
  * Module dependencies.
  */
+
 var program = require('commander');
 var fs = require('fs');
 var path = require('path');
 var swaggerJSDoc = require('../');
 var pkg = require('../package.json');
+var watcher = require('chokidar');
 
 // Useful input.
 var input = process.argv.slice(2);
-var output = 'swaggerSpec.json';
+// The spec, following a convention.
+var output = 'swagger.json';
+
+/**
+ * Creates a swagger.json file from a definition and a set of files.
+ * @function
+ * @param {object} swaggerDefinition - The swagger definition object.
+ * @param {array} files - List of files with jsdoc comments.
+ */
+function createSpecification(swaggerDefinition, files) {
+  // Aggregate information about APIs.
+  var apis = [];
+  files.forEach(function(argument) {
+    // Try to resolve the argument:
+    var result = fs.lstatSync(path.resolve(argument));
+    if (result) {
+      if (result.isFile()) {
+        apis.push(argument);
+      }
+    }
+  });
+
+  // Options for the swagger docs
+  var options = {
+    // Import swaggerDefinitions
+    swaggerDefinition: swaggerDefinition,
+    // Path to the API docs
+    apis: apis,
+  };
+
+  // Initialize swagger-jsdoc -> returns validated swagger spec in json format
+  var swSpec = swaggerJSDoc(options);
+
+  // Delete existing files and recreate.
+  fs.exists(output, function(exists) {
+    if (exists) {
+      fs.unlink(output, function fileDeleted() {
+        console.log('Spec file to be updated');
+        // Create the output file with swagger specification.
+        fs.writeFile(output, JSON.stringify(swSpec, null, 2), function(err) {
+          if (err) {
+            throw err;
+          }
+          console.log('swagger.json updated.');
+        });
+      });
+    } else {
+      // Create the output file with swagger specification.
+      fs.writeFile(output, JSON.stringify(swSpec, null, 2), function(err) {
+        if (err) {
+          throw err;
+        }
+        console.log('swagger.json updated.');
+      });
+    }
+  });
+}
 
 program
   .version(pkg.version)
   .usage('[options] <path ...>')
   .option('-d, --definition <swaggerDef.js>', 'Input swagger definition.')
   .option('-o, --output [swaggerSpec.json]', 'Output swagger specification.')
+  .option('-w, --watch', 'Whether or not to listen for continous changes.')
   .parse(process.argv);
 
 // If no arguments provided, display help menu.
@@ -76,35 +135,25 @@ fs.readFile(program.definition, 'utf-8', function(err, data) {
   if (!program.args.length) {
     return console.log('You must provide arguments for reading APIs.');
   }
-  // Aggregate information about APIs.
-  var apis = [];
-  program.args.forEach(function(argument) {
-    // Try to resolve the argument:
-    var result = fs.lstatSync(path.resolve(argument));
-    if (result) {
-      if (result.isFile()) {
-        apis.push(argument);
-      }
-    }
-  });
 
-  // Options for the swagger docs
-  var options = {
-    // Import swaggerDefinitions
-    swaggerDefinition: swaggerDefinition,
-    // Path to the API docs
-    apis: apis,
-  };
-
-  // Initialize swagger-jsdoc -> returns validated swagger spec in json format
-  var swaggerSpec = swaggerJSDoc(options);
-
-  // Create the output file with swagger specification.
-  fs.writeFile(output, JSON.stringify(swaggerSpec, null, 2), function(err) {
-    if (err) {
-      throw err;
-    }
-    console.log('Swagger specification created successfully.');
-  });
-
+  // If watch flag is turned on, listen for changes.
+  if (program.watch) {
+    watcher.watch([program.definition, program.args])
+      .on('ready', function startMessage() {
+        console.log('Listening for changes in definition and documentation.');
+      })
+      .on('error', function catchErr(err) {
+        console.error(err);
+      })
+      .on('add', function fileAdded(path) {
+        console.log('File added ' + path);
+      })
+      .on('all', function regenerateSpec() {
+        createSpecification(swaggerDefinition, program.args);
+      });
+  }
+  // Just create the specification.
+  else {
+    createSpecification(swaggerDefinition, program.args);
+  }
 });

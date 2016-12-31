@@ -85,15 +85,15 @@ describe('command line interface', function () {
     });
   });
 
-  it('should create swaggerSpec.json by default when the API input is good', function (done) {
+  it('should create swagger.json by default when the API input is good', function (done) {
     var goodInput = process.env.PWD + '/bin/swagger-jsdoc.js -d example/swaggerDef.js example/routes.js';
     exec(goodInput, function (error, stdout, stderr) {
       if (error) {
         throw new Error(error, stderr);
       }
-      expect(stdout).to.contain('Swagger specification created successfully.');
+      expect(stdout).to.contain('swagger.json updated.');
       expect(stderr).to.not.contain('You are using properties to be deprecated');
-      var specification = fs.statSync('swaggerSpec.json');
+      var specification = fs.statSync('swagger.json');
       // Check that the physical file was created.
       expect(specification.nlink).to.be.above(0);
       done();
@@ -106,7 +106,7 @@ describe('command line interface', function () {
       if (error) {
         throw new Error(error, stderr);
       }
-      expect(stdout).to.contain('Swagger specification created successfully.');
+      expect(stdout).to.contain('swagger.json updated.');
       var specification = fs.statSync('customSpec.json');
       // Check that the physical file was created.
       expect(specification.nlink).to.be.above(0);
@@ -116,7 +116,7 @@ describe('command line interface', function () {
 
   // Cleanup test files if any.
   after(function() {
-    var defaultSpecification = process.env.PWD + '/swaggerSpec.json';
+    var defaultSpecification = process.env.PWD + '/swagger.json';
     var customSpecification = process.env.PWD + '/customSpec.json';
     fs.unlinkSync(defaultSpecification);
     fs.unlinkSync(customSpecification);
