@@ -10,6 +10,7 @@ var fs = require('fs');
 var path = require('path');
 var swaggerJSDoc = require('../');
 var pkg = require('../package.json');
+var jsYaml = require('js-yaml');
 
 // Useful input.
 var input = process.argv.slice(2);
@@ -96,11 +97,17 @@ fs.readFile(program.definition, 'utf-8', function(err, data) {
     apis: apis,
   };
 
-  // Initialize swagger-jsdoc -> returns validated swagger spec in json format
-  var swaggerSpec = swaggerJSDoc(options);
+  // Initialize swagger-jsdoc -> returns validated JSON or YAML swagger spec
+  var swaggerSpec;
 
   // Create the output file with swagger specification.
-  fs.writeFile(output, JSON.stringify(swaggerSpec, null, 2), function(err) {
+  var ext = path.extname(output);
+  if (ext === '.yml' || ext === '.yaml') {
+    swaggerSpec = jsYaml.dump(swaggerJSDoc(options));
+  } else {
+    swaggerSpec = JSON.stringify(swaggerJSDoc(options), null, 2);
+  }
+  fs.writeFile(output, swaggerSpec, function(err) {
     if (err) {
       throw err;
     }
