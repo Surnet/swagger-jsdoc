@@ -11,32 +11,27 @@ var fs = require('fs');
 var path = require('path');
 var swaggerJSDoc = require('../');
 var pkg = require('../package.json');
-var watcher = require('chokidar');
+var chokidar = require('chokidar');
 
 // Useful input.
 var input = process.argv.slice(2);
 // The spec, following a convention.
 var output = 'swagger.json';
 
+// No-cache module loading.
+function requireNoCache(module) {
+  delete require.cache[require.resolve(module)];
+  return require(module);
+}
+
 /**
- * Creates a swagger.json file from a definition and a set of files.
+ * Creates a swagger specification from a definition and a set of files.
  * @function
  * @param {object} swaggerDefinition - The swagger definition object.
- * @param {array} files - List of files with jsdoc comments.
+ * @param {array} apis - List of files to extract documentation from.
+ * @param {array} output - Name the output file.
  */
-function createSpecification(swaggerDefinition, files) {
-  // Aggregate information about APIs.
-  var apis = [];
-  files.forEach(function(argument) {
-    // Try to resolve the argument:
-    var result = fs.lstatSync(path.resolve(argument));
-    if (result) {
-      if (result.isFile()) {
-        apis.push(argument);
-      }
-    }
-  });
-
+function createSpecification(swaggerDefinition, apis, output) {
   // Options for the swagger docs
   var options = {
     // Import swaggerDefinitions
@@ -48,28 +43,11 @@ function createSpecification(swaggerDefinition, files) {
   // Initialize swagger-jsdoc -> returns validated swagger spec in json format
   var swSpec = swaggerJSDoc(options);
 
-  // Delete existing files and recreate.
-  fs.exists(output, function(exists) {
-    if (exists) {
-      fs.unlink(output, function fileDeleted() {
-        console.log('Spec file to be updated');
-        // Create the output file with swagger specification.
-        fs.writeFile(output, JSON.stringify(swSpec, null, 2), function(err) {
-          if (err) {
-            throw err;
-          }
-          console.log('swagger.json updated.');
-        });
-      });
-    } else {
-      // Create the output file with swagger specification.
-      fs.writeFile(output, JSON.stringify(swSpec, null, 2), function(err) {
-        if (err) {
-          throw err;
-        }
-        console.log('swagger.json updated.');
-      });
+  fs.writeFile(output, JSON.stringify(swSpec, null, 2), function(err) {
+    if (err) {
+      throw err;
     }
+    console.log('Swagger specification is ready.');
   });
 }
 
@@ -115,7 +93,7 @@ fs.readFile(program.definition, 'utf-8', function(err, data) {
   }
 
   // Get an object of the definition file configuration.
-  var swaggerDefinition = require(path.resolve(program.definition));
+  var swaggerDefinition = requireNoCache(path.resolve(program.definition));
 
   // Check for info object in the definition.
   if (!swaggerDefinition.hasOwnProperty('info')) {
@@ -138,22 +116,31 @@ fs.readFile(program.definition, 'utf-8', function(err, data) {
 
   // If watch flag is turned on, listen for changes.
   if (program.watch) {
-    watcher.watch([program.definition, program.args])
-      .on('ready', function startMessage() {
-        console.log('Listening for changes in definition and documentation.');
-      })
-      .on('error', function catchErr(err) {
-        console.error(err);
-      })
-      .on('add', function fileAdded(path) {
-        console.log('File added ' + path);
-      })
-      .on('all', function regenerateSpec() {
-        createSpecification(swaggerDefinition, program.args);
-      });
+    var watcher = chokidar.watch([program.definition, program.args], {
+      awaitWriteFinish: {
+        stabilityThreshold: 2000,
+        pollInterval: 100,
+      },
+    });
+
+    watcher.on('ready', function startMessage() {
+      console.log('Listening for changes ...');
+    });
+
+    watcher.on('change', function detectChange(path) {
+      console.log('Change detected in ' + path);
+    });
+
+    watcher.on('error', function catchErr(err) {
+      return console.error(err);
+    });
+
+    watcher.on('all', function regenerateSpec() {
+      createSpecification(swaggerDefinition, program.args, output);
+    });
   }
   // Just create the specification.
   else {
-    createSpecification(swaggerDefinition, program.args);
+    createSpecification(swaggerDefinition, program.args, output);
   }
 });

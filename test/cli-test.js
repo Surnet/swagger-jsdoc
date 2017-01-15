@@ -91,7 +91,7 @@ describe('command line interface', function () {
       if (error) {
         throw new Error(error, stderr);
       }
-      expect(stdout).to.contain('swagger.json updated.');
+      expect(stdout).to.contain('Swagger specification is ready.');
       expect(stderr).to.not.contain('You are using properties to be deprecated');
       var specification = fs.statSync('swagger.json');
       // Check that the physical file was created.
@@ -106,7 +106,7 @@ describe('command line interface', function () {
       if (error) {
         throw new Error(error, stderr);
       }
-      expect(stdout).to.contain('swagger.json updated.');
+      expect(stdout).to.contain('Swagger specification is ready.');
       var specification = fs.statSync('customSpec.json');
       // Check that the physical file was created.
       expect(specification.nlink).to.be.above(0);
