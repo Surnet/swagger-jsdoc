@@ -18,12 +18,6 @@ var input = process.argv.slice(2);
 // The spec, following a convention.
 var output = 'swagger.json';
 
-// No-cache module loading.
-function requireNoCache(module) {
-  delete require.cache[require.resolve(module)];
-  return require(module);
-}
-
 /**
  * Creates a swagger specification from a definition and a set of files.
  * @function
@@ -93,7 +87,7 @@ fs.readFile(program.definition, 'utf-8', function(err, data) {
   }
 
   // Get an object of the definition file configuration.
-  var swaggerDefinition = requireNoCache(path.resolve(program.definition));
+  var swaggerDefinition = require(path.resolve(program.definition));
 
   // Check for info object in the definition.
   if (!swaggerDefinition.hasOwnProperty('info')) {
@@ -116,7 +110,7 @@ fs.readFile(program.definition, 'utf-8', function(err, data) {
 
   // If watch flag is turned on, listen for changes.
   if (program.watch) {
-    var watcher = chokidar.watch([program.definition, program.args], {
+    var watcher = chokidar.watch(program.args, {
       awaitWriteFinish: {
         stabilityThreshold: 2000,
         pollInterval: 100,
