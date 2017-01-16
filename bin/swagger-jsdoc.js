@@ -5,7 +5,6 @@
 /**
  * Module dependencies.
  */
-
 var program = require('commander');
 var fs = require('fs');
 var path = require('path');
