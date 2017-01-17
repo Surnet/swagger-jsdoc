@@ -1,3 +1,6 @@
+/* istanbul ignore next */
+// This file is an example, it's not functionally used by the module.This
+
 var host = 'http://' + process.env.IP + ':' + process.env.PORT;
 
 module.exports = {
