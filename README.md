@@ -213,3 +213,4 @@ Common usage:
 - Specify a swagger definition file: `./bin/swagger-jsdoc -d example/swaggerDef.js` - could be any .js or .json file which will be `require()`-ed and parsed/validated as JSON.
 - Specify files with documentation: `./bin/swagger-jsdoc example/routes.js example/routes2.js` - free form input, can be before or after definition
 - Specify output file (optional): `./bin/swagger-jsdoc -o output.json` - swaggerSpec.json will be created if this is not set.
+- If specifying an output file with a .yaml extension, the swagger spec will automatically be saved in YAML format instead of JSON.
