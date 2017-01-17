@@ -10,6 +10,7 @@ var fs = require('fs');
 var path = require('path');
 var swaggerJSDoc = require('../');
 var pkg = require('../package.json');
+var jsYaml = require('js-yaml');
 var chokidar = require('chokidar');
 
 // Useful input.
@@ -33,10 +34,18 @@ function createSpecification(swaggerDefinition, apis, output) {
     apis: apis,
   };
 
-  // Initialize swagger-jsdoc -> returns validated swagger spec in json format
-  var swSpec = swaggerJSDoc(options);
+  // Initialize swagger-jsdoc -> returns validated JSON or YAML swagger spec
+  var swaggerSpec;
+  var ext = path.extname(output);
 
-  fs.writeFile(output, JSON.stringify(swSpec, null, 2), function(err) {
+  if (ext === '.yml' || ext === '.yaml') {
+    swaggerSpec = jsYaml.dump(swaggerJSDoc(options));
+  }
+  else {
+    swaggerSpec = JSON.stringify(swaggerJSDoc(options), null, 2);
+  }
+
+  fs.writeFile(output, swaggerSpec, function writeSpecification(err) {
     if (err) {
       throw err;
     }

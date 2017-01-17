@@ -114,6 +114,34 @@ describe('command line interface', function () {
     });
   });
 
+  it('should create a YAML swagger spec when a custom output configuration with a .yaml extension is used', function (done) {
+    var goodInput = process.env.PWD + '/bin/swagger-jsdoc.js -d example/swaggerDef.js -o customSpec.yaml example/routes.js';
+    exec(goodInput, function (error, stdout, stderr) {
+      if (error) {
+        throw new Error(error, stderr);
+      }
+      expect(stdout).to.contain('Swagger specification created successfully.');
+      var specification = fs.statSync('customSpec.yaml');
+      // Check that the physical file was created.
+      expect(specification.nlink).to.be.above(0);
+      done();
+    });
+  });
+
+  it('should create a YAML swagger spec when a custom output configuration with a .yml extension is used', function (done) {
+    var goodInput = process.env.PWD + '/bin/swagger-jsdoc.js -d example/swaggerDef.js -o customSpec.yml example/routes.js';
+    exec(goodInput, function (error, stdout, stderr) {
+      if (error) {
+        throw new Error(error, stderr);
+      }
+      expect(stdout).to.contain('Swagger specification created successfully.');
+      var specification = fs.statSync('customSpec.yml');
+      // Check that the physical file was created.
+      expect(specification.nlink).to.be.above(0);
+      done();
+    });
+  });
+
   // Cleanup test files if any.
   after(function() {
     var defaultSpecification = process.env.PWD + '/swagger.json';
