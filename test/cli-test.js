@@ -120,7 +120,7 @@ describe('command line interface', function () {
       if (error) {
         throw new Error(error, stderr);
       }
-      expect(stdout).to.contain('Swagger specification created successfully.');
+      expect(stdout).to.contain('Swagger specification is ready.');
       var specification = fs.statSync('customSpec.yaml');
       // Check that the physical file was created.
       expect(specification.nlink).to.be.above(0);
@@ -134,7 +134,7 @@ describe('command line interface', function () {
       if (error) {
         throw new Error(error, stderr);
       }
-      expect(stdout).to.contain('Swagger specification created successfully.');
+      expect(stdout).to.contain('Swagger specification is ready.');
       var specification = fs.statSync('customSpec.yml');
       // Check that the physical file was created.
       expect(specification.nlink).to.be.above(0);
@@ -146,8 +146,12 @@ describe('command line interface', function () {
   after(function() {
     var defaultSpecification = process.env.PWD + '/swagger.json';
     var customSpecification = process.env.PWD + '/customSpec.json';
+    var customSpecYaml = process.env.PWD + '/customSpec.yaml';
+    var customSpecYml = process.env.PWD + '/customSpec.yml';
     fs.unlinkSync(defaultSpecification);
     fs.unlinkSync(customSpecification);
+    fs.unlinkSync(customSpecYaml);
+    fs.unlinkSync(customSpecYml);
   });
 
 });

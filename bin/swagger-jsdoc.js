@@ -40,8 +40,7 @@ function createSpecification(swaggerDefinition, apis, output) {
 
   if (ext === '.yml' || ext === '.yaml') {
     swaggerSpec = jsYaml.dump(swaggerJSDoc(options));
-  }
-  else {
+  } else {
     swaggerSpec = JSON.stringify(swaggerJSDoc(options), null, 2);
   }
 
