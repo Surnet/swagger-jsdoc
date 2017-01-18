@@ -1,5 +1,8 @@
 'use strict';
 
+/* istanbul ignore next */
+// This file is an example, it's not functionally used by the module.
+
 // Dependencies
 var express = require('express');
 var bodyParser = require('body-parser');

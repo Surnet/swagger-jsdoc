@@ -1,6 +1,6 @@
 {
   "name": "swagger-jsdoc",
-  "version": "1.8.4",
+  "version": "1.9.0",
   "description": "Generates swagger doc based on JSDoc",
   "main": "index.js",
   "scripts": {
@@ -40,6 +40,7 @@
   "devDependencies": {
     "body-parser": "^1.15.0",
     "chai": "^3.5.0",
+    "chokidar": "^1.6.1",
     "express": "^4.13.4",
     "istanbul": "^0.4.2",
     "jscs": "^3.0.0",

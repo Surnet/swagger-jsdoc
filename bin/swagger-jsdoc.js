@@ -10,16 +10,54 @@ var fs = require('fs');
 var path = require('path');
 var swaggerJSDoc = require('../');
 var pkg = require('../package.json');
+var jsYaml = require('js-yaml');
+var chokidar = require('chokidar');
 
 // Useful input.
 var input = process.argv.slice(2);
-var output = 'swaggerSpec.json';
+// The spec, following a convention.
+var output = 'swagger.json';
+
+/**
+ * Creates a swagger specification from a definition and a set of files.
+ * @function
+ * @param {object} swaggerDefinition - The swagger definition object.
+ * @param {array} apis - List of files to extract documentation from.
+ * @param {array} output - Name the output file.
+ */
+function createSpecification(swaggerDefinition, apis, output) {
+  // Options for the swagger docs
+  var options = {
+    // Import swaggerDefinitions
+    swaggerDefinition: swaggerDefinition,
+    // Path to the API docs
+    apis: apis,
+  };
+
+  // Initialize swagger-jsdoc -> returns validated JSON or YAML swagger spec
+  var swaggerSpec;
+  var ext = path.extname(output);
+
+  if (ext === '.yml' || ext === '.yaml') {
+    swaggerSpec = jsYaml.dump(swaggerJSDoc(options));
+  } else {
+    swaggerSpec = JSON.stringify(swaggerJSDoc(options), null, 2);
+  }
+
+  fs.writeFile(output, swaggerSpec, function writeSpecification(err) {
+    if (err) {
+      throw err;
+    }
+    console.log('Swagger specification is ready.');
+  });
+}
 
 program
   .version(pkg.version)
   .usage('[options] <path ...>')
   .option('-d, --definition <swaggerDef.js>', 'Input swagger definition.')
   .option('-o, --output [swaggerSpec.json]', 'Output swagger specification.')
+  .option('-w, --watch', 'Whether or not to listen for continous changes.')
   .parse(process.argv);
 
 // If no arguments provided, display help menu.
@@ -76,35 +114,34 @@ fs.readFile(program.definition, 'utf-8', function(err, data) {
   if (!program.args.length) {
     return console.log('You must provide arguments for reading APIs.');
   }
-  // Aggregate information about APIs.
-  var apis = [];
-  program.args.forEach(function(argument) {
-    // Try to resolve the argument:
-    var result = fs.lstatSync(path.resolve(argument));
-    if (result) {
-      if (result.isFile()) {
-        apis.push(argument);
-      }
-    }
-  });
 
-  // Options for the swagger docs
-  var options = {
-    // Import swaggerDefinitions
-    swaggerDefinition: swaggerDefinition,
-    // Path to the API docs
-    apis: apis,
-  };
+  // If watch flag is turned on, listen for changes.
+  if (program.watch) {
+    var watcher = chokidar.watch(program.args, {
+      awaitWriteFinish: {
+        stabilityThreshold: 2000,
+        pollInterval: 100,
+      },
+    });
 
-  // Initialize swagger-jsdoc -> returns validated swagger spec in json format
-  var swaggerSpec = swaggerJSDoc(options);
+    watcher.on('ready', function startMessage() {
+      console.log('Listening for changes ...');
+    });
 
-  // Create the output file with swagger specification.
-  fs.writeFile(output, JSON.stringify(swaggerSpec, null, 2), function(err) {
-    if (err) {
-      throw err;
-    }
-    console.log('Swagger specification created successfully.');
-  });
+    watcher.on('change', function detectChange(path) {
+      console.log('Change detected in ' + path);
+    });
 
+    watcher.on('error', function catchErr(err) {
+      return console.error(err);
+    });
+
+    watcher.on('all', function regenerateSpec() {
+      createSpecification(swaggerDefinition, program.args, output);
+    });
+  }
+  // Just create the specification.
+  else {
+    createSpecification(swaggerDefinition, program.args, output);
+  }
 });
