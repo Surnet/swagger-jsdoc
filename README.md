@@ -217,3 +217,4 @@ If specifying an output file with a `.yaml` or `.yml` extension, the swagger spe
 This may be particularly useful when the output specification file is integrated with [Browsersync](https://browsersync.io/)
 and [Swagger UI](http://swagger.io/swagger-ui/). Thus, the developer updates documentation in code with fast feedback in an
 interface showing an example of live documentation based on the swagger specification.
+Read [this article](https://medium.com/@kalin.chernev/agile-documentation-for-your-api-driven-project-based-on-open-api-standards-11e54d4326bb#.2p8pw7ini) for further details.
