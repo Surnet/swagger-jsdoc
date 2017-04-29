@@ -20,7 +20,7 @@ using [`JSDoc`](http://usejsdoc.org/) comments in your code. Just add `@swagger`
 your actual living code and output an OpenAPI specification to integrate any server and client
 technology as long as both sides comply with the specification.
 
-Thus, the `swagger-jsdoc` project assumes that you want document your existing working code in a way to "give live" to it, i.e. generating a specification which can then be feeded into other Swagger tools, and not the vice-versa.
+Thus, the `swagger-jsdoc` project assumes that you want document your existing working code in a way to "give life" to it, generating a specification which can then be feeded into other Swagger tools, and not the vice-versa.
 
 If you prefer to write the OpenAPI specification first and separately, you might check other projects facilitating this, such as
 -  [swagger-editor](http://swagger.io/swagger-editor/)
@@ -43,7 +43,7 @@ $ yarn add swagger-jsdoc
 
 ### Quick Start
 
-[Get started](GETTING-STARTED.md) by documenting your code.
+[Get started](./docs/GETTING-STARTED.md) by documenting your code.
 
 Note that `swagger-jsdoc` uses [node glob](https://github.com/isaacs/node-glob) module in the background when taking your files. This means that you can use patterns such as `*.js` to select all javascript files or `**/*.js` to select all javascript files in sub-folders recursively.
 
@@ -64,4 +64,4 @@ The swagger spec will be served at http://localhost:3000/api-docs.json
 
 ### CLI
 
-You can also use the tool via [command line interface](CLI.md). It supports selecting multiple files, recursive subdirectories and watch task for continuous listening of changes in your code..
+You can also use the tool via [command line interface](./docs/CLI.md). It supports selecting multiple files, recursive subdirectories and watch task for continuous listening of changes in your code.
