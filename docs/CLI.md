@@ -22,14 +22,14 @@ This could be any .js or .json file which will be `require()`-ed and parsed/vali
 #### Specify input files
 
 ```
-$ swagger-jsdoc routes1.js route2.js
+$ swagger-jsdoc route1.js route2.js
 ```
 Free form input, can be before or after definition. [Glob patterns](https://github.com/isaacs/node-glob) are acceptable to match multiple files with same extension `*.js`, `*.php`, etc. or patterns selecting files in nested folders as `**/*.js`, `**/*.php`, etc.
 
 #### Specify output file (optional)
 
 ```
-$ swagger-jsdoc -o custom_specification.json`
+$ swagger-jsdoc -o custom_specification.json
 ```
 
 `swagger.json` by default. Output specification can accept also a `.yaml` or `.yml`. This generated OpenAPI specification can then be further tweaked with [`swagger-editor`](http://swagger.io/swagger-editor/) or similar.
