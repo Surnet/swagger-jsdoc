@@ -13,13 +13,15 @@ $ swagger-jsdoc -h
 
 #### Specify a definition file
 
+Swagger-jsdoc will read the `api` array in your definition file by default for file paths it should read.
+
 ```
-$ swagger-jsdoc -d swaggerDef.js
+$ swagger-jsdoc -d swaggerDef.js -o doc.json
 ```
 
 This could be any .js or .json file which will be `require()`-ed and parsed/validated as JSON.
 
-#### Specify input files
+#### Specify input files (optional)
 
 ```
 $ swagger-jsdoc route1.js route2.js
