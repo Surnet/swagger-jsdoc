@@ -6,6 +6,7 @@
  * @license BSD
  */
  
+ 
 /**
  * YAML 1.2 parser and serializer
  * @external module:js-yaml
