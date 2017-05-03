@@ -2,6 +2,7 @@
   "name": "swagger-jsdoc",
   "version": "1.9.2",
   "description": "Generates swagger doc based on JSDoc",
+  "engine": "node >= 0.12",
   "main": "index.js",
   "scripts": {
     "coverage": "istanbul cover _mocha --report html && istanbul check-coverage --statement 95",
