@@ -1,6 +1,6 @@
 {
   "name": "swagger-jsdoc",
-  "version": "1.9.2",
+  "version": "1.9.6",
   "description": "Generates swagger doc based on JSDoc",
   "main": "index.js",
   "scripts": {
@@ -16,13 +16,7 @@
     "type": "git",
     "url": "https://github.com/Surnet/swagger-jsdoc.git"
   },
-  "keywords": [
-    "jsdoc",
-    "restful",
-    "api",
-    "express",
-    "swagger"
-  ],
+  "keywords": ["jsdoc", "restful", "api", "express", "swagger"],
   "author": "https://github.com/Surnet/swagger-jsdoc/graphs/contributors",
   "license": "MIT",
   "bugs": {
@@ -31,7 +25,7 @@
   "homepage": "https://github.com/Surnet/swagger-jsdoc",
   "dependencies": {
     "chokidar": "^1.7.0",
-    "commander": "^2.9.0",
+    "commander": "^2.11.0",
     "doctrine": "^2.0.0",
     "glob": "^7.1.2",
     "js-yaml": "^3.8.4",
@@ -40,7 +34,7 @@
   },
   "devDependencies": {
     "body-parser": "^1.17.2",
-    "chai": "^4.0.0",
+    "chai": "^4.0.2",
     "express": "^4.15.3",
     "istanbul": "^0.4.5",
     "jscs": "^3.0.7",
