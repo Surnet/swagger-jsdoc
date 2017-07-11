@@ -14,7 +14,7 @@ describe('swagger-helpers submodule', function () {
 
   it('should have a method addDataToSwaggerObject()', function (done) {
     expect(swaggerHelpers).to.include.keys('addDataToSwaggerObject');
-    expect(swaggerHelpers.addDataToSwaggerObject).to.be.function;
+    expect(typeof(swaggerHelpers.addDataToSwaggerObject)).to.equal('function');
     done();
   });
 
@@ -65,8 +65,17 @@ describe('swagger-helpers submodule', function () {
 
   it('should have a method swaggerizeObj()', function (done) {
     expect(swaggerHelpers).to.include.keys('swaggerizeObj');
-    expect(swaggerHelpers.swaggerizeObj).to.be.function;
+    expect(typeof(swaggerHelpers.swaggerizeObj)).to.equal('function');
     done();
+  });
+  it('swagerizeObj should remove keys specified from the blacklisted keys', function (done) {
+      var testObject = {
+          valid: 'Valid Key',
+          apis: 'Invalid Key'
+      }
+      testObject = swaggerHelpers.swaggerizeObj(testObject);
+      expect(testObject.apis).to.be.undefined;
+      done();
   });
 
 });

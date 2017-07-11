@@ -65,3 +65,12 @@ The swagger spec will be served at http://localhost:3000/api-docs.json
 ### CLI
 
 You can also use the tool via [command line interface](./docs/CLI.md). It supports selecting multiple files, recursive subdirectories and watch task for continuous listening of changes in your code.
+
+### Contributing
+
+- Fork this project and clone locally
+- Branch for each separate feature
+- Write detailed commit messages, comment unclear code blocks and update unit tests
+- Push to your own repository and create a new PR to merge back into this repository
+
+Note: If there are additions to the swagger definition object ensure that the output object keys comply with the swagger specification.  If there are keys that do not comply add them to the `excludedSwaggerProperties` list in `lib/swagger-helpers.js`.
