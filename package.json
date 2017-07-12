@@ -16,7 +16,13 @@
     "type": "git",
     "url": "https://github.com/Surnet/swagger-jsdoc.git"
   },
-  "keywords": ["jsdoc", "restful", "api", "express", "swagger"],
+  "keywords": [
+    "jsdoc",
+    "restful",
+    "api",
+    "express",
+    "swagger"
+  ],
   "author": "https://github.com/Surnet/swagger-jsdoc/graphs/contributors",
   "license": "MIT",
   "bugs": {
