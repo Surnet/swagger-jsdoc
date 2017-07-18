@@ -1,24 +1,16 @@
-## General settings
-general:
-    artifacts:
-    - "jsdoc"
-
 ## Customize the test machine
 machine:
   timezone: Europe/Zurich # Set the timezone
   node:
-    version: 0.10.33 # Version of node to use
+    version: 4.8.4 # Version of node to use
   environment: # Add some environment variables
     JUNIT_REPORT_PATH: "$CIRCLE_TEST_REPORTS/junit/test-results.xml"
     JUNIT_REPORT_STACK: 1
-    CODACY_REPO_TOKEN: "a64579ce1f114344a745eb24df33ecd5"
 
 ## Customize dependencies
 dependencies:
   pre:
-    - npm install codacy-coverage
     - npm install mocha-jenkins-reporter
-    - npm install jsdoc
     - mkdir -p $CIRCLE_TEST_REPORTS/junit/ # Creating directory for test results
 
 ## Customize test commands
@@ -26,6 +18,3 @@ test:
   override:
     - node_modules/.bin/istanbul cover _mocha --report lcovonly -- --reporter mocha-jenkins-reporter
     - node_modules/.bin/istanbul check-coverage --statement 95
-  post:
-    - cat ./coverage/lcov.info | ./node_modules/codacy-coverage/bin/codacy-coverage.js
-    - npm run-script jsdoc
