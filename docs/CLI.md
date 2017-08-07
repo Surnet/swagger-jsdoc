@@ -13,7 +13,7 @@ $ swagger-jsdoc -h
 
 #### Specify a definition file
 
-Swagger-jsdoc will read the `api` array in your definition file by default for file paths it should read.
+Swagger-jsdoc will read the `apis` array in your definition file by default for file paths it should read.
 
 ```
 $ swagger-jsdoc -d swaggerDef.js -o doc.json
