@@ -39,7 +39,7 @@ $ swagger-jsdoc -o custom_specification.json
 #### Watch for changes (optional)
 
 ```
-$swagger-jsdoc -d swaggerDef.js route1.js route2.js -w
+$ swagger-jsdoc -d swaggerDef.js route1.js route2.js -w
 ```
 
 The `-w` flag starts a watch task for input files with API documentation. This may be particularly useful when the output specification file is integrated with [Browsersync](https://browsersync.io/)
