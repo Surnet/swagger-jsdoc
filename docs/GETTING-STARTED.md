@@ -125,7 +125,7 @@ model and add fields.
    * @swagger
    * /users:
    *   post:
-   *     description: Returns users
+   *     description: Creates a user
    *     produces:
    *       - application/json
    *     parameters:
