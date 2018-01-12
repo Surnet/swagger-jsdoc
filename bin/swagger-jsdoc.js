@@ -111,8 +111,18 @@ fs.readFile(program.definition, 'utf-8', function(err, data) {
   }
 
   // Continue only if arguments provided.
-  if (!program.args.length) {
-    return console.log('You must provide arguments for reading APIs.');
+  if (!swaggerDefinition.apis && !program.args.length) {
+    console.log('You must provide sources for reading API files.');
+    // jscs:disable maximumLineLength
+    return console.log('Either add filenames as arguments, or add an "apis" key in your definitions file.');
+  }
+
+  // If there's no argument passed, but the user has defined Apis in
+  // the definition file, pass them them onwards.
+  if (program.args.length === 0 &&
+    swaggerDefinition.apis &&
+    swaggerDefinition.apis instanceof Array) {
+    program.args = swaggerDefinition.apis;
   }
 
   // If watch flag is turned on, listen for changes.

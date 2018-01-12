@@ -80,13 +80,28 @@ describe('command line interface', function () {
       if (error) {
         throw new Error(error, stderr);
       }
-      expect(stdout).to.contain('You must provide arguments for reading APIs.');
+      expect(stdout).to.contain('You must provide sources for reading API files.');
       done();
     });
   });
 
   it('should create swagger.json by default when the API input is good', function (done) {
     var goodInput = process.env.PWD + '/bin/swagger-jsdoc.js -d example/swaggerDef.js example/routes.js';
+    exec(goodInput, function (error, stdout, stderr) {
+      if (error) {
+        throw new Error(error, stderr);
+      }
+      expect(stdout).to.contain('Swagger specification is ready.');
+      expect(stderr).to.not.contain('You are using properties to be deprecated');
+      var specification = fs.statSync('swagger.json');
+      // Check that the physical file was created.
+      expect(specification.nlink).to.be.above(0);
+      done();
+    });
+  });
+
+  it('should create swagger.json by default when the API input is from definition file', function (done) {
+    var goodInput = process.env.PWD + '/bin/swagger-jsdoc.js -d test/fixtures/api_definition.js';
     exec(goodInput, function (error, stdout, stderr) {
       if (error) {
         throw new Error(error, stderr);
