@@ -1,0 +1,5 @@
+info:
+  title: !!js/undefined
+  version: 1.0.0
+  description: A sample API
+apis: [./**/*/routes.js]

@@ -6,6 +6,22 @@ var chai = require('chai');
 var expect = chai.expect;
 var fs = require('fs');
 
+function hasCliError (stdout) {
+  return !stdout.includes('Swagger specification is ready');
+}
+
+function checkNoCliError (done, error, stdout) {
+  if (!hasCliError(stdout)) { return done(); }
+
+  done(new Error(error || stdout));
+}
+
+function checkCliError (done, error, stdout) {
+  if (hasCliError(stdout)) { return done(); }
+
+  done(new Error('CLI should have printed an error'));
+}
+
 describe('command line interface', function () {
 
   it('help menu works', function (done) {
@@ -39,6 +55,36 @@ describe('command line interface', function () {
       expect(stdout).to.contain('Definition file is required.');
       done();
     });
+  });
+
+  it('should allow a JavaScript definition file', function (done) {
+    var goodInput = process.env.PWD + '/bin/swagger-jsdoc.js -d test/fixtures/api_definition.js';
+    exec(goodInput, checkNoCliError.bind(this, done));
+  });
+
+  it('should allow a JSON definition file', function (done) {
+    var goodInput = process.env.PWD + '/bin/swagger-jsdoc.js -d test/fixtures/api_definition.json';
+    exec(goodInput, checkNoCliError.bind(this, done));
+  });
+
+  it('should reject definition file with invalid JSON syntax', function (done) {
+    var goodInput = process.env.PWD + '/bin/swagger-jsdoc.js -d test/fixtures/wrong_syntax.json';
+    exec(goodInput, checkCliError.bind(this, done));
+  });
+
+  it('should allow a YAML definition file', function (done) {
+    var goodInput = process.env.PWD + '/bin/swagger-jsdoc.js -d test/fixtures/api_definition.yaml';
+    exec(goodInput, checkNoCliError.bind(this, done));
+  });
+
+  it('should reject definition file with invalid YAML syntax', function (done) {
+    var goodInput = process.env.PWD + '/bin/swagger-jsdoc.js -d test/fixtures/wrong_syntax.yaml';
+    exec(goodInput, checkCliError.bind(this, done));
+  });
+
+  it('should reject definition file with non-JSON compatible YAML syntax', function (done) {
+    var goodInput = process.env.PWD + '/bin/swagger-jsdoc.js -d test/fixtures/non_json_compatible.yaml';
+    exec(goodInput, checkCliError.bind(this, done));
   });
 
   it('should require an info object in the definition', function (done) {
