@@ -3,8 +3,7 @@ jobs:
   build:
     working_directory: ~/repo
     docker:
-      # To be upgraded at first opportunity
-      - image: circleci/node:4.8.4-jessie
+      - image: circleci/node:carbon
     steps:
       - checkout
       - run:
@@ -21,7 +20,7 @@ jobs:
             - node_modules
   test:
     docker:
-      - image: circleci/node:4.8.4-jessie
+      - image: circleci/node:carbon
     steps:
       - checkout
       - run:
