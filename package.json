@@ -7,7 +7,7 @@
     "coverage": "istanbul cover _mocha --report html && istanbul check-coverage --statement 95",
     "jsdoc": "jsdoc --configure .jsdocconf",
     "start": "node example/app.js",
-    "test": "mocha"
+    "test": "./node_modules/.bin/mocha"
   },
   "bin": {
     "swagger-jsdoc": "./bin/swagger-jsdoc.js"
