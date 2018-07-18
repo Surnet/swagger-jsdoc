@@ -160,5 +160,4 @@ swaggerSpec.definitions.in_login = require("config/schemajson/in.login.schema.js
 swaggerSpec.definitions.out_login = require("config/schemajson/out.login.schema.json");
 // or set manual paths
 swaggerSpec.paths["api/v1/cool"] = {"get" : { ... } }
-};
 ```
