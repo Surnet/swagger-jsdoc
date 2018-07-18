@@ -1,4 +1,6 @@
 'use strict';
+// The hinter will deny a lot of the chai syntax (W030).
+/* jshint ignore:start */
 
 // Dependencies.
 var exec = require('child_process').exec;
@@ -157,6 +159,16 @@ describe('command line interface', function () {
     });
   });
 
+  it('should fail when invalid swagger tag is provided', function (done) {
+    var invalidTag = process.env.PWD + '/bin/swagger-jsdoc.js -d example/swaggerDef.js test/fixtures/invalid_tag.js';
+    exec(invalidTag, function (error, stdout, stderr) {
+      expect(error).to.not.be.undefined;
+      expect(stderr).to.contain('YAMLException');
+      done();
+    });
+  });
+
+
   // Cleanup test files if any.
   after(function() {
     var defaultSpecification = process.env.PWD + '/swagger.json';
@@ -170,3 +182,4 @@ describe('command line interface', function () {
   });
 
 });
+/* jshint ignore:end */
