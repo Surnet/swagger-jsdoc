@@ -1,5 +1,3 @@
-'use strict';
-
 module.exports.setup = function(app) {
   /**
    * @swagger
@@ -11,7 +9,7 @@ module.exports.setup = function(app) {
    *       200:
    *         description: deprecated path
    */
-  app.get('/deprecated', function(req, res) {
+  app.get('/deprecated', (req, res) => {
     res.send('Deprecated "path" property!');
   });
 };
