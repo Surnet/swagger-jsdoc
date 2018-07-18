@@ -7,7 +7,7 @@
     "coverage": "istanbul cover _mocha --report html && istanbul check-coverage --statement 95",
     "jsdoc": "jsdoc --configure .jsdocconf",
     "start": "node example/app.js",
-    "test": "mocha"
+    "test": "./node_modules/.bin/mocha"
   },
   "bin": {
     "swagger-jsdoc": "./bin/swagger-jsdoc.js"
@@ -30,7 +30,7 @@
   },
   "homepage": "https://github.com/Surnet/swagger-jsdoc",
   "dependencies": {
-    "chokidar": "^1.7.0",
+    "chokidar": "^2.0.3",
     "commander": "^2.11.0",
     "doctrine": "^2.0.0",
     "glob": "^7.1.2",

@@ -7,7 +7,6 @@ documentation, servers, clients, tests and much more based on the rich [OpenAPI 
 [![npm Downloads](https://img.shields.io/npm/dm/swagger-jsdoc.svg)](https://www.npmjs.com/package/swagger-jsdoc)
 
 [![Circle CI](https://img.shields.io/circleci/project/Surnet/swagger-jsdoc/master.svg)](https://circleci.com/gh/Surnet/swagger-jsdoc)
-[![Dependency Status](https://img.shields.io/gemnasium/Surnet/swagger-jsdoc.svg)](https://gemnasium.com/Surnet/swagger-jsdoc)
 [![Documentation Status](http://inch-ci.org/github/Surnet/swagger-jsdoc.svg?branch=master&style=flat)](http://inch-ci.org/github/Surnet/swagger-jsdoc)
 [![Known Vulnerabilities](https://snyk.io/test/npm/swagger-jsdoc/badge.svg)](https://snyk.io/test/npm/swagger-jsdoc)
 
