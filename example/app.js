@@ -1,4 +1,4 @@
-/* istanbul ignore next */
+/* eslint import/no-extraneous-dependencies: 0 */
 // This file is an example, it's not functionally used by the module.
 
 // Dependencies
@@ -54,12 +54,12 @@ routes.setup(app);
 routes2.setup(app);
 
 // Expose app
-exports = module.exports = app;
+module.exports = app;
 
 // Start the server
-var server = app.listen(3000, () => {
+const server = app.listen(3000, () => {
   const host = server.address().address;
-  const port = server.address().port;
+  const { port } = server.address();
 
   console.log('Example app listening at http://%s:%s', host, port);
 });

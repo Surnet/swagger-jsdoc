@@ -20,9 +20,9 @@ let output = 'swagger.json';
  * @function
  * @param {object} swaggerDefinition - The swagger definition object.
  * @param {array} apis - List of files to extract documentation from.
- * @param {array} output - Name the output file.
+ * @param {string} fileName - Name the output file.
  */
-function createSpecification(swaggerDefinition, apis, output) {
+function createSpecification(swaggerDefinition, apis, fileName) {
   // Options for the swagger docs
   const options = {
     // Import swaggerDefinitions
@@ -33,7 +33,7 @@ function createSpecification(swaggerDefinition, apis, output) {
 
   // Initialize swagger-jsdoc -> returns validated JSON or YAML swagger spec
   let swaggerSpec;
-  const ext = path.extname(output);
+  const ext = path.extname(fileName);
 
   if (ext === '.yml' || ext === '.yaml') {
     swaggerSpec = jsYaml.dump(swaggerJSDoc(options), {
@@ -44,7 +44,7 @@ function createSpecification(swaggerDefinition, apis, output) {
     swaggerSpec = JSON.stringify(swaggerJSDoc(options), null, 2);
   }
 
-  fs.writeFile(output, swaggerSpec, err => {
+  fs.writeFile(fileName, swaggerSpec, err => {
     if (err) {
       throw err;
     }
@@ -75,6 +75,7 @@ if (!program.definition) {
 
 // Override default output file if provided.
 if (program.output) {
+  // eslint-disable-next-line prefer-destructuring
   output = program.output;
 }
 
@@ -94,18 +95,19 @@ fs.readFile(program.definition, 'utf-8', (err, data) => {
   }
 
   // Get an object of the definition file configuration.
+  // eslint-disable-next-line
   const swaggerDefinition = require(path.resolve(program.definition));
 
   // Check for info object in the definition.
-  if (!swaggerDefinition.hasOwnProperty('info')) {
+  if (!('info' in swaggerDefinition)) {
     console.log('Definition file should contain an info object!');
     return console.log('More at http://swagger.io/specification/#infoObject');
   }
 
   // Check for title and version properties in the info object.
   if (
-    !swaggerDefinition.info.hasOwnProperty('title') ||
-    !swaggerDefinition.info.hasOwnProperty('version')
+    !('title' in swaggerDefinition.info) ||
+    !('version' in swaggerDefinition.info)
   ) {
     console.log('The title and version properties are required!');
     return console.log('More at http://swagger.io/specification/#infoObject');
@@ -130,5 +132,5 @@ fs.readFile(program.definition, 'utf-8', (err, data) => {
     program.args = swaggerDefinition.apis;
   }
 
-  createSpecification(swaggerDefinition, program.args, output);
+  return createSpecification(swaggerDefinition, program.args, output);
 });

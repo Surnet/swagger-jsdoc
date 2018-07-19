@@ -1,4 +1,5 @@
 /* global it, describe */
+/* eslint no-unused-expressions: 0 */
 
 // Dependencies.
 const chai = require('chai');

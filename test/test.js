@@ -20,9 +20,7 @@ describe('example app', () => {
       .get('/')
       .expect(200)
       .end(err => {
-        if (err) {
-          return done(err);
-        }
+        if (err) return done(err);
         return done();
       });
   });
@@ -36,9 +34,7 @@ describe('example app', () => {
       })
       .expect(200)
       .end(err => {
-        if (err) {
-          return done(err);
-        }
+        if (err) return done(err);
         return done();
       });
   });
@@ -49,9 +45,7 @@ describe('example app', () => {
       .expect(200)
       .expect(swaggerSpecIsCompliant)
       .end(err => {
-        if (err) {
-          return done(err);
-        }
+        if (err) return done(err);
         return done();
       });
   });
