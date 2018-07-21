@@ -3,7 +3,13 @@
   "version": "1.10.3",
   "description": "Generates swagger doc based on JSDoc",
   "main": "index.js",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "scripts": {
+    "precommit": "lint-staged",
     "test:lint": "eslint .",
     "test:js": "mocha --exit",
     "start": "node example/app.js",
@@ -47,6 +53,7 @@
     "eslint-plugin-import": "2.13.0",
     "eslint-plugin-prettier": "2.6.2",
     "express": "4.15.3",
+    "husky": "1.0.0-rc.13",
     "lint-staged": "7.2.0",
     "mocha": "5.2.0",
     "npm-run-all": "4.1.3",
