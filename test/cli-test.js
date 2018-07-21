@@ -135,8 +135,8 @@ describe('command line interface', () => {
       const specification = fs.statSync('swagger.json');
       // Check that the physical file was created.
       expect(specification.nlink).to.be.above(0);
-      done();
     });
+    done();
   });
 
   it('should accept custom configuration for output specification', done => {
