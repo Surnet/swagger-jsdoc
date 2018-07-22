@@ -121,11 +121,12 @@ fs.readFile(program.definition, 'utf-8', function(err, data) {
   }
 
   // If there's no argument passed, but the user has defined Apis in
-  // the definition file, pass them them onwards.
+  // the definition file, pass them them onwards and remove from definitions
   if (program.args.length === 0 &&
     swaggerDefinition.apis &&
     swaggerDefinition.apis instanceof Array) {
     program.args = swaggerDefinition.apis;
+    delete swaggerDefinition.apis;
   }
 
   // If watch flag is turned on, listen for changes.
