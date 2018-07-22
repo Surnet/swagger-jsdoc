@@ -78,5 +78,18 @@ describe('swagger-helpers submodule', function () {
       done();
   });
 
+  it('paths should not override each other', function (done) {
+    var swagger = require('../lib');
+
+    var testObject = {
+      swaggerDefinition: {},
+      apis: ['./**/*/external/*.yml']
+    };
+
+    testObject = swagger(testObject);
+    expect(testObject.responses.api).to.include.keys(['foo', 'bar']);
+    done();
+  });
+
 });
 /* jshint ignore:end */
