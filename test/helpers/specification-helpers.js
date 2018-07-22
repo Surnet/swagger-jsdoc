@@ -62,21 +62,6 @@ describe("swagger-helpers submodule", function() {
     done();
   });
 
-  it("should have a method swaggerizeObj()", function(done) {
-    expect(specHelper).to.include.keys("swaggerizeObj");
-    expect(typeof specHelper.swaggerizeObj).to.equal("function");
-    done();
-  });
-  it("swagerizeObj should remove keys specified from the blacklisted keys", function(done) {
-    var testObject = {
-      valid: "Valid Key",
-      apis: "Invalid Key"
-    };
-    testObject = specHelper.swaggerizeObj(testObject);
-    expect(testObject.apis).to.be.undefined;
-    done();
-  });
-
   it("paths should not override each other", function(done) {
     var swagger = require("../../lib");
 

@@ -3,28 +3,30 @@
 `swagger-jsdoc` returns the validated OpenAPI specification as JSON or YAML.
 
 ```javascript
-var swaggerJSDoc = require('swagger-jsdoc');
+var swaggerJSDoc = require("swagger-jsdoc");
 
 var options = {
-  swaggerDefinition: {
+  definition: {
     info: {
-      title: 'Hello World', // Title (required)
-      version: '1.0.0', // Version (required)
-    },
+      title: "Hello World", // Title (required)
+      version: "1.0.0" // Version (required)
+    }
   },
-  apis: ['./routes.js'], // Path to the API docs
+  apis: ["./routes.js"] // Path to the API docs
 };
 
 // Initialize swagger-jsdoc -> returns validated swagger spec in json format
 var swaggerSpec = swaggerJSDoc(options);
+
+// Note that options.definition could be also options.swaggerDefinition
 ```
 
 At this time you can do with the swaggerSpec whatever you want.
 The simplest way would be serving it straight to the outside world:
 
 ```javascript
-app.get('/api-docs.json', function(req, res) {
-  res.setHeader('Content-Type', 'application/json');
+app.get("/api-docs.json", function(req, res) {
+  res.setHeader("Content-Type", "application/json");
   res.send(swaggerSpec);
 });
 ```
@@ -58,7 +60,7 @@ The API can now be documented in JSDoc-style with swagger spec in YAML.
  *       200:
  *         description: login
  */
-app.post('/login', function(req, res) {
+app.post("/login", function(req, res) {
   res.json(req.body);
 });
 ```
@@ -70,6 +72,7 @@ In place of writing (or copy and pasting) the same code into multiple locations,
 which can be error prone when adding a new field to the schema. You can define
 a model and re-use it across multiple endpoints. You can also reference another
 model and add fields.
+
 ```javascript
 /**
  * @swagger
@@ -151,7 +154,8 @@ model and add fields.
 
 ### Load external definitions
 
-You can load external definitions or paths after ``swaggerJSDoc()`` function.
+You can load external definitions or paths after `swaggerJSDoc()` function.
+
 ```javascript
 // Initialize swagger-jsdoc -> returns validated swagger spec in json format
 var swaggerSpec = swaggerJSDoc(options);

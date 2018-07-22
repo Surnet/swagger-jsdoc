@@ -35,7 +35,7 @@
     "doctrine": "^2.0.0",
     "glob": "^7.1.2",
     "js-yaml": "^3.8.4",
-    "recursive-iterator": "^2.0.3",
+    "recursive-iterator": "3.3.0",
     "swagger-parser": "5.0.0"
   },
   "devDependencies": {

@@ -1769,9 +1769,9 @@ readdirp@^2.0.0:
     readable-stream "^2.0.2"
     set-immediate-shim "^1.0.1"
 
-recursive-iterator@^2.0.3:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/recursive-iterator/-/recursive-iterator-2.0.3.tgz#d0e0d2c7e7a83109d73091cf043fc509e5a76dc3"
+recursive-iterator@3.3.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/recursive-iterator/-/recursive-iterator-3.3.0.tgz#4e498ce6227d8c42b2e2d496b296bc866c134514"
 
 regenerator-runtime@^0.11.0:
   version "0.11.1"

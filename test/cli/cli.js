@@ -71,19 +71,6 @@ describe("command line interface", function() {
     });
   });
 
-  it("should warn when deprecated properties are used", function(done) {
-    var deprecatedProperties =
-      process.env.PWD +
-      "/bin/swagger-jsdoc.js -d example/v2/swaggerDef.js test/fixtures/v2/deprecated_routes.js";
-    exec(deprecatedProperties, function(error, stdout, stderr) {
-      if (error) {
-        throw new Error(error, stderr);
-      }
-      expect(stderr).to.contain("You are using properties to be deprecated");
-      done();
-    });
-  });
-
   it("should require arguments with jsDoc data about an API", function(done) {
     var missingApis =
       process.env.PWD + "/bin/swagger-jsdoc.js -d example/v2/swaggerDef.js";
