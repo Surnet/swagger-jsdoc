@@ -7,7 +7,7 @@
     "coverage": "istanbul cover _mocha --report html && istanbul check-coverage --statement 95",
     "jsdoc": "jsdoc --configure .jsdocconf",
     "start": "node example/app.js",
-    "test": "./node_modules/.bin/mocha"
+    "test": "mocha"
   },
   "bin": {
     "swagger-jsdoc": "./bin/swagger-jsdoc.js"
@@ -36,7 +36,7 @@
     "glob": "^7.1.2",
     "js-yaml": "^3.8.4",
     "recursive-iterator": "^2.0.3",
-    "swagger-parser": "^3.4.1"
+    "swagger-parser": "5.0.0"
   },
   "devDependencies": {
     "body-parser": "^1.17.2",
@@ -46,7 +46,6 @@
     "jscs": "^3.0.7",
     "mocha": "^3.4.2",
     "mocha-jscs": "^5.0.1",
-    "mocha-jshint": "^2.3.1",
     "supertest": "^3.0.0"
   }
 }
