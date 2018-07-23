@@ -3,7 +3,6 @@
 exports[`OpenAPI specification compatiblity The new openapi property is respected 1`] = `
 Object {
   "components": Object {},
-  "definitions": Object {},
   "info": Object {
     "contact": Object {
       "email": "developer@uspto.gov",
@@ -15,10 +14,7 @@ Object {
     "version": "1.0.0",
   },
   "openapi": "3.0.0",
-  "parameters": Object {},
   "paths": Object {},
-  "responses": Object {},
-  "securityDefinitions": Object {},
   "servers": Array [
     Object {
       "url": "{scheme}://developer.uspto.gov/ds-api",
