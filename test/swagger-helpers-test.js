@@ -3,6 +3,7 @@
 
 // Dependencies.
 const chai = require('chai');
+const swagger = require('../lib');
 const swaggerHelpers = require('../lib/swagger-helpers');
 
 const { expect } = chai;
@@ -77,6 +78,19 @@ describe('swagger-helpers submodule', () => {
     };
     testObject = swaggerHelpers.swaggerizeObj(testObject);
     expect(testObject.apis).to.be.undefined;
+
+    done();
+  });
+
+  it('paths should not override each other', done => {
+    let testObject = {
+      swaggerDefinition: {},
+      apis: ['./**/*/external/*.yml'],
+    };
+
+    testObject = swagger(testObject);
+    expect(testObject.responses.api).to.include.keys(['foo', 'bar']);
+
     done();
   });
 });
