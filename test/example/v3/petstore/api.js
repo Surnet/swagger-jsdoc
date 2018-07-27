@@ -1,5 +1,3 @@
-"use strict";
-
 // Imaginary API helper
 
 /**
@@ -86,7 +84,7 @@ module.exports = function(app) {
    *             schema:
    *               $ref: "#/components/schemas/Error"
    */
-  app.get("/pets", function() {});
+  app.get('/pets', () => {});
 
   /**
    * @swagger
@@ -107,7 +105,7 @@ module.exports = function(app) {
    *             schema:
    *               $ref: "#/components/schemas/Error"
    */
-  app.post("/pets", function() {});
+  app.post('/pets', () => {});
 
   /**
    * @swagger
@@ -139,5 +137,5 @@ module.exports = function(app) {
    *             schema:
    *               $ref: "#/components/schemas/Error"
    */
-  app.get("/pets/:petId", function() {});
+  app.get('/pets/:petId', () => {});
 };

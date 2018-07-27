@@ -32,3 +32,6 @@ jsdoc
 # Editors
 .c9
 .idea
+
+# In case project is used locally to generate a spec
+swagger.json

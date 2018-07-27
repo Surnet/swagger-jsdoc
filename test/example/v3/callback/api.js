@@ -1,5 +1,3 @@
-"use strict";
-
 // Imaginary API helper
 module.exports = function(app) {
   /**
@@ -61,5 +59,5 @@ module.exports = function(app) {
    *                   Your server should return this HTTP status code if no longer interested
    *                   in further updates
    */
-  app.post("/streams", function() {});
+  app.post('/streams', () => {});
 };

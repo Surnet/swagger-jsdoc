@@ -1,14 +1,16 @@
-const fs = require("fs");
-const path = require("path");
-const chai = require("chai");
-const expect = chai.expect;
-const chaiJestSnapshot = require("chai-jest-snapshot");
+/* global it, before, beforeEach, describe */
 
-var swaggerJsdoc = require("../../../lib");
+const path = require('path');
+const chai = require('chai');
+
+const { expect } = chai;
+const chaiJestSnapshot = require('chai-jest-snapshot');
+
+const swaggerJsdoc = require('../../../lib');
 
 chai.use(chaiJestSnapshot);
 
-before(function() {
+before(() => {
   chaiJestSnapshot.resetSnapshotRegistry();
 });
 
@@ -16,31 +18,32 @@ beforeEach(function() {
   chaiJestSnapshot.configureUsingMochaContext(this);
 });
 
-const tests = ["api-with-examples", "callback", "links", "petstore"];
+const tests = ['api-with-examples', 'callback', 'links', 'petstore'];
 
-describe("OpenAPI examples", function() {
+describe('OpenAPI examples', () => {
   tests.forEach(test => {
-    it(`Example: ${test}`, function(done) {
-      var title = `Sample specification testing ${test}`;
+    it(`Example: ${test}`, done => {
+      const title = `Sample specification testing ${test}`;
 
-      var referenceSpecification = require(path.resolve(
+      // eslint-disable-next-line
+      const referenceSpecification = require(path.resolve(
         `${__dirname}/${test}/openapi.json`
       ));
 
-      var definition = {
-        openapi: "3.0.0",
+      const definition = {
+        openapi: '3.0.0',
         info: {
-          version: "1.0.0",
-          title: title
-        }
+          version: '1.0.0',
+          title,
+        },
       };
 
-      var options = {
-        definition: definition,
-        apis: [`./test/example/v3/${test}/api.js`]
+      const options = {
+        definition,
+        apis: [`./test/example/v3/${test}/api.js`],
       };
 
-      specification = swaggerJsdoc(options);
+      const specification = swaggerJsdoc(options);
       expect(specification).to.matchSnapshot();
       expect(specification).to.eql(referenceSpecification);
       done();

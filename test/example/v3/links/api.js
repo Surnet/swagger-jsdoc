@@ -1,5 +1,3 @@
-"use strict";
-
 // Imaginary API helper
 
 /**
@@ -45,5 +43,5 @@
  *             $ref: '#/components/links/UserRepositories'
  */
 module.exports = function(app) {
-  app.get("/users/:username", function() {});
+  app.get('/users/:username', () => {});
 };

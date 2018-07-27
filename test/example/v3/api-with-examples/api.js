@@ -1,5 +1,3 @@
-"use strict";
-
 // Imaginary API helper
 module.exports = function(app) {
   /**
@@ -78,5 +76,5 @@ module.exports = function(app) {
    *                 ]
    *                }
    */
-  app.get("/", function() {});
+  app.get('/', () => {});
 };
