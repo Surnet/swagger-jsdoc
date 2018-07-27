@@ -1,11 +1,9 @@
-'use strict';
-
+/* global it, describe */
 
 // Dependencies
-var request = require('supertest');
-var app = require('../example/app');
-var swaggerSpec = require('./swagger-spec.json');
-
+const request = require('supertest');
+const app = require('../example/app');
+const swaggerSpec = require('./swagger-spec.json');
 
 // Check against saved swagger spec
 function swaggerSpecIsCompliant(res) {
@@ -16,20 +14,18 @@ function swaggerSpecIsCompliant(res) {
 }
 
 // Testing an example app parsing documentation with swagger-jsdoc.
-describe('example app', function () {
-  it('homepage returns a success code', function (done) {
+describe('example app', () => {
+  it('homepage returns a success code', done => {
     request(app)
       .get('/')
       .expect(200)
-      .end(function (err) {
-        if (err) {
-          return done(err);
-        }
-        done();
+      .end(err => {
+        if (err) return done(err);
+        return done();
       });
   });
 
-  it('login authentication returns a success code', function (done) {
+  it('login authentication returns a success code', done => {
     request(app)
       .post('/login')
       .send({
@@ -37,24 +33,20 @@ describe('example app', function () {
         password: 'Password',
       })
       .expect(200)
-      .end(function (err) {
-        if (err) {
-          return done(err);
-        }
-        done();
+      .end(err => {
+        if (err) return done(err);
+        return done();
       });
   });
 
-  it('produced swagger spec is as expected', function (done) {
+  it('produced swagger spec is as expected', done => {
     request(app)
       .get('/api-docs.json')
       .expect(200)
       .expect(swaggerSpecIsCompliant)
-      .end(function (err) {
-        if (err) {
-          return done(err);
-        }
-        done();
+      .end(err => {
+        if (err) return done(err);
+        return done();
       });
   });
 });

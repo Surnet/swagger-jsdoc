@@ -1,29 +1,28 @@
-'use strict';
-
-// The hinter will deny a lot of the chai syntax (W030).
-/* jshint ignore:start */
+/* global it, describe */
+/* eslint no-unused-expressions: 0 */
 
 // Dependencies.
-var swaggerHelpers = require('../lib/swagger-helpers');
-var chai = require('chai');
-var expect = chai.expect;
-var swaggerObject = require('./fixtures/swaggerObject.json');
-var testData = require('./fixtures/testData');
+const chai = require('chai');
+const swagger = require('../lib');
+const swaggerHelpers = require('../lib/swagger-helpers');
 
-describe('swagger-helpers submodule', function () {
+const { expect } = chai;
+const swaggerObject = require('./fixtures/swaggerObject.json');
+const testData = require('./fixtures/testData');
 
-  it('should have a method addDataToSwaggerObject()', function (done) {
+describe('swagger-helpers submodule', () => {
+  it('should have a method addDataToSwaggerObject()', done => {
     expect(swaggerHelpers).to.include.keys('addDataToSwaggerObject');
-    expect(typeof(swaggerHelpers.addDataToSwaggerObject)).to.equal('function');
+    expect(typeof swaggerHelpers.addDataToSwaggerObject).to.equal('function');
     done();
   });
 
-  it('addDataToSwaggerObject() should require correct input', function (done) {
+  it('addDataToSwaggerObject() should require correct input', done => {
     expect(swaggerHelpers.addDataToSwaggerObject).to.throw(Error);
     done();
   });
 
-  it('addDataToSwaggerObject() handles "definition" and "definitions"', function(done) {
+  it('addDataToSwaggerObject() handles "definition" and "definitions"', done => {
     swaggerHelpers.addDataToSwaggerObject(swaggerObject, testData.definitions);
     expect(swaggerObject.definitions).to.exist;
     // Case 'definition'.
@@ -33,7 +32,7 @@ describe('swagger-helpers submodule', function () {
     done();
   });
 
-  it('addDataToSwaggerObject() handles "parameter" and "parameters"', function(done) {
+  it('addDataToSwaggerObject() handles "parameter" and "parameters"', done => {
     swaggerHelpers.addDataToSwaggerObject(swaggerObject, testData.parameters);
     expect(swaggerObject.parameters).to.exist;
     // Case 'parameter'.
@@ -43,8 +42,11 @@ describe('swagger-helpers submodule', function () {
     done();
   });
 
-  it('addDataToSwaggerObject() handles "securityDefinition" and "securityDefinitions"', function(done) {
-    swaggerHelpers.addDataToSwaggerObject(swaggerObject, testData.securityDefinitions);
+  it('addDataToSwaggerObject() handles "securityDefinition" and "securityDefinitions"', done => {
+    swaggerHelpers.addDataToSwaggerObject(
+      swaggerObject,
+      testData.securityDefinitions
+    );
     expect(swaggerObject.securityDefinitions).to.exist;
     // Case 'securityDefinition'.
     expect(swaggerObject.securityDefinitions).to.include.keys('basicAuth');
@@ -53,7 +55,7 @@ describe('swagger-helpers submodule', function () {
     done();
   });
 
-  it('addDataToSwaggerObject() handles "response" and "responses"', function(done) {
+  it('addDataToSwaggerObject() handles "response" and "responses"', done => {
     swaggerHelpers.addDataToSwaggerObject(swaggerObject, testData.responses);
     expect(swaggerObject.responses).to.exist;
     // Case 'response'.
@@ -63,33 +65,32 @@ describe('swagger-helpers submodule', function () {
     done();
   });
 
-  it('should have a method swaggerizeObj()', function (done) {
+  it('should have a method swaggerizeObj()', done => {
     expect(swaggerHelpers).to.include.keys('swaggerizeObj');
-    expect(typeof(swaggerHelpers.swaggerizeObj)).to.equal('function');
+    expect(typeof swaggerHelpers.swaggerizeObj).to.equal('function');
     done();
   });
-  it('swagerizeObj should remove keys specified from the blacklisted keys', function (done) {
-      var testObject = {
-          valid: 'Valid Key',
-          apis: 'Invalid Key'
-      }
-      testObject = swaggerHelpers.swaggerizeObj(testObject);
-      expect(testObject.apis).to.be.undefined;
-      done();
+
+  it('swagerizeObj should remove keys specified from the blacklisted keys', done => {
+    let testObject = {
+      valid: 'Valid Key',
+      apis: 'Invalid Key',
+    };
+    testObject = swaggerHelpers.swaggerizeObj(testObject);
+    expect(testObject.apis).to.be.undefined;
+
+    done();
   });
 
-  it('paths should not override each other', function (done) {
-    var swagger = require('../lib');
-
-    var testObject = {
+  it('paths should not override each other', done => {
+    let testObject = {
       swaggerDefinition: {},
-      apis: ['./**/*/external/*.yml']
+      apis: ['./**/*/external/*.yml'],
     };
 
     testObject = swagger(testObject);
     expect(testObject.responses.api).to.include.keys(['foo', 'bar']);
+
     done();
   });
-
 });
-/* jshint ignore:end */

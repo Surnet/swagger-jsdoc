@@ -1,11 +1,8 @@
-'use strict';
-
 /* istanbul ignore next */
 // This file is an example, it's not functionally used by the module.
 
 // Sets up the routes.
 module.exports.setup = function(app) {
-
   /**
    * @swagger
    * /:
@@ -15,7 +12,7 @@ module.exports.setup = function(app) {
    *       200:
    *         description: hello world
    */
-  app.get('/', function(req, res) {
+  app.get('/', (req, res) => {
     res.send('Hello World!');
   });
 
@@ -73,7 +70,7 @@ module.exports.setup = function(app) {
    *           type: object
    *           $ref: '#/definitions/Login'
    */
-  app.post('/login', function(req, res) {
+  app.post('/login', (req, res) => {
     res.json(req.body);
   });
 
@@ -90,7 +87,7 @@ module.exports.setup = function(app) {
    *       200:
    *         description: users
    */
-  app.get('/users', function(req, res) {
+  app.get('/users', (req, res) => {
     res.json({
       username: 'jsmith',
     });
@@ -110,8 +107,7 @@ module.exports.setup = function(app) {
    *       200:
    *         description: users
    */
-  app.post('/users', function(req, res) {
+  app.post('/users', (req, res) => {
     res.json(req.body);
   });
-
 };
