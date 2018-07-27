@@ -3,39 +3,42 @@
 `swagger-jsdoc` returns the validated OpenAPI specification as JSON or YAML.
 
 ```javascript
-var swaggerJSDoc = require("swagger-jsdoc");
+const swaggerJSDoc = require('swagger-jsdoc');
 
-var options = {
+const options = {
   definition: {
     info: {
-      title: "Hello World", // Title (required)
-      version: "1.0.0" // Version (required)
-    }
+      title: 'Hello World', // Title (required)
+      version: '1.0.0', // Version (required)
+    },
   },
-  apis: ["./routes.js"] // Path to the API docs
+  apis: ['./routes.js'], // Path to the API docs
 };
 
 // Initialize swagger-jsdoc -> returns validated swagger spec in json format
-var swaggerSpec = swaggerJSDoc(options);
-
-// Note that options.definition could be also options.swaggerDefinition
+const swaggerSpec = swaggerJSDoc(options);
 ```
 
-At this time you can do with the swaggerSpec whatever you want.
+Notes:
+
+- `options.definition` could be also `options.swaggerDefinition`
+- paths given in `options.apis` are resolved with [node-glob](https://github.com/isaacs/node-glob) in the background. Try to limit your patterns smartly to speed up discovery of files.
+
+At this time you can do with the `swaggerSpec` whatever you want.
 The simplest way would be serving it straight to the outside world:
 
 ```javascript
-app.get("/api-docs.json", function(req, res) {
-  res.setHeader("Content-Type", "application/json");
+app.get('/api-docs.json', function(req, res) {
+  res.setHeader('Content-Type', 'application/json');
   res.send(swaggerSpec);
 });
 ```
 
-You could also use a framework like [swagger-tools](https://www.npmjs.com/package/swagger-tools) to serve the spec and a swagger-ui.
+You could also use a framework like [swagger-tools](https://www.npmjs.com/package/swagger-tools) to serve the spec and a `swagger-ui`.
 
 ### How to document the API
 
-The API can now be documented in JSDoc-style with swagger spec in YAML.
+The API can be documented in JSDoc-style with swagger spec in YAML.
 
 ```javascript
 /**
@@ -60,7 +63,7 @@ The API can now be documented in JSDoc-style with swagger spec in YAML.
  *       200:
  *         description: login
  */
-app.post("/login", function(req, res) {
+app.post('/login', function(req, res) {
   res.json(req.body);
 });
 ```
@@ -68,9 +71,8 @@ app.post("/login", function(req, res) {
 ### Re-using Model Definitions
 
 A model may be the same for multiple endpoints (Ex. User POST,PUT responses).
-In place of writing (or copy and pasting) the same code into multiple locations,
-which can be error prone when adding a new field to the schema. You can define
-a model and re-use it across multiple endpoints. You can also reference another
+
+In place of writing (or copy and pasting) the same code into multiple locations, which can be error prone when adding a new field to the schema. You can define a model and re-use it across multiple endpoints. You can also reference another
 model and add fields.
 
 ```javascript
@@ -152,6 +154,8 @@ model and add fields.
   });
 ```
 
+Keep in mind that since v3 of the specification, you can use [components](https://swagger.io/docs/specification/components/) in order to definite and reuse resources.
+
 ### Load external definitions
 
 You can load external definitions or paths after `swaggerJSDoc()` function.
@@ -165,3 +169,5 @@ swaggerSpec.definitions.out_login = require("config/schemajson/out.login.schema.
 // or set manual paths
 swaggerSpec.paths["api/v1/cool"] = {"get" : { ... } }
 ```
+
+If you need more examples, feel free to browse the repository and its tests and examples.
