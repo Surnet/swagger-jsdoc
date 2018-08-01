@@ -1,12 +1,11 @@
 /* eslint import/no-extraneous-dependencies: 0 */
-// This file is an example, it's not functionally used by the module.
 
 // Dependencies
 const express = require('express');
 const bodyParser = require('body-parser');
 const routes = require('./routes');
 const routes2 = require('./routes2');
-const swaggerJSDoc = require('../');
+const swaggerJSDoc = require('../..');
 
 // Initialize express
 const app = express();
@@ -37,7 +36,7 @@ const options = {
   // Import swaggerDefinitions
   swaggerDefinition,
   // Path to the API docs
-  apis: ['./example/routes*.js', './example/parameters.yaml'],
+  apis: ['./example/v2/routes*.js', './example/v2/parameters.yaml'],
 };
 
 // Initialize swagger-jsdoc -> returns validated swagger spec in json format

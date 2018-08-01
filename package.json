@@ -1,6 +1,6 @@
 {
   "name": "swagger-jsdoc",
-  "version": "1.10.3",
+  "version": "3.0.0",
   "description": "Generates swagger doc based on JSDoc",
   "main": "index.js",
   "scripts": {
@@ -41,6 +41,7 @@
   "devDependencies": {
     "body-parser": "1.17.2",
     "chai": "4.0.2",
+    "chai-jest-snapshot": "2.0.0",
     "eslint": "5.1.0",
     "eslint-config-airbnb-base": "13.0.0",
     "eslint-config-prettier": "2.9.0",

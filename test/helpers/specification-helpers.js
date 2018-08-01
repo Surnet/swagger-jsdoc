@@ -3,27 +3,26 @@
 
 // Dependencies.
 const chai = require('chai');
-const swagger = require('../lib');
-const swaggerHelpers = require('../lib/swagger-helpers');
+const specHelper = require('../../lib/helpers/specification');
 
 const { expect } = chai;
-const swaggerObject = require('./fixtures/swaggerObject.json');
-const testData = require('./fixtures/testData');
+const swaggerObject = require('../fixtures/v2/swaggerObject.json');
+const testData = require('../fixtures/v2/testData');
 
 describe('swagger-helpers submodule', () => {
   it('should have a method addDataToSwaggerObject()', done => {
-    expect(swaggerHelpers).to.include.keys('addDataToSwaggerObject');
-    expect(typeof swaggerHelpers.addDataToSwaggerObject).to.equal('function');
+    expect(specHelper).to.include.keys('addDataToSwaggerObject');
+    expect(typeof specHelper.addDataToSwaggerObject).to.equal('function');
     done();
   });
 
   it('addDataToSwaggerObject() should require correct input', done => {
-    expect(swaggerHelpers.addDataToSwaggerObject).to.throw(Error);
+    expect(specHelper.addDataToSwaggerObject).to.throw(Error);
     done();
   });
 
   it('addDataToSwaggerObject() handles "definition" and "definitions"', done => {
-    swaggerHelpers.addDataToSwaggerObject(swaggerObject, testData.definitions);
+    specHelper.addDataToSwaggerObject(swaggerObject, testData.definitions);
     expect(swaggerObject.definitions).to.exist;
     // Case 'definition'.
     expect(swaggerObject.definitions).to.include.keys('DefinitionSingular');
@@ -33,7 +32,7 @@ describe('swagger-helpers submodule', () => {
   });
 
   it('addDataToSwaggerObject() handles "parameter" and "parameters"', done => {
-    swaggerHelpers.addDataToSwaggerObject(swaggerObject, testData.parameters);
+    specHelper.addDataToSwaggerObject(swaggerObject, testData.parameters);
     expect(swaggerObject.parameters).to.exist;
     // Case 'parameter'.
     expect(swaggerObject.parameters).to.include.keys('ParameterSingular');
@@ -43,7 +42,7 @@ describe('swagger-helpers submodule', () => {
   });
 
   it('addDataToSwaggerObject() handles "securityDefinition" and "securityDefinitions"', done => {
-    swaggerHelpers.addDataToSwaggerObject(
+    specHelper.addDataToSwaggerObject(
       swaggerObject,
       testData.securityDefinitions
     );
@@ -56,7 +55,7 @@ describe('swagger-helpers submodule', () => {
   });
 
   it('addDataToSwaggerObject() handles "response" and "responses"', done => {
-    swaggerHelpers.addDataToSwaggerObject(swaggerObject, testData.responses);
+    specHelper.addDataToSwaggerObject(swaggerObject, testData.responses);
     expect(swaggerObject.responses).to.exist;
     // Case 'response'.
     expect(swaggerObject.responses).to.include.keys('NotFound');
@@ -65,24 +64,10 @@ describe('swagger-helpers submodule', () => {
     done();
   });
 
-  it('should have a method swaggerizeObj()', done => {
-    expect(swaggerHelpers).to.include.keys('swaggerizeObj');
-    expect(typeof swaggerHelpers.swaggerizeObj).to.equal('function');
-    done();
-  });
-
-  it('swagerizeObj should remove keys specified from the blacklisted keys', done => {
-    let testObject = {
-      valid: 'Valid Key',
-      apis: 'Invalid Key',
-    };
-    testObject = swaggerHelpers.swaggerizeObj(testObject);
-    expect(testObject.apis).to.be.undefined;
-
-    done();
-  });
-
   it('paths should not override each other', done => {
+    // eslint-disable-next-line
+    const swagger = require('../../lib');
+
     let testObject = {
       swaggerDefinition: {},
       apis: ['./**/*/external/*.yml'],
@@ -90,7 +75,6 @@ describe('swagger-helpers submodule', () => {
 
     testObject = swagger(testObject);
     expect(testObject.responses.api).to.include.keys(['foo', 'bar']);
-
     done();
   });
 });

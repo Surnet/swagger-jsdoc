@@ -2,7 +2,7 @@
 
 // Dependencies
 const request = require('supertest');
-const app = require('../example/app');
+const app = require('../../../example/v2/app');
 const swaggerSpec = require('./swagger-spec.json');
 
 // Check against saved swagger spec
@@ -21,6 +21,7 @@ describe('example app', () => {
       .expect(200)
       .end(err => {
         if (err) return done(err);
+
         return done();
       });
   });
@@ -35,6 +36,7 @@ describe('example app', () => {
       .expect(200)
       .end(err => {
         if (err) return done(err);
+
         return done();
       });
   });
@@ -46,6 +48,7 @@ describe('example app', () => {
       .expect(swaggerSpecIsCompliant)
       .end(err => {
         if (err) return done(err);
+
         return done();
       });
   });
