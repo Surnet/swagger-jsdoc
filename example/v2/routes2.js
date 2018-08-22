@@ -14,4 +14,32 @@ module.exports.setup = function(app) {
   app.get('/hello', (req, res) => {
     res.send('Hello World (Version 2)!');
   });
+
+  /**
+   * featureX
+   * @swagger
+   * /newFeatureX:
+   *   get:
+   *     description: Part of feature X
+   *     responses:
+   *       200:
+   *         description: hello feature X
+   */
+  app.get('/newFeatureX', (req, res) => {
+    res.send('This is a new feature X!');
+  });
+
+  /**
+   * featureY
+   * @swagger
+   * /newFeatureY:
+   *   get:
+   *     description: Part of feature Y
+   *     responses:
+   *       200:
+   *         description: hello feature Y
+   */
+  app.get('/newFeatureY', (req, res) => {
+    res.send('This is another new feature Y!');
+  });
 };

@@ -90,6 +90,16 @@
           }
         }
       }
+    },
+    "/newFeatureX": {
+      "get": {
+        "description": "Part of feature X",
+        "responses": {
+          "200": {
+            "description": "hello feature X"
+          }
+        }
+      }
     }
   },
   "definitions": {

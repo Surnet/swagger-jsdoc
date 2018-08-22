@@ -13,6 +13,9 @@ const options = {
     },
   },
   apis: ['./routes.js'], // Path to the API docs
+  jsDocFilter: (jsDocComment) => { // Optional filtering mechanism applied on each API doc
+    return true;
+  }
 };
 
 // Initialize swagger-jsdoc -> returns validated swagger spec in json format
@@ -33,6 +36,10 @@ app.get('/api-docs.json', function(req, res) {
   res.send(swaggerSpec);
 });
 ```
+
+- `options.jsDocFilter` is a function which accepts only one variable `jsDocComment`. This `jsDocComment` represents each route documentation being iterated upon.
+  
+  If you want to optionally perform filters on each route documentation, return boolean `true` or `false` accordingly on certain logical conditions. This is useful for conditionally displaying certain route documentation based on different server deployments.
 
 You could also use a framework like [swagger-tools](https://www.npmjs.com/package/swagger-tools) to serve the spec and a `swagger-ui`.
 
@@ -66,6 +73,74 @@ The API can be documented in JSDoc-style with swagger spec in YAML.
 app.post('/login', function(req, res) {
   res.json(req.body);
 });
+```
+
+As said earlier, API documentation filters could be put in place before having such API rendered on the JSON file. A sample is shown in [app.js](../example/v2/app.js) where some form of filtering is done.
+```javascript
+function jsDocFilter(jsDocComment) {
+    // Do filtering logic here in order to determine whether
+    // the JSDoc under scrunity will be displayed or not.
+    // This function must return boolean. `true` to display, `false` to hide.
+    const docDescription = jsDocComment.description;
+
+    const features = docDescription.indexOf('feature') > -1;
+    const featureX = docDescription.indexOf('featureX') > -1; // featureX is the filter keyword
+    const featureY = docDescription.indexOf('featureY') > -1; // featureY is also another filter keyword
+    
+    // `featureFilter` is some external environment variable
+    const enabledX =
+      featureX && envVars && envVars.featureFilter.indexOf('X') > -1;
+    const enabledY =
+      featureY && envVars && envVars.featureFilter.indexOf('Y') > -1;
+
+    const featuresEnabled = enabledX || enabledY;
+
+    const existingRoutes = [];
+
+    function includeDocs() {
+      const route =
+        jsDocComment &&
+        jsDocComment.tags &&
+        jsDocComment.tags[0] &&
+        jsDocComment.tags[0].description &&
+        jsDocComment.tags[0].description.split(':')[0];
+
+      if (existingRoutes.indexOf(route) === -1) {
+        // need to perform check if the route doc was previously added
+        return true;
+      }
+
+      return false;
+    }
+
+    // featured route documentation
+    if (features) {
+      if (featuresEnabled) {
+        return includeDocs();
+      }
+    } else {
+      // original routes included here
+      return includeDocs();
+    }
+
+    return false;
+  },
+};
+```
+
+When a route filter needs to be applied, the filter keyword may be used. In the example below, the `featureX` (coded above `@swagger`) is a filter keyword for the route to be included in the rendering of the JSON.
+Note that the filter only reads keywords above the `@swagger` identifier.
+```javascript
+/**
+ * featureX
+ * @swagger
+ * /newFeatureX:
+ *   get:
+ *     description: Part of feature X
+ *     responses:
+ *       200:
+ *         description: hello feature X
+ */
 ```
 
 ### Re-using Model Definitions

@@ -3,6 +3,7 @@
 // Dependencies
 const express = require('express');
 const bodyParser = require('body-parser');
+const envVars = require('./envVars');
 const routes = require('./routes');
 const routes2 = require('./routes2');
 const swaggerJSDoc = require('../..');
@@ -37,6 +38,56 @@ const options = {
   swaggerDefinition,
   // Path to the API docs
   apis: ['./example/v2/routes*.js', './example/v2/parameters.yaml'],
+
+  // jsDocFilter has only one parameter - jsDocComment
+  // jsDocComment contains the actual route jsDocumentation
+  jsDocFilter: function jsDocFilter(jsDocComment) {
+    // Do filtering logic here in order to determine whether
+    // the JSDoc under scrunity will be displayed or not.
+    // This function must return boolean. `true` to display, `false` to hide.
+    const docDescription = jsDocComment.description;
+
+    const features = docDescription.indexOf('feature') > -1;
+    const featureX = docDescription.indexOf('featureX') > -1;
+    const featureY = docDescription.indexOf('featureY') > -1;
+
+    const enabledX =
+      featureX && envVars && envVars.featureFilter.indexOf('X') > -1;
+    const enabledY =
+      featureY && envVars && envVars.featureFilter.indexOf('Y') > -1;
+
+    const featuresEnabled = enabledX || enabledY;
+
+    const existingRoutes = [];
+
+    function includeDocs() {
+      const route =
+        jsDocComment &&
+        jsDocComment.tags &&
+        jsDocComment.tags[0] &&
+        jsDocComment.tags[0].description &&
+        jsDocComment.tags[0].description.split(':')[0];
+
+      if (existingRoutes.indexOf(route) === -1) {
+        // need to perform check if the route doc was previously added
+        return true;
+      }
+
+      return false;
+    }
+
+    // featured route documentation
+    if (features) {
+      if (featuresEnabled) {
+        return includeDocs();
+      }
+    } else {
+      // original routes included here
+      return includeDocs();
+    }
+
+    return false;
+  },
 };
 
 // Initialize swagger-jsdoc -> returns validated swagger spec in json format
