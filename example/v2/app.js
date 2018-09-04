@@ -7,6 +7,8 @@ const routes = require('./routes');
 const routes2 = require('./routes2');
 const swaggerJSDoc = require('../..');
 
+const PORT = process.env.PORT || 3000;
+
 // Initialize express
 const app = express();
 app.use(bodyParser.json()); // To support JSON-encoded bodies
@@ -27,7 +29,7 @@ const swaggerDefinition = {
     version: '1.0.0', // Version (required)
     description: 'A sample API', // Description (optional)
   },
-  host: 'localhost:3000', // Host (optional)
+  host: `localhost:${PORT}`, // Host (optional)
   basePath: '/', // Base path (optional)
 };
 
@@ -56,7 +58,7 @@ routes2.setup(app);
 module.exports = app;
 
 // Start the server
-const server = app.listen(3000, () => {
+const server = app.listen(PORT, () => {
   const host = server.address().address;
   const { port } = server.address();
 
