@@ -14,11 +14,17 @@ before(() => {
   chaiJestSnapshot.resetSnapshotRegistry();
 });
 
-beforeEach(function() {
+beforeEach(function conf() {
   chaiJestSnapshot.configureUsingMochaContext(this);
 });
 
-const tests = ['api-with-examples', 'callback', 'links', 'petstore'];
+const tests = [
+  'api-with-examples',
+  'callback',
+  'links',
+  'petstore',
+  'definitions',
+];
 
 describe('OpenAPI examples', () => {
   tests.forEach(test => {
