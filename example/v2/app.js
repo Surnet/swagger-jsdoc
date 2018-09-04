@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const routes = require('./routes');
 const routes2 = require('./routes2');
 const swaggerJSDoc = require('../..');
+
 const PORT = process.env.PORT || 3000;
 
 // Initialize express
