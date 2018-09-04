@@ -191,6 +191,107 @@ by the source server
 }
 `;
 
+exports[`OpenAPI examples Example: definitions 1`] = `
+Object {
+  "components": Object {},
+  "definitions": Object {
+    "Filter": Object {
+      "description": "Query filters",
+      "items": Object {
+        "properties": Object {
+          "key": Object {
+            "description": "field name",
+            "required": true,
+            "type": "string",
+          },
+          "op": Object {
+            "description": "comparaison operation",
+            "enum": Array [
+              "=",
+            ],
+            "required": false,
+            "type": "string",
+          },
+          "value": Object {
+            "description": "field value",
+            "required": true,
+            "type": Object {},
+          },
+        },
+        "type": "object",
+      },
+      "type": "array",
+    },
+    "Time": Object {
+      "description": "Audit query time range",
+      "properties": Object {
+        "from": Object {
+          "description": "time range start",
+          "type": "number",
+        },
+        "to": Object {
+          "description": "time range end",
+          "type": "number",
+        },
+      },
+      "type": "object",
+    },
+  },
+  "info": Object {
+    "title": "Sample specification testing definitions",
+    "version": "1.0.0",
+  },
+  "openapi": "3.0.0",
+  "paths": Object {
+    "/api/v1/audits": Object {
+      "post": Object {
+        "consumes": Array [
+          "application/json",
+        ],
+        "description": "Create a new audit",
+        "operationId": "addAudit",
+        "parameters": Array [
+          Object {
+            "description": "The necessary initialization data to create an audit object",
+            "in": "body",
+            "name": "Audit initialization data",
+            "schema": Object {
+              "properties": Object {
+                "filter": Object {
+                  "$ref": "#/definitions/Filter",
+                },
+                "time": Object {
+                  "$ref": "#/definitions/Time",
+                },
+              },
+              "type": "object",
+            },
+          },
+        ],
+        "produces": Array [
+          "application/json",
+        ],
+        "responses": Object {
+          "200": Object {
+            "description": "return the created audit",
+          },
+          "400": Object {
+            "description": "Invalid or missing parameters",
+          },
+          "500": Object {
+            "description": "Server error",
+          },
+        },
+        "tags": Array [
+          "Audits",
+        ],
+      },
+    },
+  },
+  "tags": Array [],
+}
+`;
+
 exports[`OpenAPI examples Example: links 1`] = `
 Object {
   "components": Object {
