@@ -16,8 +16,6 @@ const options = {
   apis: ['./routes.js'],
 };
 
-Please note that relative paths in `apis` are relative to the current directory from which the Node.js program is ran, not the application serving the APIs.
-
 // Initialize swagger-jsdoc -> returns validated swagger spec in json format
 const swaggerSpec = swaggerJSDoc(options);
 ```
@@ -26,6 +24,7 @@ Notes:
 
 - `options.definition` could be also `options.swaggerDefinition`
 - paths given in `options.apis` are resolved with [node-glob](https://github.com/isaacs/node-glob) in the background. Try to limit your patterns smartly to speed up discovery of files.
+- relative paths in `apis` are relative to the current directory from which the Node.js program is ran, not the application serving the APIs.
 
 At this time you can do with the `swaggerSpec` whatever you want.
 The simplest way would be serving it straight to the outside world:
