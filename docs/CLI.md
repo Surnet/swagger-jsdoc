@@ -19,7 +19,7 @@ Swagger-jsdoc will read the `apis` array in your definition file by default for 
 $ swagger-jsdoc -d swaggerDef.js -o doc.json
 ```
 
-This could be any .js, .json, .yml or .yaml file.
+This could be any `.js`, `.json`, `.yml` or `.yaml` file.
 
 #### Specify input files (optional)
 
@@ -28,6 +28,8 @@ $ swagger-jsdoc route1.js route2.js
 ```
 
 Free form input, can be before or after definition. [Glob patterns](https://github.com/isaacs/node-glob) are acceptable to match multiple files with same extension `*.js`, `*.php`, etc. or patterns selecting files in nested folders as `**/*.js`, `**/*.php`, etc.
+
+These paths are relative to current directory from which `swagger-jsdoc` is ran, not the application holding the APIs.
 
 #### Specify output file (optional)
 

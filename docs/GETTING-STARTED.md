@@ -12,8 +12,11 @@ const options = {
       version: '1.0.0', // Version (required)
     },
   },
-  apis: ['./routes.js'], // Path to the API docs
+  // Path to the API docs
+  apis: ['./routes.js'],
 };
+
+Please note that relative paths in `apis` are relative to the current directory from which the Node.js program is ran, not the application serving the APIs.
 
 // Initialize swagger-jsdoc -> returns validated swagger spec in json format
 const swaggerSpec = swaggerJSDoc(options);
@@ -102,56 +105,59 @@ model and add fields.
  */
 
 /**
-   * @swagger
-   * /users:
-   *   get:
-   *     description: Returns users
-   *     produces:
-   *      - application/json
-   *     responses:
-   *       200:
-   *         description: users
-   *         schema:
-   *           type: array
-   *           items:
-   *             $ref: '#/definitions/User'
-   */
-  app.get('/users', function(req, res) {
-    res.json([ {
+ * @swagger
+ * /users:
+ *   get:
+ *     description: Returns users
+ *     produces:
+ *      - application/json
+ *     responses:
+ *       200:
+ *         description: users
+ *         schema:
+ *           type: array
+ *           items:
+ *             $ref: '#/definitions/User'
+ */
+app.get('/users', function(req, res) {
+  res.json([
+    {
       id: 1,
       username: 'jsmith',
-    }, {1
+    },
+    {
       id: 2,
       username: 'jdoe',
-    } ]);
-  });
+    },
+  ]);
+});
 
-  /**
-   * @swagger
-   * /users:
-   *   post:
-   *     description: Creates a user
-   *     produces:
-   *       - application/json
-   *     parameters:
-   *       - name: user
-   *         description: User object
-   *         in:  body
-   *         required: true
-   *         type: string
-   *         schema:
-   *           $ref: '#/definitions/NewUser'
-   *     responses:
-   *       200:
-   *         description: users
-   *         schema:
-   *           $ref: '#/definitions/User'
-   */
-  app.post('/users', function(req, res) {
-    // Generate ID
-    req.body.id = Math.floor(Math.random() * 100) * 1
-    res.json(req.body);
-  });
+/**
+ * @swagger
+ * /users:
+ *   post:
+ *     description: Creates a user
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: user
+ *         description: User object
+ *         in:  body
+ *         required: true
+ *         type: string
+ *         schema:
+ *           $ref: '#/definitions/NewUser'
+ *     responses:
+ *       200:
+ *         description: users
+ *         schema:
+ *           $ref: '#/definitions/User'
+ */
+app.post('/users', function(req, res) {
+  // Generate ID
+  req.body.id = Math.floor(Math.random() * 100) * 1;
+  res.json(req.body);
+});
 ```
 
 Keep in mind that since v3 of the specification, you can use [components](https://swagger.io/docs/specification/components/) in order to definite and reuse resources.
