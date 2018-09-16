@@ -1,0 +1,65 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Sample specification testing links"
+  },
+  "paths": {
+    "/users/{username}": {
+      "get": {
+        "operationId": "getUserByName",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The User",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/user"
+                }
+              }
+            },
+            "links": {
+              "userRepositories": {
+                "$ref": "#/components/links/UserRepositories"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "links": {
+      "UserRepositories": {
+        "operationId": "getRepositoriesByOwner",
+        "parameters": {
+          "username": "$response.body#/username"
+        }
+      }
+    },
+    "schemas": {
+      "user": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "uuid": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "tags": []
+}

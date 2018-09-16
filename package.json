@@ -1,13 +1,14 @@
 {
   "name": "swagger-jsdoc",
-  "version": "1.9.7",
+  "version": "3.0.3",
   "description": "Generates swagger doc based on JSDoc",
   "main": "index.js",
   "scripts": {
-    "coverage": "istanbul cover _mocha --report html && istanbul check-coverage --statement 95",
-    "jsdoc": "jsdoc --configure .jsdocconf",
-    "start": "node example/app.js",
-    "test": "./node_modules/.bin/mocha"
+    "precommit": "lint-staged",
+    "test:lint": "eslint .",
+    "test:js": "mocha --timeout 10000 --exit",
+    "start": "node example/v2/app.js",
+    "test": "run-p test:* -cn"
   },
   "bin": {
     "swagger-jsdoc": "./bin/swagger-jsdoc.js"
@@ -30,23 +31,40 @@
   },
   "homepage": "https://github.com/Surnet/swagger-jsdoc",
   "dependencies": {
-    "chokidar": "^2.0.3",
-    "commander": "^2.11.0",
-    "doctrine": "^2.0.0",
-    "glob": "^7.1.2",
-    "js-yaml": "^3.8.4",
-    "recursive-iterator": "^2.0.3",
-    "swagger-parser": "^3.4.1"
+    "commander": "2.17.1",
+    "doctrine": "2.1.0",
+    "glob": "7.1.3",
+    "js-yaml": "3.12.0",
+    "recursive-iterator": "3.3.0",
+    "swagger-parser": "5.0.5"
   },
   "devDependencies": {
-    "body-parser": "^1.17.2",
-    "chai": "^4.0.2",
-    "express": "^4.15.3",
-    "istanbul": "^0.4.5",
-    "jscs": "^3.0.7",
-    "mocha": "^3.4.2",
-    "mocha-jscs": "^5.0.1",
-    "mocha-jshint": "^2.3.1",
-    "supertest": "^3.0.0"
+    "body-parser": "1.18.3",
+    "chai": "4.1.2",
+    "chai-jest-snapshot": "2.0.0",
+    "eslint": "5.5.0",
+    "eslint-config-airbnb-base": "13.1.0",
+    "eslint-config-prettier": "3.0.1",
+    "eslint-loader": "2.1.0",
+    "eslint-plugin-import": "2.14.0",
+    "eslint-plugin-prettier": "2.6.2",
+    "express": "4.16.3",
+    "husky": "1.0.0-rc.13",
+    "lint-staged": "7.2.2",
+    "mocha": "5.2.0",
+    "npm-run-all": "4.1.3",
+    "prettier": "1.14.2",
+    "supertest": "3.1.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,json,md}": [
+      "prettier --write",
+      "git add"
+    ]
   }
 }

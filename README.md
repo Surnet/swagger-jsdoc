@@ -5,28 +5,29 @@ documentation, servers, clients, tests and much more based on the rich [OpenAPI 
 
 [![npm Version](https://img.shields.io/npm/v/swagger-jsdoc.svg)](https://www.npmjs.com/package/swagger-jsdoc)
 [![npm Downloads](https://img.shields.io/npm/dm/swagger-jsdoc.svg)](https://www.npmjs.com/package/swagger-jsdoc)
-
 [![Circle CI](https://img.shields.io/circleci/project/Surnet/swagger-jsdoc/master.svg)](https://circleci.com/gh/Surnet/swagger-jsdoc)
-[![Documentation Status](http://inch-ci.org/github/Surnet/swagger-jsdoc.svg?branch=master&style=flat)](http://inch-ci.org/github/Surnet/swagger-jsdoc)
-[![Known Vulnerabilities](https://snyk.io/test/npm/swagger-jsdoc/badge.svg)](https://snyk.io/test/npm/swagger-jsdoc)
+[![Known Vulnerabilities](https://snyk.io/test/github/Surnet/swagger-jsdoc/badge.svg?targetFile=package.json)](https://snyk.io/test/github/Surnet/swagger-jsdoc?targetFile=package.json)
 
 ## Goals
 
 **swagger-jsdoc** enables you to integrate [Swagger](http://swagger.io)
 using [`JSDoc`](http://usejsdoc.org/) comments in your code. Just add `@swagger` on top of your DocBlock and declare the meaning of your code in `yaml` complying to the OpenAPI specification.
 
-`swagger-jsdoc` will parse your documentation from
-your actual living code and output an OpenAPI specification to integrate any server and client
-technology as long as both sides comply with the specification.
+`swagger-jsdoc` will parse your documentation from your actual living code and output an OpenAPI specification to integrate any server and client technology as long as both sides comply with the specification.
 
-Thus, the `swagger-jsdoc` project assumes that you want document your existing working code in a way to "give life" to it, generating a specification which can then be feeded into other Swagger tools, and not the vice-versa.
+Thus, the `swagger-jsdoc` project assumes that you want document your existing working code in a way to "give life" to it, generating a specification which can then be fed into other Swagger tools, and not the vice-versa.
 
 If you prefer to write the OpenAPI specification first and separately, you might check other projects facilitating this, such as
--  [swagger-editor](http://swagger.io/swagger-editor/)
+
+- [swagger-editor](http://swagger.io/swagger-editor/)
 - [swagger-node](https://github.com/swagger-api/swagger-node)
 
 ## Supported versions
-* [OpenAPI 2.0](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md) (previously known as Swagger)
+
+- OpenAPI 3.x
+- Swagger 2.0
+
+You can find the corresponding documentation in the [official repository of the specification](https://github.com/OAI/OpenAPI-Specification).
 
 ## Install
 
@@ -60,10 +61,9 @@ $ npm start
 
 The swagger spec will be served at http://localhost:3000/api-docs.json
 
-
 ### CLI
 
-You can also use the tool via [command line interface](./docs/CLI.md). It supports selecting multiple files, recursive subdirectories and watch task for continuous listening of changes in your code.
+You can also use the tool via [command line interface](./docs/CLI.md).
 
 ### Contributing
 
@@ -71,5 +71,3 @@ You can also use the tool via [command line interface](./docs/CLI.md). It suppor
 - Branch for each separate feature
 - Write detailed commit messages, comment unclear code blocks and update unit tests
 - Push to your own repository and create a new PR to merge back into this repository
-
-Note: If there are additions to the swagger definition object ensure that the output object keys comply with the swagger specification.  If there are keys that do not comply add them to the `excludedSwaggerProperties` list in `lib/swagger-helpers.js`.
