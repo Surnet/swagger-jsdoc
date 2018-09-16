@@ -31,7 +31,7 @@ At this time you can do with the `swaggerSpec` whatever you want.
 The simplest way would be serving it straight to the outside world:
 
 ```javascript
-app.get('/api-docs.json', function(req, res) {
+app.get('/api-docs.json', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   res.send(swaggerSpec);
 });
@@ -46,6 +46,7 @@ The API can be documented in JSDoc-style with swagger spec in YAML.
 ```javascript
 /**
  * @swagger
+ *
  * /login:
  *   post:
  *     description: Login to the application
@@ -66,21 +67,21 @@ The API can be documented in JSDoc-style with swagger spec in YAML.
  *       200:
  *         description: login
  */
-app.post('/login', function(req, res) {
-  res.json(req.body);
+app.post('/login', (req, res) => {
+  // Your implementation comes here ...
 });
 ```
 
 ### Re-using Model Definitions
 
-A model may be the same for multiple endpoints (Ex. User POST,PUT responses).
+A model may be the same for multiple endpoints: `POST`, `PUT` responses, etc.
 
-In place of writing (or copy and pasting) the same code into multiple locations, which can be error prone when adding a new field to the schema. You can define a model and re-use it across multiple endpoints. You can also reference another
-model and add fields.
+Duplicating parts of your code into multiple locations is error prone and requires more attention when maintaining your code base. To solve these, you can define a model and re-use it across multiple endpoints. You can also reference another model and add fields.
 
 ```javascript
 /**
  * @swagger
+ *
  * definitions:
  *   NewUser:
  *     type: object
@@ -119,21 +120,13 @@ model and add fields.
  *           items:
  *             $ref: '#/definitions/User'
  */
-app.get('/users', function(req, res) {
-  res.json([
-    {
-      id: 1,
-      username: 'jsmith',
-    },
-    {
-      id: 2,
-      username: 'jdoe',
-    },
-  ]);
+app.get('/users', (req, res) => {
+  // Your implementation logic comes here ...
 });
 
 /**
  * @swagger
+ *
  * /users:
  *   post:
  *     description: Creates a user
@@ -153,27 +146,9 @@ app.get('/users', function(req, res) {
  *         schema:
  *           $ref: '#/definitions/User'
  */
-app.post('/users', function(req, res) {
-  // Generate ID
-  req.body.id = Math.floor(Math.random() * 100) * 1;
-  res.json(req.body);
+app.post('/users', (req, res) => {
+  // Your implementation logic comes here ...
 });
 ```
 
-Keep in mind that since v3 of the specification, you can use [components](https://swagger.io/docs/specification/components/) in order to definite and reuse resources.
-
-### Load external definitions
-
-You can load external definitions or paths after `swaggerJSDoc()` function.
-
-```javascript
-// Initialize swagger-jsdoc -> returns validated swagger spec in json format
-var swaggerSpec = swaggerJSDoc(options);
-// load external schema json
-swaggerSpec.definitions.in_login = require("config/schemajson/in.login.schema.json");
-swaggerSpec.definitions.out_login = require("config/schemajson/out.login.schema.json");
-// or set manual paths
-swaggerSpec.paths["api/v1/cool"] = {"get" : { ... } }
-```
-
-If you need more examples, feel free to browse the repository and its tests and examples.
+Keep in mind that since v3 of the specification, you can use [components](https://swagger.io/docs/specification/components/) in order to define and reuse resources.

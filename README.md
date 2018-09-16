@@ -13,9 +13,9 @@ documentation, servers, clients, tests and much more based on the rich [OpenAPI 
 **swagger-jsdoc** enables you to integrate [Swagger](http://swagger.io)
 using [`JSDoc`](http://usejsdoc.org/) comments in your code. Just add `@swagger` on top of your DocBlock and declare the meaning of your code in YAML complying to the OpenAPI specification. If you prefer to keep some parts of your specification aside your code in order to keep it lighter/cleaner, you can also pass these parts as separate input YAML files.
 
-`swagger-jsdoc` will parse the above mentioned and output an OpenAPI specification. You can use it to integrate any server and client technology as long as both sides comply with the specification.
+`swagger-jsdoc` will parse the above-mentioned and output an OpenAPI specification. You can use it to integrate any server and client technology as long as both sides comply with the specification.
 
-Thus, the `swagger-jsdoc` project assumes that you want document your existing living (working) code in a way to "give life" to it, generating a specification which can then be fed into other Swagger tools, and not the vice-versa.
+Thus, the `swagger-jsdoc` project assumes that you want document your existing/living/working code in a way to "give life" to it, generating a specification which can then be fed into other Swagger tools, and not the vice-versa.
 
 If you prefer to write the OpenAPI specification first and separately, you might check other projects facilitating this, such as
 
@@ -63,7 +63,7 @@ On top of the Node API, there is also a [command line interface](./docs/CLI.md).
 
 ### Reporting issues
 
-Before submitting new issues, please make sure you first search for existing such in order to make sure the topic you would like to enquire or report haven't been discussed already.
+Before submitting new issues, please make sure you first search for existing such. It is quite possible that the topic you would like to bring up has been discussed already.
 
 In case of an issue which hasn't been considered yet, please include as much information as possible about the issue. This will help maintainers and other users relate to your problem at hand.
 
