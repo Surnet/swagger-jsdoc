@@ -11,11 +11,11 @@ documentation, servers, clients, tests and much more based on the rich [OpenAPI 
 ## Goals
 
 **swagger-jsdoc** enables you to integrate [Swagger](http://swagger.io)
-using [`JSDoc`](http://usejsdoc.org/) comments in your code. Just add `@swagger` on top of your DocBlock and declare the meaning of your code in `yaml` complying to the OpenAPI specification.
+using [`JSDoc`](http://usejsdoc.org/) comments in your code. Just add `@swagger` on top of your DocBlock and declare the meaning of your code in YAML complying to the OpenAPI specification. If you prefer to keep some parts of your specification aside your code in order to keep it lighter/cleaner, you can also pass these parts as separate input YAML files.
 
-`swagger-jsdoc` will parse your documentation from your actual living code and output an OpenAPI specification to integrate any server and client technology as long as both sides comply with the specification.
+`swagger-jsdoc` will parse the above mentioned and output an OpenAPI specification. You can use it to integrate any server and client technology as long as both sides comply with the specification.
 
-Thus, the `swagger-jsdoc` project assumes that you want document your existing working code in a way to "give life" to it, generating a specification which can then be fed into other Swagger tools, and not the vice-versa.
+Thus, the `swagger-jsdoc` project assumes that you want document your existing living (working) code in a way to "give life" to it, generating a specification which can then be fed into other Swagger tools, and not the vice-versa.
 
 If you prefer to write the OpenAPI specification first and separately, you might check other projects facilitating this, such as
 
@@ -27,9 +27,9 @@ If you prefer to write the OpenAPI specification first and separately, you might
 - OpenAPI 3.x
 - Swagger 2.0
 
-You can find the corresponding documentation in the [official repository of the specification](https://github.com/OAI/OpenAPI-Specification).
+To make sure your end specification is valid, do read the most up-to date official [OpenAPI specification](https://github.com/OAI/OpenAPI-Specification).
 
-## Install
+## Installation
 
 ```bash
 $ npm install swagger-jsdoc --save
@@ -47,27 +47,39 @@ $ yarn add swagger-jsdoc
 
 Note that `swagger-jsdoc` uses [node glob](https://github.com/isaacs/node-glob) module in the background when taking your files. This means that you can use patterns such as `*.js` to select all javascript files or `**/*.js` to select all javascript files in sub-folders recursively.
 
-### Example app
+Paths provided are relative to the current directory from which you execute the program.
 
-There is an example app in the example subdirectory.
-To use it you can use the following commands:
+### Examples
 
-```bash
-$ git clone https://github.com/Surnet/swagger-jsdoc.git
-$ cd swagger-jsdoc
-$ npm install
-$ npm start
-```
+There are plenty of examples you can use to start off:
 
-The swagger spec will be served at http://localhost:3000/api-docs.json
+- `example`: contains an example app with version 2 of the specification. It will give you an idea how to annotate your comments in order to include them in the output specification.
+- `test/cli`: CLI tests you can read to get ideas about the available functionalities of the CLI. (apart from the obvious help menu)
+- `test/example`: various assets for tests you can also re-use for starting definitions, routes, etc.
 
 ### CLI
 
-You can also use the tool via [command line interface](./docs/CLI.md).
+On top of the Node API, there is also a [command line interface](./docs/CLI.md).
+
+### Reporting issues
+
+Before submitting new issues, please make sure you first search for existing such in order to make sure the topic you would like to enquire or report haven't been discussed already.
+
+In case of an issue which hasn't been considered yet, please include as much information as possible about the issue. This will help maintainers and other users relate to your problem at hand.
+
+For instance:
+
+- Describe what you were doing when the issue appeared.
+- Add a set of steps to reproduce your issue.
+- Include screenshots.
+- Give examples on expected vs actual behavior.
 
 ### Contributing
 
-- Fork this project and clone locally
-- Branch for each separate feature
-- Write detailed commit messages, comment unclear code blocks and update unit tests
-- Push to your own repository and create a new PR to merge back into this repository
+- Fork the project and clone it locally.
+- Create branches for each separate topic. Any standard you are used to follow for [semantic commit messages](https://gist.github.com/joshbuchea/6f47e86d2510bce28f8e7f42ae84c716) will be highly appreciated.
+- Comment your code as if you are going to maintain it in the future.
+- Use the rich set of unit tests as an example and add your unit tests as well. This will not only enable you to programatically reproduce your fix faster than setting up an application, but it will also make you super cool! :)
+- Push to your changes to the origin of your repository and create a new pull request towards the upstream master.
+
+Thank you!
