@@ -21,22 +21,20 @@
     "/login": {
       "post": {
         "description": "Login to the application",
-        "tags": [
-          "Users",
-          "Login"
+        "tags": ["Users", "Login"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "$ref": "#/parameters/username"
+          },
+          {
+            "name": "password",
+            "description": "User's password.",
+            "in": "formData",
+            "required": true,
+            "type": "string"
+          }
         ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [{
-          "$ref": "#/parameters/username"
-        }, {
-          "name": "password",
-          "description": "User's password.",
-          "in": "formData",
-          "required": true,
-          "type": "string"
-        }],
         "responses": {
           "200": {
             "description": "login",
@@ -51,12 +49,8 @@
     "/users": {
       "get": {
         "description": "Returns users",
-        "tags": [
-          "Users"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "tags": ["Users"],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "users"
@@ -65,15 +59,13 @@
       },
       "post": {
         "description": "Returns users",
-        "tags": [
-          "Users"
+        "tags": ["Users"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "$ref": "#/parameters/username"
+          }
         ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [{
-          "$ref": "#/parameters/username"
-        }],
         "responses": {
           "200": {
             "description": "users"
@@ -94,10 +86,7 @@
   },
   "definitions": {
     "Login": {
-      "required": [
-        "username",
-        "password"
-      ],
+      "required": ["username", "password"],
       "properties": {
         "username": {
           "type": "string"
@@ -122,14 +111,18 @@
     }
   },
   "securityDefinitions": {},
-  "tags": [{
-    "name": "Users",
-    "description": "User management and login"
-  }, {
-    "name": "Login",
-    "description": "Login"
-  }, {
-    "name": "Accounts",
-    "description": "Accounts"
-  }]
+  "tags": [
+    {
+      "name": "Users",
+      "description": "User management and login"
+    },
+    {
+      "name": "Login",
+      "description": "Login"
+    },
+    {
+      "name": "Accounts",
+      "description": "Accounts"
+    }
+  ]
 }

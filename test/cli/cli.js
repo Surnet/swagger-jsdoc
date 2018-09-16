@@ -174,6 +174,77 @@ describe('command line interface', () => {
     });
   });
 
+  it('should allow a JavaScript definition file', done => {
+    const goodInput = `${
+      process.env.PWD
+    }/bin/swagger-jsdoc.js -d test/fixtures/v2/api_definition.js`;
+    exec(goodInput, (error, stdout, stderr) => {
+      if (error) {
+        throw new Error(error, stderr);
+      }
+      expect(stdout).to.contain('Swagger specification is ready.');
+      done();
+    });
+  });
+
+  it('should allow a JSON definition file', done => {
+    const goodInput = `${
+      process.env.PWD
+    }/bin/swagger-jsdoc.js -d test/fixtures/api_definition.json`;
+    exec(goodInput, (error, stdout, stderr) => {
+      if (error) {
+        throw new Error(error, stderr);
+      }
+      expect(stdout).to.contain('Swagger specification is ready.');
+      done();
+    });
+  });
+
+  it('should reject definition file with invalid JSON syntax', done => {
+    const goodInput = `${
+      process.env.PWD
+    }/bin/swagger-jsdoc.js -d test/fixtures/wrong_syntax.json`;
+    exec(goodInput, (error, stdout) => {
+      expect(stdout).to.contain('Unexpected token t in JSON');
+      done();
+    });
+  });
+
+  it('should allow a YAML definition file', done => {
+    const goodInput = `${
+      process.env.PWD
+    }/bin/swagger-jsdoc.js -d test/fixtures/api_definition.yaml`;
+    exec(goodInput, (error, stdout, stderr) => {
+      if (error) {
+        throw new Error(error, stderr);
+      }
+      expect(stdout).to.contain('Swagger specification is ready.');
+      done();
+    });
+  });
+
+  it('should reject definition file with invalid YAML syntax', done => {
+    const goodInput = `${
+      process.env.PWD
+    }/bin/swagger-jsdoc.js -d test/fixtures/wrong_syntax.yaml`;
+    exec(goodInput, (error, stdout) => {
+      expect(stdout).to.contain('tag suffix cannot contain exclamation marks');
+      done();
+    });
+  });
+
+  it('should reject definition file with non-JSON compatible YAML syntax', done => {
+    const goodInput = `${
+      process.env.PWD
+    }/bin/swagger-jsdoc.js -d test/fixtures/non_json_compatible.yaml`;
+    exec(goodInput, (error, stdout) => {
+      expect(stdout).to.contain(
+        'unknown tag !<tag:yaml.org,2002:js/undefined>'
+      );
+      done();
+    });
+  });
+
   // Cleanup test files if any.
   after(() => {
     const defaultSpecification = `${process.env.PWD}/swagger.json`;

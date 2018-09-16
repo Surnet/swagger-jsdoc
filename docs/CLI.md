@@ -19,7 +19,7 @@ Swagger-jsdoc will read the `apis` array in your definition file by default for 
 $ swagger-jsdoc -d swaggerDef.js -o doc.json
 ```
 
-This could be any .js or .json file which will be `require()`-ed and parsed/validated as JSON.
+This could be any .js, .json, .yml or .yaml file.
 
 #### Specify input files (optional)
 

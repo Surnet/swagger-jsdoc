@@ -1,21 +1,21 @@
 {
-  "info":{
-    "title":"Hello World",
-    "version":"1.0.0",
-    "description":"A sample API"
+  "info": {
+    "title": "Hello World",
+    "version": "1.0.0",
+    "description": "A sample API"
   },
-  "host":"localhost:3000",
-  "basePath":"/",
-  "swagger":"2.0",
-  "schemes":[],
-  "consumes":[],
-  "produces":[],
-  "paths":{},
-  "definitions":{},
-  "responses":{},
-  "parameters":{},
-  "securityDefinitions":{},
-  "security":{},
-  "tags":[],
+  "host": "localhost:3000",
+  "basePath": "/",
+  "swagger": "2.0",
+  "schemes": [],
+  "consumes": [],
+  "produces": [],
+  "paths": {},
+  "definitions": {},
+  "responses": {},
+  "parameters": {},
+  "securityDefinitions": {},
+  "security": {},
+  "tags": [],
   "externalDocs": {}
 }

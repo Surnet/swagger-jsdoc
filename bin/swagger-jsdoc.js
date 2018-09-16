@@ -52,6 +52,43 @@ function createSpecification(swaggerDefinition, apis, fileName) {
   });
 }
 
+function loadJsSpecification(data, resolvedPath) {
+  // eslint-disable-next-line
+  return require(resolvedPath);
+}
+
+const YAML_OPTS = {
+  // OpenAPI spec mandates JSON-compatible YAML
+  schema: jsYaml.JSON_SCHEMA,
+};
+
+function loadYamlSpecification(data) {
+  return jsYaml.load(data, YAML_OPTS);
+}
+
+const LOADERS = {
+  '.js': loadJsSpecification,
+  '.json': JSON.parse,
+  '.yml': loadYamlSpecification,
+  '.yaml': loadYamlSpecification,
+};
+
+// Get an object of the definition file configuration.
+function loadSpecification(defPath, data) {
+  const resolvedPath = path.resolve(defPath);
+
+  const extName = path.extname(resolvedPath);
+  const loader = LOADERS[extName];
+
+  // Check whether the definition file is actually a usable file
+  if (loader === undefined) {
+    throw new Error('Definition file should be .js, .json, .yml or .yaml');
+  }
+
+  const swaggerDefinition = loader(data, resolvedPath);
+  return swaggerDefinition;
+}
+
 program
   .version(pkg.version)
   .usage('[options] <path ...>')
@@ -85,18 +122,16 @@ fs.readFile(program.definition, 'utf-8', (err, data) => {
     return console.log('Definition file provided is not good.');
   }
 
-  // Check whether the definition file is actually a usable .js file
-  if (
-    path.extname(program.definition) !== '.js' &&
-    path.extname(program.definition) !== '.json'
-  ) {
-    console.log('Format as a module, it will be imported with require().');
-    return console.log('Definition file should be .js or .json');
-  }
+  let swaggerDefinition;
 
-  // Get an object of the definition file configuration.
-  // eslint-disable-next-line
-  const swaggerDefinition = require(path.resolve(program.definition));
+  try {
+    swaggerDefinition = loadSpecification(program.definition, data);
+  } catch (error) {
+    const message = `Error while loading definition file '${
+      program.definition
+    }':\n${error.message}`;
+    return console.log(message);
+  }
 
   // Check for info object in the definition.
   if (!('info' in swaggerDefinition)) {
