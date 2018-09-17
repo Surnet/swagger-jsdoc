@@ -245,12 +245,22 @@ describe('command line interface', () => {
     });
   });
 
-  it('should reject bad YAML identation with feedback', done => {
+  it('should reject bad YAML identation with feedback: upper line', done => {
     const input = `${
       process.env.PWD
-    }/bin/swagger-jsdoc.js -d example/v2/swaggerDef.js test/fixtures/wrong-yaml-identation.js`;
+    }/bin/swagger-jsdoc.js -d example/v2/swaggerDef.js test/fixtures/wrong-yaml-identation1.js`;
     exec(input, (error, stdout, stderr) => {
-      expect(stderr).to.contain('YOUR ERROR IS HERE');
+      expect(stderr).to.contain('Pay attention at this place');
+      done();
+    });
+  });
+
+  it('should reject bad YAML identation with feedback: same line', done => {
+    const input = `${
+      process.env.PWD
+    }/bin/swagger-jsdoc.js -d example/v2/swaggerDef.js test/fixtures/wrong-yaml-identation2.js`;
+    exec(input, (error, stdout, stderr) => {
+      expect(stderr).to.contain('Pay attention at this place');
       done();
     });
   });
