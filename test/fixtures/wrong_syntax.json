@@ -1,6 +1,6 @@
 {
   "info": {
-    "title": "Hello World",
+    title: "Hello World",
     "version": "1.0.0",
     "description": "A sample API"
   },
