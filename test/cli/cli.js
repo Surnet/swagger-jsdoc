@@ -200,16 +200,6 @@ describe('command line interface', () => {
     });
   });
 
-  it('should reject definition file with invalid JSON syntax', done => {
-    const goodInput = `${
-      process.env.PWD
-    }/bin/swagger-jsdoc.js -d test/fixtures/wrong_syntax.json`;
-    exec(goodInput, (error, stdout) => {
-      expect(stdout).to.contain('Unexpected token t in JSON');
-      done();
-    });
-  });
-
   it('should allow a YAML definition file', done => {
     const goodInput = `${
       process.env.PWD
@@ -241,6 +231,36 @@ describe('command line interface', () => {
       expect(stdout).to.contain(
         'unknown tag !<tag:yaml.org,2002:js/undefined>'
       );
+      done();
+    });
+  });
+
+  it('should reject definition file with invalid JSON syntax', done => {
+    const input = `${
+      process.env.PWD
+    }/bin/swagger-jsdoc.js -d test/fixtures/wrong_syntax.json`;
+    exec(input, (error, stdout) => {
+      expect(stdout).to.contain('Unexpected token t in JSON');
+      done();
+    });
+  });
+
+  it('should reject bad YAML identation with feedback: upper line', done => {
+    const input = `${
+      process.env.PWD
+    }/bin/swagger-jsdoc.js -d example/v2/swaggerDef.js test/fixtures/wrong-yaml-identation1.js`;
+    exec(input, (error, stdout, stderr) => {
+      expect(stderr).to.contain('Pay attention at this place');
+      done();
+    });
+  });
+
+  it('should reject bad YAML identation with feedback: same line', done => {
+    const input = `${
+      process.env.PWD
+    }/bin/swagger-jsdoc.js -d example/v2/swaggerDef.js test/fixtures/wrong-yaml-identation2.js`;
+    exec(input, (error, stdout, stderr) => {
+      expect(stderr).to.contain('Pay attention at this place');
       done();
     });
   });
