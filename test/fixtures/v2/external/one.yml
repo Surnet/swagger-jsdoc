@@ -1,0 +1,5 @@
+responses:
+  api:
+    foo:
+      200:
+        description: OK
