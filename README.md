@@ -41,6 +41,78 @@ Or using [`yarn`](https://yarnpkg.com/en/)
 $ yarn add swagger-jsdoc
 ```
 
+### Fundamental concepts
+
+Before you start writing your specification and/or documentation, please keep in mind that there are two fundamental concepts you need to wrap you head around when working with `swagger-jsdoc` - definition object and input APIs.
+
+Definition object maps to [OpenAPI object](https://swagger.io/specification/#oasObject). This is where you would add information about your API and any root-level properties. Definition object is required parameter.
+
+Input APIs are any files which you pass as arguemnts to the program in order to extract information about your API. For instance, these could be `.js` files with JSDoc comments or `.yaml` files directly. This parameter is also required.
+
+There are 2 ways by which you can pass these 2 required arguemnts:
+
+- Through `apis` property in your definition object
+- Through arguments (`program.args`) when using the CLI.
+
+For example, given the following module export for a definition object:
+
+```javascript
+// Taken from example/v2/swaggerDef.js
+
+module.exports = {
+  info: {
+    // API informations (required)
+    title: 'Hello World', // Title (required)
+    version: '1.0.0', // Version (required)
+    description: 'A sample API', // Description (optional)
+  },
+  host, // Host (optional)
+  basePath: '/', // Base path (optional)
+};
+```
+
+The only way you can make use of this definition is by using the CLI as following:
+
+```sh
+$ swagger-jsdoc.js -d example/v2/swaggerDef.js example/v2/route*.js
+```
+
+If you, however, want to skip the arguments and still use the CLI, you will need to update the definition object as following:
+
+```javascript
+// Taken from example/v2/swaggerDef.js
+
+module.exports = {
+  ...
+  apis: ['example/v2/route*.js']
+  basePath: '/', // Base path (optional)
+};
+```
+
+And then you will be able to use the CLI as following:
+
+```sh
+$ swagger-jsdoc.js -d example/v2/swaggerDef.js
+```
+
+Keep in mind that, this holds true for the CLI usage as it's flexible. When using the Node API in the following way:
+
+```javascript
+const swaggerJSDoc = require('swagger-jsdoc');
+
+const swaggerDefinition = {
+  ...
+  basePath: '/', // Base path (optional)
+};
+
+const options = {
+  swaggerDefinition,
+  apis: ['./example/v2/routes*.js'],
+};
+
+const swaggerSpec = swaggerJSDoc(options);
+```
+
 ### Quick Start
 
 [Get started](./docs/GETTING-STARTED.md) by documenting your code.
