@@ -11,6 +11,5 @@ module.exports = {
     description: 'A sample API', // Description (optional)
   },
   host, // Host (optional)
-  apis: ['example/v2/route*.js'],
   basePath: '/', // Base path (optional)
 };
