@@ -47,7 +47,7 @@ Before you start writing your specification and/or documentation, please keep in
 
 Definition object maps to [OpenAPI object](https://swagger.io/specification/#oasObject). This is where you would add information about your API and any root-level properties. Definition object is a required parameter.
 
-Input APIs are any files which you pass as arguemnts to the program in order to extract information about your API. For instance, these could be `.js` files with JSDoc comments or `.yaml` files directly. This parameter is also required.
+Input APIs are any files which you pass as arguments to the program in order to extract information about your API. For instance, these could be `.js` files with JSDoc comments or `.yaml` files directly. This parameter is also required.
 
 There are a few ways by which you can pass these 2 required arguments:
 
