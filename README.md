@@ -98,7 +98,7 @@ module.exports = {
 And then you will be able to use the CLI as following:
 
 ```sh
-$ swagger-jsdoc.js -d example/v2/swaggerDef.js
+$ swagger-jsdoc -d example/v2/swaggerDef.js
 ```
 
 When using the Node API, input APIs come in in the following way:
