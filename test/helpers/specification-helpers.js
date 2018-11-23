@@ -4,6 +4,7 @@
 // Dependencies.
 const chai = require('chai');
 const specHelper = require('../../lib/helpers/specification');
+const hasEmptyProperty = require('../../lib/helpers/hasEmptyProperty');
 
 const { expect } = chai;
 const swaggerObject = require('../fixtures/v2/swaggerObject.json');
@@ -75,6 +76,21 @@ describe('swagger-helpers submodule', () => {
 
     testObject = swagger(testObject);
     expect(testObject.responses.api).to.include.keys(['foo', 'bar']);
+    done();
+  });
+
+  it('hasEmptyProperty() identifies object with an empty object or array as property', done => {
+    const invalidA = { foo: {} };
+    const invalidB = { foo: [] };
+    const validA = { foo: { bar: 'baz' } };
+    const validB = { foo: ['¯_(ツ)_/¯'] };
+    const validC = { foo: '¯_(ツ)_/¯' };
+
+    expect(hasEmptyProperty(invalidA)).equal(true);
+    expect(hasEmptyProperty(invalidB)).equal(true);
+    expect(hasEmptyProperty(validA)).equal(false);
+    expect(hasEmptyProperty(validB)).equal(false);
+    expect(hasEmptyProperty(validC)).equal(false);
     done();
   });
 });
