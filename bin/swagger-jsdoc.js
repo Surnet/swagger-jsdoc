@@ -165,6 +165,7 @@ fs.readFile(program.definition, 'utf-8', (err, data) => {
     swaggerDefinition.apis instanceof Array
   ) {
     program.args = swaggerDefinition.apis;
+    delete swaggerDefinition.apis;
   }
 
   return createSpecification(swaggerDefinition, program.args, output);
