@@ -1,0 +1,6 @@
+components:
+  HelloWorld:
+    type: object
+    properties:
+      data:
+        type: string
