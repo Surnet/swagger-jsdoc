@@ -80,7 +80,7 @@ module.exports = {
 One way you can make use of this definition is by using the CLI as following:
 
 ```sh
-$ swagger-jsdoc.js -d example/v2/swaggerDef.js example/v2/route*.js
+$ swagger-jsdoc -d example/v2/swaggerDef.js example/v2/route*.js
 ```
 
 If you, however, want to skip the arguments and still use the CLI, you will need to update the definition object as following:
