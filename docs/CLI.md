@@ -38,3 +38,11 @@ $ swagger-jsdoc -o custom_specification.json
 ```
 
 `swagger.json` by default. Output specification can accept also a `.yaml` or `.yml`. This generated OpenAPI specification can then be further tweaked with [`swagger-editor`](http://swagger.io/swagger-editor/) or similar.
+
+#### Resolve references (optional)
+
+```
+$ swagger-jsdoc --resolveReferences
+```
+
+When specified, it will attempt to resolve any `$ref`s in the output. That means content from defined source will be copied into the reference. This is useful if the code consuming the output file doesn't properly understand `$ref`s.

@@ -116,7 +116,7 @@ const options = {
   apis: ['./example/v2/routes*.js'], // <-- not in the definition, but in the options
 };
 
-const swaggerSpec = swaggerJSDoc(options);
+const swaggerSpec = await swaggerJSDoc(options);
 ```
 
 ### Quick Start

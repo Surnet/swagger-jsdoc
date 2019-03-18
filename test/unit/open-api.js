@@ -16,7 +16,7 @@ beforeEach(function() {
 });
 
 describe('OpenAPI specification compatiblity', () => {
-  it('The new openapi property is respected', done => {
+  it('The new openapi property is respected', async () => {
     // eslint-disable-next-line
     const swaggerJsdoc = require('../../lib');
 
@@ -52,8 +52,7 @@ describe('OpenAPI specification compatiblity', () => {
       apis: [],
     };
 
-    const specification = swaggerJsdoc(options);
+    const specification = await swaggerJsdoc(options);
     expect(specification).to.matchSnapshot();
-    done();
   });
 });

@@ -22,7 +22,7 @@ const tests = ['api-with-examples', 'callback', 'links', 'petstore'];
 
 describe('OpenAPI examples', () => {
   tests.forEach(test => {
-    it(`Example: ${test}`, done => {
+    it(`Example: ${test}`, async () => {
       const title = `Sample specification testing ${test}`;
 
       // eslint-disable-next-line
@@ -43,10 +43,36 @@ describe('OpenAPI examples', () => {
         apis: [`./test/example/v3/${test}/api.js`],
       };
 
-      const specification = swaggerJsdoc(options);
+      const specification = await swaggerJsdoc(options);
       expect(specification).to.matchSnapshot();
       expect(specification).to.eql(referenceSpecification);
-      done();
+    });
+
+    it(`Example: ${test} --resolveReferences`, async () => {
+      const title = `Sample specification testing ${test}`;
+
+      // eslint-disable-next-line
+      const referenceSpecification = require(path.resolve(
+        `${__dirname}/${test}/openapi.json`
+      ));
+
+      const definition = {
+        openapi: '3.0.0',
+        info: {
+          version: '1.0.0',
+          title,
+        },
+      };
+
+      const options = {
+        definition,
+        apis: [`./test/example/v3/${test}/api.js`],
+        resolveReferences: true,
+      };
+
+      const specification = await swaggerJsdoc(options);
+      const json = JSON.stringify(specification, null, 2);
+      expect(json).to.not.contain('$ref');
     });
   });
 });

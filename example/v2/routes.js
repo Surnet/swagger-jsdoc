@@ -34,6 +34,17 @@ module.exports.setup = function(app) {
 
   /**
    * @swagger
+   *  parameters:
+   *    username:
+   *      name: username
+   *      description: Username to use for login
+   *      in: formData
+   *      required: true
+   *      type: string
+   */
+
+  /**
+   * @swagger
    * tags:
    *   name: Users
    *   description: User management and login

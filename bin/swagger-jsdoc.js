@@ -21,27 +21,36 @@ let output = 'swagger.json';
  * @param {object} swaggerDefinition - The swagger definition object.
  * @param {array} apis - List of files to extract documentation from.
  * @param {string} fileName - Name the output file.
+ * @param {boolean} resolveReferences - True if $refs should be dereferenced
  */
-function createSpecification(swaggerDefinition, apis, fileName) {
+async function createSpecification(
+  swaggerDefinition,
+  apis,
+  fileName,
+  resolveReferences
+) {
   // Options for the swagger docs
   const options = {
     // Import swaggerDefinitions
     swaggerDefinition,
     // Path to the API docs
     apis,
+    // if references should be resolved
+    resolveReferences,
   };
 
   // Initialize swagger-jsdoc -> returns validated JSON or YAML swagger spec
   let swaggerSpec;
   const ext = path.extname(fileName);
+  const doc = await swaggerJSDoc(options);
 
   if (ext === '.yml' || ext === '.yaml') {
-    swaggerSpec = jsYaml.dump(swaggerJSDoc(options), {
+    swaggerSpec = jsYaml.dump(doc, {
       schema: jsYaml.JSON_SCHEMA,
       noRefs: true,
     });
   } else {
-    swaggerSpec = JSON.stringify(swaggerJSDoc(options), null, 2);
+    swaggerSpec = JSON.stringify(doc, null, 2);
   }
 
   fs.writeFile(fileName, swaggerSpec, err => {
@@ -94,6 +103,7 @@ program
   .usage('[options] <path ...>')
   .option('-d, --definition <swaggerDef.js>', 'Input swagger definition.')
   .option('-o, --output [swaggerSpec.json]', 'Output swagger specification.')
+  .option('-r, --resolveReferences', 'Resolve references')
   .parse(process.argv);
 
 // If no arguments provided, display help menu.
@@ -168,5 +178,10 @@ fs.readFile(program.definition, 'utf-8', (err, data) => {
     delete swaggerDefinition.apis;
   }
 
-  return createSpecification(swaggerDefinition, program.args, output);
+  return createSpecification(
+    swaggerDefinition,
+    program.args,
+    output,
+    program.resolveReferences
+  );
 });

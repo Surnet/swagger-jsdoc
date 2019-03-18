@@ -103,6 +103,31 @@ describe('command line interface', () => {
       const specification = fs.statSync('swagger.json');
       // Check that the physical file was created.
       expect(specification.nlink).to.be.above(0);
+
+      const contents = fs.readFileSync('swagger.json', 'utf-8');
+      expect(contents).to.contain('$ref');
+      done();
+    });
+  });
+
+  it('should resolve references when specified', done => {
+    const goodInput = `${
+      process.env.PWD
+    }/bin/swagger-jsdoc.js --resolveReferences -d example/v2/swaggerDef.js example/v2/routes.js`;
+    exec(goodInput, (error, stdout, stderr) => {
+      if (error) {
+        throw new Error(error, stderr);
+      }
+      expect(stdout).to.contain('Swagger specification is ready.');
+      expect(stderr).to.not.contain(
+        'You are using properties to be deprecated'
+      );
+      const specification = fs.statSync('swagger.json');
+      // Check that the physical file was created.
+      expect(specification.nlink).to.be.above(0);
+
+      const contents = fs.readFileSync('swagger.json', 'utf-8');
+      expect(contents).not.to.contain('$ref');
       done();
     });
   });

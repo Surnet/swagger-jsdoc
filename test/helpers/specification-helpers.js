@@ -65,7 +65,7 @@ describe('swagger-helpers submodule', () => {
     done();
   });
 
-  it('paths should not override each other', done => {
+  it('paths should not override each other', async () => {
     // eslint-disable-next-line
     const swagger = require('../../lib');
 
@@ -74,9 +74,8 @@ describe('swagger-helpers submodule', () => {
       apis: ['./**/*/external/*.yml'],
     };
 
-    testObject = swagger(testObject);
+    testObject = await swagger(testObject);
     expect(testObject.responses.api).to.include.keys(['foo', 'bar']);
-    done();
   });
 
   it('hasEmptyProperty() identifies object with an empty object or array as property', done => {

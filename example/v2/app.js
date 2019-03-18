@@ -43,25 +43,28 @@ const options = {
 };
 
 // Initialize swagger-jsdoc -> returns validated swagger spec in json format
-const swaggerSpec = swaggerJSDoc(options);
+swaggerJSDoc(options).then(swaggerSpec => {
+  // Serve swagger docs the way you like (Recommendation: swagger-tools)
+  app.get('/api-docs.json', (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+    res.send(swaggerSpec);
+  });
 
-// Serve swagger docs the way you like (Recommendation: swagger-tools)
-app.get('/api-docs.json', (req, res) => {
-  res.setHeader('Content-Type', 'application/json');
-  res.send(swaggerSpec);
+  // Set up the routes
+  routes.setup(app);
+  routes2.setup(app);
+
+  // Expose app
+  module.exports = app;
+
+  // Start the server
+  const server = app.listen(PORT, () => {
+    const host = server.address().address;
+    const { port } = server.address();
+
+    console.log('Example app listening at http://%s:%s', host, port);
+  });
 });
-
-// Set up the routes
-routes.setup(app);
-routes2.setup(app);
 
 // Expose app
 module.exports = app;
-
-// Start the server
-const server = app.listen(PORT, () => {
-  const host = server.address().address;
-  const { port } = server.address();
-
-  console.log('Example app listening at http://%s:%s', host, port);
-});
