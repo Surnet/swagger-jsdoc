@@ -34,7 +34,7 @@
     "commander": "2.17.1",
     "doctrine": "2.1.0",
     "glob": "7.1.3",
-    "js-yaml": "3.13.0",
+    "js-yaml": "3.13.1",
     "swagger-parser": "5.0.5"
   },
   "devDependencies": {
