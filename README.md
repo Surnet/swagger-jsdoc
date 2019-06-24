@@ -11,7 +11,7 @@ documentation, servers, clients, tests and much more based on the rich [OpenAPI 
 ## Goals
 
 **swagger-jsdoc** enables you to integrate [Swagger](http://swagger.io)
-using [`JSDoc`](http://usejsdoc.org/) comments in your code. Just add `@swagger` on top of your DocBlock and declare the meaning of your code in YAML complying to the OpenAPI specification. If you prefer to keep some parts of your specification aside your code in order to keep it lighter/cleaner, you can also pass these parts as separate input YAML files.
+using [`JSDoc`](https://jsdoc.app/) comments in your code. Just add `@swagger` on top of your DocBlock and declare the meaning of your code in YAML complying to the OpenAPI specification. If you prefer to keep some parts of your specification aside your code in order to keep it lighter/cleaner, you can also pass these parts as separate input YAML files.
 
 `swagger-jsdoc` will parse the above-mentioned and output an OpenAPI specification. You can use it to integrate any server and client technology as long as both sides comply with the specification.
 
