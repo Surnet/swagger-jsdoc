@@ -127,9 +127,7 @@ fs.readFile(program.definition, 'utf-8', (err, data) => {
   try {
     swaggerDefinition = loadSpecification(program.definition, data);
   } catch (error) {
-    const message = `Error while loading definition file '${
-      program.definition
-    }':\n${error.message}`;
+    const message = `Error while loading definition file '${program.definition}':\n${error.message}`;
     return console.log(message);
   }
 
