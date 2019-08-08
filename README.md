@@ -22,6 +22,13 @@ If you prefer to write the OpenAPI specification first and separately, you might
 - [swagger-editor](http://swagger.io/swagger-editor/)
 - [swagger-node](https://github.com/swagger-api/swagger-node)
 
+### Webpack integration
+
+You can use this package with a webpack plugin to keep your swagger documentation up-to-date when building your app:
+
+- [swagger-jsdoc-webpack-plugin](https://github.com/patsimm/swagger-jsdoc-webpack-plugin) - Rebuild the swagger definition based on a predefined list of files on each webpack build.
+- [swagger-jsdoc-sync-webpack-plugin](https://github.com/gautier-lefebvre/swagger-jsdoc-sync-webpack-plugin) - Rebuild the swagger definition based on the files imported in your app on each webpack build.
+
 ## Supported versions
 
 - OpenAPI 3.x
