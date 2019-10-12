@@ -1,0 +1,104 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AsyncApi 1.0.0 examples Example: async-api-with-examples 1`] = `
+Object {
+  "asyncapi": "1.0.0",
+  "baseTopic": "command.service.foo",
+  "components": Object {
+    "messages": Object {
+      "ICommand": Object {
+        "headers": Object {
+          "properties": Object {
+            "QoS": Object {
+              "$ref": "#/components/schemas/QoS",
+            },
+          },
+          "type": "object",
+        },
+        "payload": Object {
+          "properties": Object {
+            "param": Object {
+              "example": "FooBarCommandParam",
+              "required": true,
+              "type": "string",
+            },
+          },
+          "type": "object",
+        },
+        "summary": "send foo command",
+        "tags": Array [
+          Object {
+            "name": "company",
+          },
+          Object {
+            "name": "settings",
+          },
+        ],
+      },
+      "ICommandResult": Object {
+        "headers": Object {
+          "properties": Object {
+            "QoS": Object {
+              "$ref": "#/components/schemas/QoS",
+            },
+          },
+          "type": "object",
+        },
+        "payload": Object {
+          "properties": Object {
+            "data": Object {
+              "type": "object",
+            },
+            "error": Object {
+              "example": "FooBar Not found",
+              "type": "string",
+            },
+          },
+          "type": "object",
+        },
+        "summary": "receive foo command result after publish",
+        "tags": Array [
+          Object {
+            "name": "company",
+          },
+          Object {
+            "name": "settings",
+          },
+        ],
+      },
+    },
+    "schemas": Object {
+      "QoS": Object {
+        "properties": Object {
+          "id": Object {
+            "example": 3,
+            "required": true,
+            "type": "integer",
+          },
+        },
+        "type": "object",
+      },
+    },
+  },
+  "externalDocs": Object {},
+  "info": Object {
+    "title": "Sample specification testing async-api-with-examples",
+    "version": "1.0.0",
+  },
+  "security": Object {},
+  "servers": Object {},
+  "tags": Array [],
+  "topics": Object {
+    "foo": Object {
+      "publish": Object {
+        "$ref": "#/components/schemas/ICommand",
+      },
+    },
+    "foo_result": Object {
+      "subscribe": Object {
+        "$ref": "#/components/schemas/ICommandResult",
+      },
+    },
+  },
+}
+`;

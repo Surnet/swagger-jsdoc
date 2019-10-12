@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`OpenAPI specification compatiblity The new openapi property is respected 1`] = `
+exports[`OpenAPI specification compatiblity The new asyncapi property is respected 1`] = `
 Object {
   "asyncapi": "1.0.0",
   "baseTopic": Object {},
