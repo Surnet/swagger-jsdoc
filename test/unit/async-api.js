@@ -15,7 +15,7 @@ beforeEach(function() {
   chaiJestSnapshot.configureUsingMochaContext(this);
 });
 
-describe('OpenAPI specification compatiblity', () => {
+describe('AsyncApi specification compatiblity', () => {
   it('The new asyncapi property is respected', done => {
     // eslint-disable-next-line
     const swaggerJsdoc = require('../../lib');
