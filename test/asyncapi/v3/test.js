@@ -44,7 +44,6 @@ describe('AsyncApi 1.0.0 examples', () => {
       };
 
       const specification = swaggerJsdoc(options);
-      console.log(JSON.stringify(specification, null, 2));
       expect(specification).to.matchSnapshot();
       expect(specification).to.eql(referenceSpecification);
       done();

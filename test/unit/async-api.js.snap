@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`OpenAPI specification compatiblity The new openapi property is respected 1`] = `
+Object {
+  "asyncapi": "1.0.0",
+  "baseTopic": Object {},
+  "components": Object {},
+  "externalDocs": Object {},
+  "info": Object {
+    "contact": Object {
+      "email": "developer@uspto.gov",
+      "name": "Open Data Portal",
+      "url": "https://developer.uspto.gov",
+    },
+    "description": "The Data Set API (DSAPI) allows the public users to discover and search USPTO exported data sets. This is a generic API that allows USPTO users to make any CSV based data files searchable through API. With the help of GET call, it returns the list of data fields that are searchable. With the help of POST call, data can be fetched based on the filters on the field names. Please note that POST call is used to search the actual data. The reason for the POST call is that it allows users to specify any complex search criteria without worry about the GET size limitations as well as encoding of the input parameters.",
+    "title": "USPTO Data Set API",
+    "version": "1.0.0",
+  },
+  "security": Object {},
+  "servers": Object {},
+  "tags": Array [],
+  "topics": Object {},
+}
+`;
