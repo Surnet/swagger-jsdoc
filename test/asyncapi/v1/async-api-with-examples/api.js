@@ -3,7 +3,7 @@ module.exports = function(consumer) {
   /**
    * @swagger
    *
-   * baseTopic: command.service.foo
+   * baseTopic: 'command.service.foo'
    * components:
    *   schemas:
    *     QoS:
