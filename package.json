@@ -30,7 +30,7 @@
   },
   "homepage": "https://github.com/Surnet/swagger-jsdoc",
   "dependencies": {
-    "commander": "2.20.0",
+    "commander": "4.0.1",
     "doctrine": "3.0.0",
     "glob": "7.1.4",
     "js-yaml": "3.13.1",
