@@ -1,0 +1,5 @@
+reporter: spec
+ui: bdd
+recursive: true
+slow: 1000
+timeout: false
