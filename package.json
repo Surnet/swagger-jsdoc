@@ -1,17 +1,12 @@
 {
   "name": "swagger-jsdoc",
-  "version": "3.6.0",
+  "version": "3.7.0",
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "license": "MIT",
   "description": "Generates swagger doc based on JSDoc",
-  "main": "index.js",
-  "scripts": {
-    "test:lint": "eslint .",
-    "test:js": "mocha --timeout 10000 --exit",
-    "start": "node example/v2/app.js",
-    "test": "run-p test:* -cn"
-  },
-  "bin": {
-    "swagger-jsdoc": "./bin/swagger-jsdoc.js"
-  },
+  "homepage": "https://github.com/Surnet/swagger-jsdoc",
   "repository": {
     "type": "git",
     "url": "https://github.com/Surnet/swagger-jsdoc.git"
@@ -24,17 +19,25 @@
     "swagger"
   ],
   "author": "https://github.com/Surnet/swagger-jsdoc/graphs/contributors",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/Surnet/swagger-jsdoc/issues"
   },
-  "homepage": "https://github.com/Surnet/swagger-jsdoc",
+  "main": "index.js",
+  "scripts": {
+    "test:lint": "eslint .",
+    "test:js": "mocha --timeout 10000 --exit",
+    "start": "node example/v2/app.js",
+    "test": "run-p test:* -cn"
+  },
+  "bin": {
+    "swagger-jsdoc": "./bin/swagger-jsdoc.js"
+  },
   "dependencies": {
     "commander": "4.0.1",
     "doctrine": "3.0.0",
     "glob": "7.1.6",
     "js-yaml": "3.13.1",
-    "swagger-parser": "9.0.1"
+    "swagger-parser": "8.0.4"
   },
   "devDependencies": {
     "body-parser": "1.19.0",
@@ -47,11 +50,11 @@
     "eslint-plugin-import": "2.20.1",
     "eslint-plugin-prettier": "3.1.2",
     "express": "4.17.1",
-    "husky": "4.2.3",
-    "lint-staged": "10.0.8",
+    "husky": "3.1.0",
+    "lint-staged": "9.5.0",
     "mocha": "7.1.1",
     "npm-run-all": "4.1.5",
-    "prettier": "2.0.1",
+    "prettier": "1.19.1",
     "supertest": "4.0.2"
   },
   "husky": {

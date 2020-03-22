@@ -14,15 +14,15 @@ before(() => {
   chaiJestSnapshot.resetSnapshotRegistry();
 });
 
-beforeEach(function () {
+beforeEach(function() {
   chaiJestSnapshot.configureUsingMochaContext(this);
 });
 
 const tests = ['api-with-examples', 'callback', 'links', 'petstore'];
 
 describe('OpenAPI examples', () => {
-  tests.forEach((test) => {
-    it(`Example: ${test}`, (done) => {
+  tests.forEach(test => {
+    it(`Example: ${test}`, done => {
       const title = `Sample specification testing ${test}`;
 
       // eslint-disable-next-line

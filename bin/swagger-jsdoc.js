@@ -44,7 +44,7 @@ function createSpecification(swaggerDefinition, apis, fileName) {
     swaggerSpec = JSON.stringify(swaggerJSDoc(options), null, 2);
   }
 
-  fs.writeFile(fileName, swaggerSpec, (err) => {
+  fs.writeFile(fileName, swaggerSpec, err => {
     if (err) {
       throw err;
     }

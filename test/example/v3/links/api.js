@@ -42,6 +42,6 @@
  *           userRepositories:
  *             $ref: '#/components/links/UserRepositories'
  */
-module.exports = function (app) {
+module.exports = function(app) {
   app.get('/users/:username', () => {});
 };

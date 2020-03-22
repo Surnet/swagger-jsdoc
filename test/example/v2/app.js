@@ -15,18 +15,18 @@ function swaggerSpecIsCompliant(res) {
 
 // Testing an example app parsing documentation with swagger-jsdoc.
 describe('example app', () => {
-  it('homepage returns a success code', (done) => {
+  it('homepage returns a success code', done => {
     request(app)
       .get('/')
       .expect(200)
-      .end((err) => {
+      .end(err => {
         if (err) return done(err);
 
         return done();
       });
   });
 
-  it('login authentication returns a success code', (done) => {
+  it('login authentication returns a success code', done => {
     request(app)
       .post('/login')
       .send({
@@ -34,19 +34,19 @@ describe('example app', () => {
         password: 'Password',
       })
       .expect(200)
-      .end((err) => {
+      .end(err => {
         if (err) return done(err);
 
         return done();
       });
   });
 
-  it('produced swagger spec is as expected', (done) => {
+  it('produced swagger spec is as expected', done => {
     request(app)
       .get('/api-docs.json')
       .expect(200)
       .expect(swaggerSpecIsCompliant)
-      .end((err) => {
+      .end(err => {
         if (err) return done(err);
 
         return done();

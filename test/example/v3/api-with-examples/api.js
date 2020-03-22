@@ -1,5 +1,5 @@
 // Imaginary API helper
-module.exports = function (app) {
+module.exports = function(app) {
   /**
    * @swagger
    *

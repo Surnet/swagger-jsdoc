@@ -11,12 +11,12 @@ before(() => {
   chaiJestSnapshot.resetSnapshotRegistry();
 });
 
-beforeEach(function () {
+beforeEach(function() {
   chaiJestSnapshot.configureUsingMochaContext(this);
 });
 
 describe('OpenAPI specification compatiblity', () => {
-  it('The new openapi property is respected', (done) => {
+  it('The new openapi property is respected', done => {
     // eslint-disable-next-line
     const swaggerJsdoc = require('../../lib');
 

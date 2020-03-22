@@ -11,18 +11,18 @@ const swaggerObject = require('../fixtures/v2/swaggerObject.json');
 const testData = require('../fixtures/v2/testData');
 
 describe('swagger-helpers submodule', () => {
-  it('should have a method addDataToSwaggerObject()', (done) => {
+  it('should have a method addDataToSwaggerObject()', done => {
     expect(specHelper).to.include.keys('addDataToSwaggerObject');
     expect(typeof specHelper.addDataToSwaggerObject).to.equal('function');
     done();
   });
 
-  it('addDataToSwaggerObject() should require correct input', (done) => {
+  it('addDataToSwaggerObject() should require correct input', done => {
     expect(specHelper.addDataToSwaggerObject).to.throw(Error);
     done();
   });
 
-  it('addDataToSwaggerObject() handles "definition" and "definitions"', (done) => {
+  it('addDataToSwaggerObject() handles "definition" and "definitions"', done => {
     specHelper.addDataToSwaggerObject(swaggerObject, testData.definitions);
     expect(swaggerObject.definitions).to.exist;
     // Case 'definition'.
@@ -32,7 +32,7 @@ describe('swagger-helpers submodule', () => {
     done();
   });
 
-  it('addDataToSwaggerObject() handles "parameter" and "parameters"', (done) => {
+  it('addDataToSwaggerObject() handles "parameter" and "parameters"', done => {
     specHelper.addDataToSwaggerObject(swaggerObject, testData.parameters);
     expect(swaggerObject.parameters).to.exist;
     // Case 'parameter'.
@@ -42,7 +42,7 @@ describe('swagger-helpers submodule', () => {
     done();
   });
 
-  it('addDataToSwaggerObject() handles "securityDefinition" and "securityDefinitions"', (done) => {
+  it('addDataToSwaggerObject() handles "securityDefinition" and "securityDefinitions"', done => {
     specHelper.addDataToSwaggerObject(
       swaggerObject,
       testData.securityDefinitions
@@ -55,7 +55,7 @@ describe('swagger-helpers submodule', () => {
     done();
   });
 
-  it('addDataToSwaggerObject() handles "response" and "responses"', (done) => {
+  it('addDataToSwaggerObject() handles "response" and "responses"', done => {
     specHelper.addDataToSwaggerObject(swaggerObject, testData.responses);
     expect(swaggerObject.responses).to.exist;
     // Case 'response'.
@@ -65,7 +65,7 @@ describe('swagger-helpers submodule', () => {
     done();
   });
 
-  it('paths should not override each other', (done) => {
+  it('paths should not override each other', done => {
     // eslint-disable-next-line
     const swagger = require('../../lib');
 
@@ -79,7 +79,7 @@ describe('swagger-helpers submodule', () => {
     done();
   });
 
-  it('hasEmptyProperty() identifies object with an empty object or array as property', (done) => {
+  it('hasEmptyProperty() identifies object with an empty object or array as property', done => {
     const invalidA = { foo: {} };
     const invalidB = { foo: [] };
     const validA = { foo: { bar: 'baz' } };
