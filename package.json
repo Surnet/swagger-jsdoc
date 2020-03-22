@@ -1,6 +1,6 @@
 {
   "name": "swagger-jsdoc",
-  "version": "3.5.0",
+  "version": "3.6.0",
   "description": "Generates swagger doc based on JSDoc",
   "main": "index.js",
   "scripts": {
@@ -30,28 +30,28 @@
   },
   "homepage": "https://github.com/Surnet/swagger-jsdoc",
   "dependencies": {
-    "commander": "4.0.1",
+    "commander": "5.0.0",
     "doctrine": "3.0.0",
     "glob": "7.1.6",
     "js-yaml": "3.13.1",
-    "swagger-parser": "8.0.3"
+    "swagger-parser": "9.0.1"
   },
   "devDependencies": {
     "body-parser": "1.19.0",
     "chai": "4.2.0",
     "chai-jest-snapshot": "2.0.0",
-    "eslint": "6.7.2",
-    "eslint-config-airbnb-base": "14.0.0",
-    "eslint-config-prettier": "6.7.0",
-    "eslint-loader": "3.0.2",
-    "eslint-plugin-import": "2.18.2",
-    "eslint-plugin-prettier": "3.1.1",
+    "eslint": "6.8.0",
+    "eslint-config-airbnb-base": "14.1.0",
+    "eslint-config-prettier": "6.10.1",
+    "eslint-loader": "3.0.3",
+    "eslint-plugin-import": "2.20.1",
+    "eslint-plugin-prettier": "3.1.2",
     "express": "4.17.1",
-    "husky": "3.1.0",
-    "lint-staged": "9.5.0",
-    "mocha": "6.2.2",
+    "husky": "4.2.3",
+    "lint-staged": "10.0.8",
+    "mocha": "7.1.1",
     "npm-run-all": "4.1.5",
-    "prettier": "1.19.1",
+    "prettier": "2.0.1",
     "supertest": "4.0.2"
   },
   "husky": {
@@ -60,9 +60,8 @@
     }
   },
   "lint-staged": {
-    "*.{js,json,md}": [
-      "prettier --write",
-      "git add"
+    "*.{js,json,md,yml,yaml}": [
+      "prettier --write"
     ]
   }
 }
