@@ -1,4 +1,4 @@
-module.exports.setup = function(app) {
+module.exports.setup = function (app) {
   /**
    * @swagger
    * /deprecated:

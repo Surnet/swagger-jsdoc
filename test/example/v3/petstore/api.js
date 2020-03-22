@@ -33,7 +33,7 @@
  *           type: string
  */
 
-module.exports = function(app) {
+module.exports = function (app) {
   /**
    * @swagger
    *
