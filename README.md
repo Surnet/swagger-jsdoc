@@ -138,8 +138,8 @@ Paths provided are relative to the current directory from which you execute the 
 
 There are plenty of examples you can use to start off:
 
-- `example/js`: contains an example app with version 2 of the specification. It will give you an idea how to annotate your comments in order to include them in the output specification.
-- `example/ts`: contains an example TypeScript app with version 2 of the specification. 
+- `examples/js`: contains an example app with version 2 of the specification. It will give you an idea how to annotate your comments in order to include them in the output specification.
+- `examples/ts`: contains an example TypeScript app with version 2 of the specification. 
 - `test/cli`: CLI tests you can read to get ideas about the available functionalities of the CLI. (apart from the obvious help menu)
 - `test/example`: various assets for tests you can also re-use for starting definitions, routes, etc.
 
@@ -151,12 +151,11 @@ On top of the Node API, there is also a [command line interface](./docs/CLI.md).
 ### Using with TypeScript at Runtime
 
 Yes, you can use swagger-jsdoc with your TypeScript project. There are some adjustments in the configuration necessary, though.
-1. Typescript is usually transpiled to JavaScript. So in order to generate the Swagger document the `apis: [...]` option has to point to the transpiled JavaScript files, and not to the TypeScript source files. In default configuration, the transpiled files are located in the `dist` directory (and the files end with `.js`).
-2. Annotating the model classes with the swagger comments is a great idea. However, these comments have to survive the transpilation process. A short workaround is to add a dummy function that you annotate instead of the model classes. 
+1. You can install types via `@types/swagger-jsdoc`.
+2. Typescript is usually transpiled to JavaScript. So in order to generate the Swagger document the `apis: [...]` option has to point to the transpiled JavaScript files, and not to the TypeScript source files. In default configuration, the transpiled files are located in the `dist` directory (and the files end with `.js`).
+3. Annotating the model classes with the swagger comments is a great idea. However, these comments have to survive the transpilation process. A short workaround is to add a dummy function that you annotate instead of the model classes. 
 
-
-
-
+An example canfiguration can be found in `examples/ts`.
 
 
 ### Reporting issues
