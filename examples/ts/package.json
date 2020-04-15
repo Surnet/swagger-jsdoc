@@ -1,0 +1,21 @@
+{
+  "name": "swagger-jsdoc-ts",
+  "version": "1.0.0",
+  "description": "TypeScript example for swagger-jsdoc",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run transpile && npm run start:transpiled",
+    "start:transpiled": "node dist/index.js",
+    "transpile": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Georg Schwarz",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.4",
+    "typescript": "^3.8.3"
+  }
+}
