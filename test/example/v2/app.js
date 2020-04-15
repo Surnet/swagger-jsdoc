@@ -2,7 +2,7 @@
 
 // Dependencies
 const request = require('supertest');
-const app = require('../../../example/v2/app');
+const app = require('../../../examples/js/v2/app');
 const swaggerSpec = require('./swagger-spec.json');
 
 // Check against saved swagger spec

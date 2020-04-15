@@ -68,7 +68,7 @@ describe('command line interface', () => {
   });
 
   it('should require arguments with jsDoc data about an API', (done) => {
-    const missingApis = `${process.env.PWD}/bin/swagger-jsdoc.js -d example/v2/swaggerDef.js`;
+    const missingApis = `${process.env.PWD}/bin/swagger-jsdoc.js -d examples/js/v2/swaggerDef.js`;
     exec(missingApis, (error, stdout, stderr) => {
       if (error) {
         throw new Error(error, stderr);
@@ -81,7 +81,7 @@ describe('command line interface', () => {
   });
 
   it('should create swagger.json by default when the API input is good', (done) => {
-    const goodInput = `${process.env.PWD}/bin/swagger-jsdoc.js -d example/v2/swaggerDef.js example/v2/routes.js`;
+    const goodInput = `${process.env.PWD}/bin/swagger-jsdoc.js -d examples/js/v2/swaggerDef.js examples/js/v2/routes.js`;
     exec(goodInput, (error, stdout, stderr) => {
       if (error) {
         throw new Error(error, stderr);
@@ -115,7 +115,7 @@ describe('command line interface', () => {
   });
 
   it('should accept custom configuration for output specification', (done) => {
-    const goodInput = `${process.env.PWD}/bin/swagger-jsdoc.js -d example/v2/swaggerDef.js -o customSpec.json example/v2/routes.js`;
+    const goodInput = `${process.env.PWD}/bin/swagger-jsdoc.js -d examples/js/v2/swaggerDef.js -o customSpec.json examples/js/v2/routes.js`;
     exec(goodInput, (error, stdout, stderr) => {
       if (error) {
         throw new Error(error, stderr);
@@ -129,7 +129,7 @@ describe('command line interface', () => {
   });
 
   it('should create a YAML swagger spec when a custom output configuration with a .yaml extension is used', (done) => {
-    const goodInput = `${process.env.PWD}/bin/swagger-jsdoc.js -d example/v2/swaggerDef.js -o customSpec.yaml example/v2/routes.js`;
+    const goodInput = `${process.env.PWD}/bin/swagger-jsdoc.js -d examples/js/v2/swaggerDef.js -o customSpec.yaml examples/js/v2/routes.js`;
     exec(goodInput, (error, stdout, stderr) => {
       if (error) {
         throw new Error(error, stderr);
@@ -143,7 +143,7 @@ describe('command line interface', () => {
   });
 
   it('should create a YAML swagger spec when a custom output configuration with a .yml extension is used', (done) => {
-    const goodInput = `${process.env.PWD}/bin/swagger-jsdoc.js -d example/v2/swaggerDef.js -o customSpec.yml example/v2/routes.js`;
+    const goodInput = `${process.env.PWD}/bin/swagger-jsdoc.js -d examples/js/v2/swaggerDef.js -o customSpec.yml examples/js/v2/routes.js`;
     exec(goodInput, (error, stdout, stderr) => {
       if (error) {
         throw new Error(error, stderr);
@@ -216,7 +216,7 @@ describe('command line interface', () => {
   });
 
   it('should reject bad YAML identation with feedback: upper line', (done) => {
-    const input = `${process.env.PWD}/bin/swagger-jsdoc.js -d example/v2/swaggerDef.js test/fixtures/wrong-yaml-identation1.js`;
+    const input = `${process.env.PWD}/bin/swagger-jsdoc.js -d examples/js/v2/swaggerDef.js test/fixtures/wrong-yaml-identation1.js`;
     exec(input, (error, stdout, stderr) => {
       expect(stderr).to.contain('Pay attention at this place');
       done();
@@ -224,7 +224,7 @@ describe('command line interface', () => {
   });
 
   it('should reject bad YAML identation with feedback: same line', (done) => {
-    const input = `${process.env.PWD}/bin/swagger-jsdoc.js -d example/v2/swaggerDef.js test/fixtures/wrong-yaml-identation2.js`;
+    const input = `${process.env.PWD}/bin/swagger-jsdoc.js -d examples/js/v2/swaggerDef.js test/fixtures/wrong-yaml-identation2.js`;
     exec(input, (error, stdout, stderr) => {
       expect(stderr).to.contain('Pay attention at this place');
       done();

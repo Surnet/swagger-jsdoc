@@ -70,7 +70,7 @@ When using the Node API:
 For example, given the following module export for a definition object:
 
 ```javascript
-// Taken from example/v2/swaggerDef.js
+// Taken from examples/js/v2/swaggerDef.js
 
 module.exports = {
   info: {
@@ -87,17 +87,17 @@ module.exports = {
 One way you can make use of this definition is by using the CLI as following:
 
 ```sh
-$ swagger-jsdoc -d example/v2/swaggerDef.js example/v2/route*.js
+$ swagger-jsdoc -d s/js/v2/swaggerDef.js examples/js/v2/route*.js
 ```
 
 If you, however, want to skip the arguments and still use the CLI, you will need to update the definition object as following:
 
 ```javascript
-// Taken from example/v2/swaggerDef.js
+// Taken from examples/js/v2/swaggerDef.js
 
 module.exports = {
   ...
-  apis: ['example/v2/route*.js'] // <-- We add this property:
+  apis: ['examples/js/v2/route*.js'] // <-- We add this property:
   basePath: '/', // Base path (optional)
 };
 ```
@@ -105,7 +105,7 @@ module.exports = {
 And then you will be able to use the CLI as following:
 
 ```sh
-$ swagger-jsdoc -d example/v2/swaggerDef.js
+$ swagger-jsdoc -d examples/js/v2/swaggerDef.js
 ```
 
 When using the Node API, input APIs come in in the following way:
@@ -120,7 +120,7 @@ const swaggerDefinition = {
 
 const options = {
   swaggerDefinition,
-  apis: ['./example/v2/routes*.js'], // <-- not in the definition, but in the options
+  apis: ['./examples/js/v2/routes*.js'], // <-- not in the definition, but in the options
 };
 
 const swaggerSpec = swaggerJSDoc(options);
