@@ -18,7 +18,13 @@ beforeEach(function () {
   chaiJestSnapshot.configureUsingMochaContext(this);
 });
 
-const tests = ['api-with-examples', 'callback', 'links', 'petstore'];
+const tests = [
+  'api-with-examples',
+  'callback',
+  'links',
+  'petstore',
+  'openapi-jsdoc-annotation',
+];
 
 describe('OpenAPI examples', () => {
   tests.forEach((test) => {
