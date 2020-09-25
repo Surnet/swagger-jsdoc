@@ -3,10 +3,8 @@
 Document your code and keep a live and reusable OpenAPI (Swagger) specification. This specification can be the core of your API-driven project: generate
 documentation, servers, clients, tests and much more based on the rich [OpenAPI ecosystem of tools](http://swagger.io/).
 
-[![npm Version](https://img.shields.io/npm/v/swagger-jsdoc.svg)](https://www.npmjs.com/package/swagger-jsdoc)
 [![npm Downloads](https://img.shields.io/npm/dm/swagger-jsdoc.svg)](https://www.npmjs.com/package/swagger-jsdoc)
-[![swagger-jsdoc Actions Status](https://github.com/Surnet/swagger-jsdoc/workflows/ci/badge.svg)](https://github.com/Surnet/swagger-jsdoc/actions)
-[![Known Vulnerabilities](https://snyk.io/test/github/Surnet/swagger-jsdoc/badge.svg?targetFile=package.json)](https://snyk.io/test/github/Surnet/swagger-jsdoc?targetFile=package.json)
+![CI](https://github.com/Surnet/swagger-jsdoc/workflows/CI/badge.svg)
 
 ## Goals
 
