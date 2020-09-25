@@ -259,6 +259,103 @@ Object {
 }
 `;
 
+exports[`OpenAPI examples Example: openapi-jsdoc-annotation 1`] = `
+Object {
+  "components": Object {},
+  "info": Object {
+    "title": "Sample specification testing openapi-jsdoc-annotation",
+    "version": "1.0.0",
+  },
+  "openapi": "3.0.0",
+  "paths": Object {
+    "/": Object {
+      "get": Object {
+        "operationId": "listVersionsv2",
+        "responses": Object {
+          "200": Object {
+            "content": Object {
+              "application/json": Object {
+                "examples": Object {
+                  "foo": Object {
+                    "value": Object {
+                      "versions": Array [
+                        Object {
+                          "id": "v2.0",
+                          "links": Array [
+                            Object {
+                              "href": "http://127.0.0.1:8774/v2/",
+                              "rel": "self",
+                            },
+                          ],
+                          "status": "CURRENT",
+                          "updated": "2011-01-21T11:33:21Z",
+                        },
+                        Object {
+                          "id": "v3.0",
+                          "links": Array [
+                            Object {
+                              "href": "http://127.0.0.1:8774/v3/",
+                              "rel": "self",
+                            },
+                          ],
+                          "status": "EXPERIMENTAL",
+                          "updated": "2013-07-23T11:33:21Z",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+            },
+            "description": "200 response",
+          },
+          "300": Object {
+            "content": Object {
+              "application/json": Object {
+                "examples": Object {
+                  "foo": Object {
+                    "value": "{
+ \\"versions\\": [
+       {
+         \\"status\\": \\"CURRENT\\",
+         \\"updated\\": \\"2011-01-21T11:33:21Z\\",
+         \\"id\\": \\"v2.0\\",
+         \\"links\\": [
+             {
+                 \\"href\\": \\"http://127.0.0.1:8774/v2/\\",
+                 \\"rel\\": \\"self\\"
+             }
+         ]
+     },
+     {
+         \\"status\\": \\"EXPERIMENTAL\\",
+         \\"updated\\": \\"2013-07-23T11:33:21Z\\",
+         \\"id\\": \\"v3.0\\",
+         \\"links\\": [
+             {
+                 \\"href\\": \\"http://127.0.0.1:8774/v3/\\",
+                 \\"rel\\": \\"self\\"
+             }
+         ]
+     }
+ ]
+}
+",
+                  },
+                },
+              },
+            },
+            "description": "300 response",
+          },
+        },
+        "summary": "List API versions",
+      },
+    },
+  },
+  "tags": Array [],
+}
+`;
+
 exports[`OpenAPI examples Example: petstore 1`] = `
 Object {
   "components": Object {
