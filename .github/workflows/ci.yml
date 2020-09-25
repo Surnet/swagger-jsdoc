@@ -1,0 +1,24 @@
+name: CI
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  audit:
+    name: audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run audit
+        run: yarn audit
+
+  tests:
+    name: tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Run tests
+        run: yarn test
