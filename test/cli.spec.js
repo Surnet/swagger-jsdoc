@@ -3,7 +3,8 @@ const { promisify } = require('util');
 const { exec } = require('child_process');
 
 const sh = promisify(exec);
-const bin = `${process.env.PWD}/bin/swagger-jsdoc.js`;
+const dir = process.env.PWD;
+const bin = `${dir}/bin/swagger-jsdoc.js`;
 
 describe('command line interface', () => {
   it('help menu is default fallback when no arguments', async () => {
@@ -123,9 +124,9 @@ describe('command line interface', () => {
   });
 
   afterAll(() => {
-    fs.unlinkSync(`${process.env.PWD}/swagger.json`);
-    fs.unlinkSync(`${process.env.PWD}/customSpec.json`);
-    fs.unlinkSync(`${process.env.PWD}/customSpec.yaml`);
-    fs.unlinkSync(`${process.env.PWD}/customSpec.yml`);
+    fs.unlinkSync(`${dir}/swagger.json`);
+    fs.unlinkSync(`${dir}/customSpec.json`);
+    fs.unlinkSync(`${dir}/customSpec.yaml`);
+    fs.unlinkSync(`${dir}/customSpec.yml`);
   });
 });
