@@ -107,23 +107,19 @@ describe('command line interface', () => {
   });
 
   it('should reject bad YAML identation with feedback: upper line', async () => {
-    try {
-      await sh(
+    await expect(
+      sh(
         `${bin} -d example/v2/swaggerDef.js test/fixtures/wrong-yaml-identation1.js`
-      );
-    } catch (error) {
-      expect(error).toMatchSnapshot();
-    }
+      )
+    ).rejects.toMatchSnapshot();
   });
 
   it('should reject bad YAML identation with feedback: same line', async () => {
-    try {
-      await sh(
+    await expect(
+      sh(
         `${bin} -d example/v2/swaggerDef.js test/fixtures/wrong-yaml-identation2.js`
-      );
-    } catch (error) {
-      expect(error).toMatchSnapshot();
-    }
+      )
+    ).rejects.toMatchSnapshot();
   });
 
   afterAll(() => {
