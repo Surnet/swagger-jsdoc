@@ -1,7 +1,7 @@
 const swaggerJsdoc = require('../lib');
 
 describe('OpenAPI specification compatiblity', () => {
-  it('The new openapi property is respected', () => {
+  it('should respect default properties', () => {
     // eslint-disable-next-line
 
     const definition = {
