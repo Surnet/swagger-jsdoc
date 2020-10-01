@@ -1,7 +1,7 @@
 const swaggerJsdoc = require('../lib');
 
-describe('OpenAPI specification compatiblity', () => {
-  it('should respect default properties', () => {
+describe('swagger-jsdoc library', () => {
+  it('v3: should respect default properties', () => {
     // eslint-disable-next-line
 
     const definition = {
@@ -67,7 +67,7 @@ describe('OpenAPI specification compatiblity', () => {
     });
   });
 
-  it('should support multiple paths', () => {
+  it('v2: should support multiple paths', () => {
     let testObject = {
       swaggerDefinition: {},
       apis: ['./**/*/external/*.yml'],
