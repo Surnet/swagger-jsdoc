@@ -17,12 +17,10 @@ jobs:
     name: tests
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
+        with:
+          node-version: 'lts/dubnium'
       - name: Install dependencies
-        shell: bash -l {0}
-        run: |
-          nvm install
-          nvm use
-          yarn install --frozen-lockfile
-
+        run: yarn install --frozen-lockfile
       - name: Run tests
         run: yarn test
