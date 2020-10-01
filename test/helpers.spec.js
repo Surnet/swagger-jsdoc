@@ -91,32 +91,6 @@ describe('Helpers', () => {
     });
   });
 
-  it('paths should not override each other', () => {
-    // eslint-disable-next-line
-    const swagger = require('../lib');
-
-    let testObject = {
-      swaggerDefinition: {},
-      apis: ['./**/*/external/*.yml'],
-    };
-
-    testObject = swagger(testObject);
-    expect(testObject).toEqual({
-      swagger: '2.0',
-      paths: {},
-      definitions: {},
-      responses: {
-        api: {
-          foo: { 200: { description: 'OK' } },
-          bar: { 200: { description: 'OK' } },
-        },
-      },
-      parameters: {},
-      securityDefinitions: {},
-      tags: [],
-    });
-  });
-
   it('hasEmptyProperty() identifies object with an empty object or array as property', () => {
     const invalidA = { foo: {} };
     const invalidB = { foo: [] };

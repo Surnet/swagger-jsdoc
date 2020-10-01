@@ -66,4 +66,27 @@ describe('OpenAPI specification compatiblity', () => {
       tags: [],
     });
   });
+
+  it('should support multiple paths', () => {
+    let testObject = {
+      swaggerDefinition: {},
+      apis: ['./**/*/external/*.yml'],
+    };
+
+    testObject = swaggerJsdoc(testObject);
+    expect(testObject).toEqual({
+      swagger: '2.0',
+      paths: {},
+      definitions: {},
+      responses: {
+        api: {
+          foo: { 200: { description: 'OK' } },
+          bar: { 200: { description: 'OK' } },
+        },
+      },
+      parameters: {},
+      securityDefinitions: {},
+      tags: [],
+    });
+  });
 });
