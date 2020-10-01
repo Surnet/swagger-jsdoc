@@ -6,85 +6,88 @@ const swaggerObject = require('./fixtures/v2/swaggerObject.json');
 const testData = require('./fixtures/v2/testData');
 
 describe('Helpers', () => {
-  it('should have a method addDataToSwaggerObject()', () => {
-    expect(typeof specHelper.addDataToSwaggerObject).toBe('function');
-  });
-
-  it('addDataToSwaggerObject() should require correct input', () => {
-    expect(() => {
-      specHelper.addDataToSwaggerObject();
-    }).toThrow('swaggerObject and data are required!');
-  });
-
-  it('addDataToSwaggerObject() handles "definition" and "definitions"', () => {
-    specHelper.addDataToSwaggerObject(swaggerObject, testData.definitions);
-    expect(swaggerObject.definitions).toEqual({
-      DefinitionSingular: {
-        required: ['username', 'password'],
-        properties: {
-          username: { type: 'string' },
-          password: { type: 'string' },
-        },
-      },
-      DefinitionPlural: {
-        required: ['username', 'password'],
-        properties: {
-          username: { type: 'string' },
-          password: { type: 'string' },
-        },
-      },
+  describe('addDataToSwaggerObject', () => {
+    it('should be a function', () => {
+      expect(typeof specHelper.addDataToSwaggerObject).toBe('function');
     });
-  });
 
-  it('addDataToSwaggerObject() handles "parameter" and "parameters"', () => {
-    specHelper.addDataToSwaggerObject(swaggerObject, testData.parameters);
-    expect(swaggerObject.parameters).toEqual({
-      ParameterSingular: {
-        name: 'username',
-        description: 'Username to use for login.',
-        in: 'formData',
-        required: true,
-        type: 'string',
-      },
-      ParameterPlural: {
-        name: 'limit',
-        in: 'query',
-        description: 'max records to return',
-        required: true,
-        type: 'integer',
-        format: 'int32',
-      },
+    it('should validate input', () => {
+      expect(() => {
+        specHelper.addDataToSwaggerObject();
+      }).toThrow('swaggerObject and data are required!');
     });
-  });
 
-  it('addDataToSwaggerObject() handles "securityDefinition" and "securityDefinitions"', () => {
-    specHelper.addDataToSwaggerObject(
-      swaggerObject,
-      testData.securityDefinitions
-    );
-    expect(swaggerObject.securityDefinitions).toEqual({
-      basicAuth: {
-        type: 'basic',
-        description: 'HTTP Basic Authentication. Works over `HTTP` and `HTTPS`',
-      },
-      api_key: { type: 'apiKey', name: 'api_key', in: 'header' },
-      petstore_auth: {
-        type: 'oauth2',
-        authorizationUrl: 'http://swagger.io/api/oauth/dialog',
-        flow: 'implicit',
-        scopes: {
-          'write:pets': 'modify pets in your account',
-          'read:pets': 'read your pets',
+    it('should handle "definition" and "definitions"', () => {
+      specHelper.addDataToSwaggerObject(swaggerObject, testData.definitions);
+      expect(swaggerObject.definitions).toEqual({
+        DefinitionSingular: {
+          required: ['username', 'password'],
+          properties: {
+            username: { type: 'string' },
+            password: { type: 'string' },
+          },
         },
-      },
+        DefinitionPlural: {
+          required: ['username', 'password'],
+          properties: {
+            username: { type: 'string' },
+            password: { type: 'string' },
+          },
+        },
+      });
     });
-  });
 
-  it('addDataToSwaggerObject() handles "response" and "responses"', () => {
-    specHelper.addDataToSwaggerObject(swaggerObject, testData.responses);
-    expect(swaggerObject.responses).toEqual({
-      NotFound: { description: 'Entity not found.' },
-      IllegalInput: { description: 'Illegal input for operation.' },
+    it('should handle "parameter" and "parameters"', () => {
+      specHelper.addDataToSwaggerObject(swaggerObject, testData.parameters);
+      expect(swaggerObject.parameters).toEqual({
+        ParameterSingular: {
+          name: 'username',
+          description: 'Username to use for login.',
+          in: 'formData',
+          required: true,
+          type: 'string',
+        },
+        ParameterPlural: {
+          name: 'limit',
+          in: 'query',
+          description: 'max records to return',
+          required: true,
+          type: 'integer',
+          format: 'int32',
+        },
+      });
+    });
+
+    it('should handle "securityDefinition" and "securityDefinitions"', () => {
+      specHelper.addDataToSwaggerObject(
+        swaggerObject,
+        testData.securityDefinitions
+      );
+      expect(swaggerObject.securityDefinitions).toEqual({
+        basicAuth: {
+          type: 'basic',
+          description:
+            'HTTP Basic Authentication. Works over `HTTP` and `HTTPS`',
+        },
+        api_key: { type: 'apiKey', name: 'api_key', in: 'header' },
+        petstore_auth: {
+          type: 'oauth2',
+          authorizationUrl: 'http://swagger.io/api/oauth/dialog',
+          flow: 'implicit',
+          scopes: {
+            'write:pets': 'modify pets in your account',
+            'read:pets': 'read your pets',
+          },
+        },
+      });
+    });
+
+    it('should handle "response" and "responses"', () => {
+      specHelper.addDataToSwaggerObject(swaggerObject, testData.responses);
+      expect(swaggerObject.responses).toEqual({
+        NotFound: { description: 'Entity not found.' },
+        IllegalInput: { description: 'Illegal input for operation.' },
+      });
     });
   });
 
