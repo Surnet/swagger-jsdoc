@@ -112,7 +112,7 @@ describe('command line interface', () => {
       sh(
         `${bin} -d example/v2/swaggerDef.js test/files/v2/wrong-yaml-identation1.js`
       )
-    ).rejects.toMatchSnapshot();
+    ).rejects.toThrow();
   });
 
   it('should reject bad YAML identation with feedback: same line', async () => {
@@ -120,7 +120,7 @@ describe('command line interface', () => {
       sh(
         `${bin} -d example/v2/swaggerDef.js test/files/v2/wrong-yaml-identation2.js`
       )
-    ).rejects.toMatchSnapshot();
+    ).rejects.toThrow();
   });
 
   afterAll(() => {
