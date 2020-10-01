@@ -1,2 +1,2 @@
-test/files/wrong_syntax.json
-test/files/wrong_syntax.yaml
+test/files/v2/wrong_syntax.json
+test/files/v2/wrong_syntax.yaml
