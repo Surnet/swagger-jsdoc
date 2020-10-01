@@ -23,12 +23,12 @@ describe('command line interface', () => {
   });
 
   it('should require an info object in the definition', async () => {
-    const result = await sh(`${bin} -d test/fixtures/v2/empty_definition.js`);
+    const result = await sh(`${bin} -d test/files/v2/empty_definition.js`);
     expect(result.stdout).toMatchSnapshot();
   });
 
   it('should require title and version in the info object', async () => {
-    const result = await sh(`${bin} -d test/fixtures/v2/wrong_definition.js`);
+    const result = await sh(`${bin} -d test/files/v2/wrong_definition.js`);
     expect(result.stdout).toMatchSnapshot();
   });
 
@@ -47,7 +47,7 @@ describe('command line interface', () => {
   });
 
   it('should create swagger.json by default when the API input is from definition file', async () => {
-    const result = await sh(`${bin} -d test/fixtures/v2/api_definition.js`);
+    const result = await sh(`${bin} -d test/files/v2/api_definition.js`);
     expect(result.stdout).toBe('Swagger specification is ready.\n');
     const specification = fs.statSync('swagger.json');
     expect(specification.nlink).not.toBe(0);
@@ -72,45 +72,45 @@ describe('command line interface', () => {
   });
 
   it('should allow a JavaScript definition file', async () => {
-    const result = await sh(`${bin} -d test/fixtures/v2/api_definition.js`);
+    const result = await sh(`${bin} -d test/files/v2/api_definition.js`);
     expect(result.stdout).toBe('Swagger specification is ready.\n');
     const specification = fs.statSync('swagger.json');
     expect(specification.nlink).not.toBe(0);
   });
 
   it('should allow a JSON definition file', async () => {
-    const result = await sh(`${bin} -d test/fixtures/api_definition.json`);
+    const result = await sh(`${bin} -d test/files/api_definition.json`);
     expect(result.stdout).toBe('Swagger specification is ready.\n');
     const specification = fs.statSync('swagger.json');
     expect(specification.nlink).not.toBe(0);
   });
 
   it('should allow a YAML definition file', async () => {
-    const result = await sh(`${bin} -d test/fixtures/api_definition.yaml`);
+    const result = await sh(`${bin} -d test/files/api_definition.yaml`);
     expect(result.stdout).toBe('Swagger specification is ready.\n');
     const specification = fs.statSync('swagger.json');
     expect(specification.nlink).not.toBe(0);
   });
 
   it('should reject definition file with invalid YAML syntax', async () => {
-    const result = await sh(`${bin} -d test/fixtures/wrong_syntax.yaml`);
+    const result = await sh(`${bin} -d test/files/wrong_syntax.yaml`);
     expect(result.stdout).toMatchSnapshot();
   });
 
   it('should reject definition file with non-JSON compatible YAML syntax', async () => {
-    const result = await sh(`${bin} -d test/fixtures/non_json_compatible.yaml`);
+    const result = await sh(`${bin} -d test/files/non_json_compatible.yaml`);
     expect(result.stdout).toMatchSnapshot();
   });
 
   it('should reject definition file with invalid JSON syntax', async () => {
-    const result = await sh(`${bin} -d test/fixtures/wrong_syntax.json`);
+    const result = await sh(`${bin} -d test/files/wrong_syntax.json`);
     expect(result.stdout).toMatchSnapshot();
   });
 
   it('should reject bad YAML identation with feedback: upper line', async () => {
     await expect(
       sh(
-        `${bin} -d example/v2/swaggerDef.js test/fixtures/wrong-yaml-identation1.js`
+        `${bin} -d example/v2/swaggerDef.js test/files/wrong-yaml-identation1.js`
       )
     ).rejects.toMatchSnapshot();
   });
@@ -118,7 +118,7 @@ describe('command line interface', () => {
   it('should reject bad YAML identation with feedback: same line', async () => {
     await expect(
       sh(
-        `${bin} -d example/v2/swaggerDef.js test/fixtures/wrong-yaml-identation2.js`
+        `${bin} -d example/v2/swaggerDef.js test/files/wrong-yaml-identation2.js`
       )
     ).rejects.toMatchSnapshot();
   });

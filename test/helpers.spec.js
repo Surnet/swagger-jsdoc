@@ -2,8 +2,8 @@
 const specHelper = require('../lib/helpers/specification');
 const hasEmptyProperty = require('../lib/helpers/hasEmptyProperty');
 
-const swaggerObject = require('./fixtures/v2/swaggerObject.json');
-const testData = require('./fixtures/v2/testData');
+const swaggerObject = require('./files/v2/swaggerObject.json');
+const testData = require('./files/v2/testData');
 
 describe('Helpers', () => {
   describe('addDataToSwaggerObject', () => {
