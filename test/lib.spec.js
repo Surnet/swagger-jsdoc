@@ -37,8 +37,6 @@ describe('swagger-jsdoc library', () => {
     ];
 
     it('should respect default properties', () => {
-      // eslint-disable-next-line
-
       const definition = {
         openapi: '3.0.0',
         servers: [
