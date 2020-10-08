@@ -13,14 +13,20 @@ jobs:
   tests:
     name: tests
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [10.x, 12.x, 14.x]
+
     steps:
       - uses: actions/checkout@v2
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Run tests
         run: yarn test
+
   publish:
-    name: Publish
+    name: publish
     needs: tests
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
