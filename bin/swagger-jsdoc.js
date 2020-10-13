@@ -7,7 +7,7 @@ const program = require('commander');
 const fs = require('fs');
 const path = require('path');
 const jsYaml = require('js-yaml');
-const swaggerJSDoc = require('../');
+const swaggerJSDoc = require('..');
 const pkg = require('../package.json');
 
 // Useful input.
@@ -44,7 +44,7 @@ function createSpecification(swaggerDefinition, apis, fileName) {
     swaggerSpec = JSON.stringify(swaggerJSDoc(options), null, 2);
   }
 
-  fs.writeFile(fileName, swaggerSpec, err => {
+  fs.writeFile(fileName, swaggerSpec, (err) => {
     if (err) {
       throw err;
     }
@@ -127,9 +127,7 @@ fs.readFile(program.definition, 'utf-8', (err, data) => {
   try {
     swaggerDefinition = loadSpecification(program.definition, data);
   } catch (error) {
-    const message = `Error while loading definition file '${
-      program.definition
-    }':\n${error.message}`;
+    const message = `Error while loading definition file '${program.definition}':\n${error.message}`;
     return console.log(message);
   }
 
@@ -165,6 +163,7 @@ fs.readFile(program.definition, 'utf-8', (err, data) => {
     swaggerDefinition.apis instanceof Array
   ) {
     program.args = swaggerDefinition.apis;
+    delete swaggerDefinition.apis;
   }
 
   return createSpecification(swaggerDefinition, program.args, output);

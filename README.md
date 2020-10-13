@@ -3,15 +3,13 @@
 Document your code and keep a live and reusable OpenAPI (Swagger) specification. This specification can be the core of your API-driven project: generate
 documentation, servers, clients, tests and much more based on the rich [OpenAPI ecosystem of tools](http://swagger.io/).
 
-[![npm Version](https://img.shields.io/npm/v/swagger-jsdoc.svg)](https://www.npmjs.com/package/swagger-jsdoc)
 [![npm Downloads](https://img.shields.io/npm/dm/swagger-jsdoc.svg)](https://www.npmjs.com/package/swagger-jsdoc)
-[![CircleCI](https://circleci.com/gh/Surnet/swagger-jsdoc.svg?style=svg)](https://circleci.com/gh/Surnet/swagger-jsdoc)
-[![Known Vulnerabilities](https://snyk.io/test/github/Surnet/swagger-jsdoc/badge.svg?targetFile=package.json)](https://snyk.io/test/github/Surnet/swagger-jsdoc?targetFile=package.json)
+![CI](https://github.com/Surnet/swagger-jsdoc/workflows/CI/badge.svg)
 
 ## Goals
 
 **swagger-jsdoc** enables you to integrate [Swagger](http://swagger.io)
-using [`JSDoc`](http://usejsdoc.org/) comments in your code. Just add `@swagger` on top of your DocBlock and declare the meaning of your code in YAML complying to the OpenAPI specification. If you prefer to keep some parts of your specification aside your code in order to keep it lighter/cleaner, you can also pass these parts as separate input YAML files.
+using [`JSDoc`](https://jsdoc.app/) comments in your code. Just add `@swagger` (or `@openapi`) on top of your DocBlock and declare the meaning of your code in YAML complying to the OpenAPI specification. If you prefer to keep some parts of your specification aside your code in order to keep it lighter/cleaner, you can also pass these parts as separate input YAML files.
 
 `swagger-jsdoc` will parse the above-mentioned and output an OpenAPI specification. You can use it to integrate any server and client technology as long as both sides comply with the specification.
 
@@ -21,6 +19,13 @@ If you prefer to write the OpenAPI specification first and separately, you might
 
 - [swagger-editor](http://swagger.io/swagger-editor/)
 - [swagger-node](https://github.com/swagger-api/swagger-node)
+
+### Webpack integration
+
+You can use this package with a webpack plugin to keep your swagger documentation up-to-date when building your app:
+
+- [swagger-jsdoc-webpack-plugin](https://github.com/patsimm/swagger-jsdoc-webpack-plugin) - Rebuild the swagger definition based on a predefined list of files on each webpack build.
+- [swagger-jsdoc-sync-webpack-plugin](https://github.com/gautier-lefebvre/swagger-jsdoc-sync-webpack-plugin) - Rebuild the swagger definition based on the files imported in your app on each webpack build.
 
 ## Supported versions
 
@@ -39,6 +44,84 @@ Or using [`yarn`](https://yarnpkg.com/en/)
 
 ```bash
 $ yarn add swagger-jsdoc
+```
+
+### Fundamental concepts
+
+Before you start writing your specification and/or documentation, please keep in mind that there are two fundamental concepts you need to wrap you head around when working with `swagger-jsdoc` - definition object and input APIs.
+
+Definition object maps to [OpenAPI object](https://swagger.io/specification/#oasObject). This is where you would add information about your API and any root-level properties. Definition object is a required parameter.
+
+Input APIs are any files which you pass as arguments to the program in order to extract information about your API. For instance, these could be `.js` files with JSDoc comments or `.yaml` files directly. This parameter is also required.
+
+There are a few ways by which you can pass these 2 required arguments:
+
+When using the CLI:
+
+- Through `apis` property in your definition object.
+- Through arguments
+
+When using the Node API:
+
+- Through `apis` in your `options` object.
+
+For example, given the following module export for a definition object:
+
+```javascript
+// Taken from example/v2/swaggerDef.js
+
+module.exports = {
+  info: {
+    // API informations (required)
+    title: 'Hello World', // Title (required)
+    version: '1.0.0', // Version (required)
+    description: 'A sample API', // Description (optional)
+  },
+  host, // Host (optional)
+  basePath: '/', // Base path (optional)
+};
+```
+
+One way you can make use of this definition is by using the CLI as following:
+
+```sh
+$ swagger-jsdoc -d example/v2/swaggerDef.js example/v2/route*.js
+```
+
+If you, however, want to skip the arguments and still use the CLI, you will need to update the definition object as following:
+
+```javascript
+// Taken from example/v2/swaggerDef.js
+
+module.exports = {
+  ...
+  apis: ['example/v2/route*.js'] // <-- We add this property:
+  basePath: '/', // Base path (optional)
+};
+```
+
+And then you will be able to use the CLI as following:
+
+```sh
+$ swagger-jsdoc -d example/v2/swaggerDef.js
+```
+
+When using the Node API, input APIs come in in the following way:
+
+```javascript
+const swaggerJSDoc = require('swagger-jsdoc');
+
+const swaggerDefinition = {
+  ...
+  basePath: '/', // Base path (optional)
+};
+
+const options = {
+  swaggerDefinition,
+  apis: ['./example/v2/routes*.js'], // <-- not in the definition, but in the options
+};
+
+const swaggerSpec = swaggerJSDoc(options);
 ```
 
 ### Quick Start

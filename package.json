@@ -1,18 +1,12 @@
 {
   "name": "swagger-jsdoc",
-  "version": "3.2.0",
+  "version": "4.2.0",
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "license": "MIT",
   "description": "Generates swagger doc based on JSDoc",
-  "main": "index.js",
-  "scripts": {
-    "precommit": "lint-staged",
-    "test:lint": "eslint .",
-    "test:js": "mocha --timeout 10000 --exit",
-    "start": "node example/v2/app.js",
-    "test": "run-p test:* -cn"
-  },
-  "bin": {
-    "swagger-jsdoc": "./bin/swagger-jsdoc.js"
-  },
+  "homepage": "https://github.com/Surnet/swagger-jsdoc",
   "repository": {
     "type": "git",
     "url": "https://github.com/Surnet/swagger-jsdoc.git"
@@ -25,35 +19,46 @@
     "swagger"
   ],
   "author": "https://github.com/Surnet/swagger-jsdoc/graphs/contributors",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/Surnet/swagger-jsdoc/issues"
   },
-  "homepage": "https://github.com/Surnet/swagger-jsdoc",
+  "main": "index.js",
+  "scripts": {
+    "test:lint": "eslint .",
+    "test:js": "jest --verbose",
+    "start": "node example/v2/app.js",
+    "test": "run-p test:* -cn"
+  },
+  "bin": {
+    "swagger-jsdoc": "./bin/swagger-jsdoc.js"
+  },
   "dependencies": {
-    "commander": "2.17.1",
-    "doctrine": "2.1.0",
-    "glob": "7.1.3",
-    "js-yaml": "3.12.0",
-    "swagger-parser": "5.0.5"
+    "commander": "6.1.0",
+    "doctrine": "3.0.0",
+    "glob": "7.1.6",
+    "js-yaml": "3.14.0",
+    "swagger-parser": "10.0.2"
   },
   "devDependencies": {
-    "body-parser": "1.18.3",
-    "chai": "4.1.2",
-    "chai-jest-snapshot": "2.0.0",
-    "eslint": "5.5.0",
-    "eslint-config-airbnb-base": "13.1.0",
-    "eslint-config-prettier": "3.0.1",
-    "eslint-loader": "2.1.0",
-    "eslint-plugin-import": "2.14.0",
-    "eslint-plugin-prettier": "2.6.2",
-    "express": "4.16.3",
-    "husky": "1.0.0-rc.13",
-    "lint-staged": "7.2.2",
-    "mocha": "5.2.0",
-    "npm-run-all": "4.1.3",
-    "prettier": "1.14.2",
-    "supertest": "3.1.0"
+    "body-parser": "1.19.0",
+    "eslint": "7.9.0",
+    "eslint-config-airbnb-base": "14.2.0",
+    "eslint-config-prettier": "6.11.0",
+    "eslint-loader": "4.0.2",
+    "eslint-plugin-import": "2.22.0",
+    "eslint-plugin-jest": "^24.0.2",
+    "eslint-plugin-prettier": "3.1.4",
+    "express": "4.17.1",
+    "husky": "4.3.0",
+    "jest": "^26.4.2",
+    "lint-staged": "10.4.0",
+    "npm-run-all": "4.1.5",
+    "prettier": "2.1.2",
+    "supertest": "4.0.2"
+  },
+  "resolutions": {
+    "lodash": "^4.17.19",
+    "minimist": "^1.2.3"
   },
   "husky": {
     "hooks": {
@@ -61,9 +66,8 @@
     }
   },
   "lint-staged": {
-    "*.{js,json,md}": [
-      "prettier --write",
-      "git add"
+    "*.{js,json,md,yml,yaml}": [
+      "prettier --write"
     ]
   }
 }

@@ -55,9 +55,6 @@ app.get('/api-docs.json', (req, res) => {
 routes.setup(app);
 routes2.setup(app);
 
-// Expose app
-module.exports = app;
-
 // Start the server
 const server = app.listen(PORT, () => {
   const host = server.address().address;
@@ -65,3 +62,5 @@ const server = app.listen(PORT, () => {
 
   console.log('Example app listening at http://%s:%s', host, port);
 });
+
+module.exports = { app, server };

@@ -1,1 +1,2 @@
-test/fixtures/wrong_syntax.json
+test/files/v2/wrong_syntax.json
+test/files/v2/wrong_syntax.yaml
