@@ -17,7 +17,6 @@ let output = 'swagger.json';
 
 /**
  * Creates a swagger specification from a definition and a set of files.
- * @function
  * @param {object} swaggerDefinition - The swagger definition object.
  * @param {array} apis - List of files to extract documentation from.
  * @param {string} fileName - Name the output file.
