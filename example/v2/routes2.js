@@ -1,6 +1,3 @@
-/* istanbul ignore next */
-// This file is an example, it's not functionally used by the module.
-
 module.exports.setup = function (app) {
   /**
    * @swagger

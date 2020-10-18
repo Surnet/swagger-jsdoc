@@ -1,6 +1,3 @@
-/* istanbul ignore next */
-// This file is an example, it's not functionally used by the module.
-
 // Sets up the routes.
 module.exports.setup = function (app) {
   /**
