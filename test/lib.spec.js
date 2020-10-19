@@ -2,6 +2,36 @@ const path = require('path');
 const swaggerJsdoc = require('../lib');
 
 describe('swagger-jsdoc library', () => {
+  describe('Error handling', () => {
+    it('should require options input', () => {
+      expect(() => {
+        swaggerJsdoc();
+      }).toThrow(`Missing or invalid input: 'options' is required`);
+    });
+
+    it('should require a definition input', () => {
+      expect(() => {
+        swaggerJsdoc({});
+      }).toThrow(
+        `Missing or invalid input: 'options.swaggerDefinition' or 'options.definition' is required`
+      );
+    });
+
+    it('should require an api files input', () => {
+      expect(() => {
+        swaggerJsdoc({ definition: {} });
+      }).toThrow(
+        `Missing or invalid input: 'options.apis' is required and it should be an array.`
+      );
+
+      expect(() => {
+        swaggerJsdoc({ definition: {}, apis: {} });
+      }).toThrow(
+        `Missing or invalid input: 'options.apis' is required and it should be an array.`
+      );
+    });
+  });
+
   describe('Specification v2: Swagger', () => {
     it('should support multiple paths', () => {
       let testObject = {
