@@ -1,8 +1,14 @@
 const path = require('path');
+const { YAMLException } = require('js-yaml');
 const swaggerJsdoc = require('../lib');
 
 describe('swagger-jsdoc library', () => {
   describe('Error handling', () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+      jest.resetModules();
+    });
+
     it('should require options input', () => {
       expect(() => {
         swaggerJsdoc();
@@ -29,6 +35,33 @@ describe('swagger-jsdoc library', () => {
       }).toThrow(
         `Missing or invalid input: 'options.apis' is required and it should be an array.`
       );
+    });
+
+    it('should provide verbose information for wrongly formatted yaml inputs', () => {
+      jest.doMock('../lib/helpers/getSpecificationObject', () => {
+        throw new YAMLException('bad indentation of a mapping entry', {
+          name: null,
+          buffer: '/invalid_yaml:\n       - foo\n  bar\n\u0000',
+          position: 30,
+          line: 2,
+          column: 2,
+        });
+      });
+
+      expect(() => {
+        swaggerJsdoc({
+          swaggerDefinition: {
+            info: {
+              title: 'Hello World',
+              version: '1.0.0',
+              description: 'A sample API',
+            },
+            host: 'http://undefined:undefined',
+            basePath: '/',
+          },
+          apis: ['test/files/v2/wrong-yaml-identation1.js'],
+        });
+      }).toThrow();
     });
   });
 
