@@ -3,6 +3,19 @@ const { YAMLException } = require('js-yaml');
 const swaggerJsdoc = require('../lib');
 
 describe('swagger-jsdoc library', () => {
+  describe('Public APIs', () => {
+    it('main module is a function', () => {
+      expect(typeof swaggerJsdoc).toBe('function');
+    });
+
+    it('should expose a few utilities', () => {
+      expect(typeof swaggerJsdoc.createSpecification).toBe('function');
+      expect(typeof swaggerJsdoc.parseApiFileContent).toBe('function');
+      expect(typeof swaggerJsdoc.updateSpecificationObject).toBe('function');
+      expect(typeof swaggerJsdoc.finalizeSpecificationObject).toBe('function');
+    });
+  });
+
   describe('Error handling', () => {
     beforeEach(() => {
       jest.clearAllMocks();
