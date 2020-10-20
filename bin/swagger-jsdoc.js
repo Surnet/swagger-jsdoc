@@ -1,8 +1,5 @@
 #!/usr/bin/env node
 
-/**
- * Module dependencies.
- */
 const program = require('commander');
 const fs = require('fs');
 const path = require('path');
@@ -10,9 +7,7 @@ const jsYaml = require('js-yaml');
 const swaggerJSDoc = require('..');
 const pkg = require('../package.json');
 
-// Useful input.
 const input = process.argv.slice(2);
-// The spec, following a convention.
 let output = 'swagger.json';
 
 /**
@@ -22,17 +17,12 @@ let output = 'swagger.json';
  * @param {string} fileName - Name the output file.
  */
 function createSpecification(swaggerDefinition, apis, fileName) {
-  // Options for the swagger docs
-  const options = {
-    // Import swaggerDefinitions
-    swaggerDefinition,
-    // Path to the API docs
-    apis,
-  };
-
-  // Initialize swagger-jsdoc -> returns validated JSON or YAML swagger spec
   let swaggerSpec;
   const ext = path.extname(fileName);
+  const options = {
+    swaggerDefinition,
+    apis,
+  };
 
   if (ext === '.yml' || ext === '.yaml') {
     swaggerSpec = jsYaml.dump(swaggerJSDoc(options), {
@@ -43,40 +33,34 @@ function createSpecification(swaggerDefinition, apis, fileName) {
     swaggerSpec = JSON.stringify(swaggerJSDoc(options), null, 2);
   }
 
-  fs.writeFile(fileName, swaggerSpec, (err) => {
-    if (err) {
-      throw err;
-    }
-    console.log('Swagger specification is ready.');
-  });
+  fs.writeFileSync(fileName, swaggerSpec);
+  console.log('Swagger specification is ready.');
 }
 
-function loadJsSpecification(data, resolvedPath) {
-  // eslint-disable-next-line
-  return require(resolvedPath);
-}
-
-const YAML_OPTS = {
-  // OpenAPI spec mandates JSON-compatible YAML
-  schema: jsYaml.JSON_SCHEMA,
-};
-
-function loadYamlSpecification(data) {
-  return jsYaml.load(data, YAML_OPTS);
-}
-
-const LOADERS = {
-  '.js': loadJsSpecification,
-  '.json': JSON.parse,
-  '.yml': loadYamlSpecification,
-  '.yaml': loadYamlSpecification,
-};
-
-// Get an object of the definition file configuration.
-function loadSpecification(defPath, data) {
+/**
+ * Get an object of the definition file configuration.
+ * @param {string} defPath
+ * @param {object} swaggerDefinition
+ */
+function loadDefinition(defPath, swaggerDefinition) {
   const resolvedPath = path.resolve(defPath);
-
   const extName = path.extname(resolvedPath);
+
+  // eslint-disable-next-line
+  const loadJs = () => require(resolvedPath);
+  const loadJson = () => JSON.parse(swaggerDefinition);
+  const loadYaml = () =>
+    jsYaml.load(swaggerDefinition, {
+      schema: jsYaml.JSON_SCHEMA, // OpenAPI spec mandates JSON-compatible YAML
+    });
+
+  const LOADERS = {
+    '.js': loadJs,
+    '.json': loadJson,
+    '.yml': loadYaml,
+    '.yaml': loadYaml,
+  };
+
   const loader = LOADERS[extName];
 
   // Check whether the definition file is actually a usable file
@@ -84,8 +68,7 @@ function loadSpecification(defPath, data) {
     throw new Error('Definition file should be .js, .json, .yml or .yaml');
   }
 
-  const swaggerDefinition = loader(data, resolvedPath);
-  return swaggerDefinition;
+  return loader();
 }
 
 program
@@ -124,7 +107,7 @@ fs.readFile(program.definition, 'utf-8', (err, data) => {
   let swaggerDefinition;
 
   try {
-    swaggerDefinition = loadSpecification(program.definition, data);
+    swaggerDefinition = loadDefinition(program.definition, data);
   } catch (error) {
     const message = `Error while loading definition file '${program.definition}':\n${error.message}`;
     return console.log(message);
