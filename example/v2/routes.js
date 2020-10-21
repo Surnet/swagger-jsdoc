@@ -1,3 +1,5 @@
+/* istanbul ignore file */
+
 // Sets up the routes.
 module.exports.setup = function (app) {
   /**

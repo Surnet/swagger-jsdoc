@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 /* eslint import/no-extraneous-dependencies: 0 */
 
 // Dependencies

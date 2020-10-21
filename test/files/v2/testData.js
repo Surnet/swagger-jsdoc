@@ -1,3 +1,5 @@
+/* istanbul ignore file */
+
 // Mock for Definitions Object. `definitions` is correct, not `definition`.
 const testDataDefinitions = [
   {
