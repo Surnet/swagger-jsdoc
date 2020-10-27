@@ -1,10 +1,10 @@
 const path = require('path');
 const { YAMLException } = require('js-yaml');
 
-const swaggerJsdoc = require('../src');
+const swaggerJsdoc = require('../src/lib');
 const specHelper = require('../src/specification');
 
-describe('Main module', () => {
+describe('Main lib module', () => {
   describe('Public APIs', () => {
     it('main module is a function', () => {
       expect(typeof swaggerJsdoc).toBe('function');
