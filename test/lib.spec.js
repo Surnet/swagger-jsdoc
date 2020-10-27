@@ -1,8 +1,10 @@
 const path = require('path');
 const { YAMLException } = require('js-yaml');
-const swaggerJsdoc = require('../src');
 
-describe('swagger-jsdoc library', () => {
+const swaggerJsdoc = require('../src');
+const specHelper = require('../src/specification');
+
+describe('Main module', () => {
   describe('Public APIs', () => {
     it('main module is a function', () => {
       expect(typeof swaggerJsdoc).toBe('function');
@@ -19,7 +21,6 @@ describe('swagger-jsdoc library', () => {
   describe('Error handling', () => {
     beforeEach(() => {
       jest.clearAllMocks();
-      jest.resetModules();
     });
 
     it('should require options input', () => {
@@ -51,7 +52,7 @@ describe('swagger-jsdoc library', () => {
     });
 
     it('should provide verbose information for wrongly formatted yaml inputs', () => {
-      jest.doMock('../src/helpers/getSpecificationObject', () => {
+      specHelper.getSpecificationObject = jest.fn().mockImplementation(() => {
         throw new YAMLException('bad indentation of a mapping entry', {
           name: null,
           buffer: '/invalid_yaml:\n       - foo\n  bar\n\u0000',

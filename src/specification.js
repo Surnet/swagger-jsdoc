@@ -1,4 +1,100 @@
 /* eslint no-param-reassign: 0 */
+/* eslint no-self-assign: 0 */
+const parser = require('swagger-parser');
+
+const {
+  hasEmptyProperty,
+  convertGlobPaths,
+  parseApiFile,
+  filterJsDocComments,
+} = require('./utils');
+
+/**
+ * Adds necessary properties for a given specification.
+ * @see https://github.com/OAI/OpenAPI-Specification/tree/master/versions
+ * @param {object} definition - The `definition` or `swaggerDefinition` from options.
+ * @returns {object} Object containing required properties of a given specification version.
+ */
+function createSpecification(definition) {
+  const specification = JSON.parse(JSON.stringify(definition));
+
+  // Properties corresponding to their specifications.
+  const v2 = [
+    'paths',
+    'definitions',
+    'responses',
+    'parameters',
+    'securityDefinitions',
+  ];
+  const v3 = [...v2, 'components'];
+
+  if (specification.openapi) {
+    specification.openapi = specification.openapi;
+    v3.forEach((property) => {
+      specification[property] = specification[property] || {};
+    });
+  } else if (specification.swagger) {
+    specification.swagger = specification.swagger;
+    v2.forEach((property) => {
+      specification[property] = specification[property] || {};
+    });
+  } else {
+    specification.swagger = '2.0';
+    v2.forEach((property) => {
+      specification[property] = specification[property] || {};
+    });
+  }
+
+  specification.tags = specification.tags || [];
+
+  return specification;
+}
+
+/**
+ * OpenAPI specification validator does not accept empty values for a few properties.
+ * Solves validator error: "Schema error should NOT have additional properties"
+ * @param {object} inputSpec - The swagger/openapi specification
+ * @param {object} improvedSpec - The cleaned version of the inputSpec
+ */
+function cleanUselessProperties(inputSpec) {
+  const improvedSpec = JSON.parse(JSON.stringify(inputSpec));
+  const toClean = [
+    'definitions',
+    'responses',
+    'parameters',
+    'securityDefinitions',
+  ];
+
+  toClean.forEach((unnecessaryProp) => {
+    if (hasEmptyProperty(improvedSpec[unnecessaryProp])) {
+      delete improvedSpec[unnecessaryProp];
+    }
+  });
+
+  return improvedSpec;
+}
+
+/**
+ * Parse the swagger object and remove useless properties if necessary.
+ *
+ * @param {object} swaggerObject - Swagger object from parsing the api files.
+ * @returns {object} The specification.
+ */
+function finalizeSpecificationObject(swaggerObject) {
+  let specification = swaggerObject;
+
+  parser.parse(swaggerObject, (err, api) => {
+    if (!err) {
+      specification = api;
+    }
+  });
+
+  if (specification.openapi) {
+    specification = cleanUselessProperties(specification);
+  }
+
+  return specification;
+}
 
 /**
  * Checks if tag is already contained withing target.
@@ -161,6 +257,36 @@ function addDataToSwaggerObject(swaggerObject, data) {
   }
 }
 
-module.exports = {
-  addDataToSwaggerObject,
-};
+/**
+ * Given an api file parsed for its jsdoc comments and yaml files, update the
+ * specification.
+ *
+ * @param {object} parsedFile - Parsed API file.
+ * @param {object} specification - Specification accumulator.
+ */
+function updateSpecificationObject(parsedFile, specification) {
+  addDataToSwaggerObject(specification, parsedFile.yaml);
+  addDataToSwaggerObject(specification, filterJsDocComments(parsedFile.jsdoc));
+}
+
+function getSpecificationObject(options) {
+  // Get input definition and prepare the specification's skeleton
+  const definition = options.swaggerDefinition || options.definition;
+  const specification = createSpecification(definition);
+
+  // Parse the documentation containing information about APIs.
+  const apiPaths = convertGlobPaths(options.apis);
+
+  for (let i = 0; i < apiPaths.length; i += 1) {
+    const parsedFile = parseApiFile(apiPaths[i]);
+    updateSpecificationObject(parsedFile, specification);
+  }
+
+  return finalizeSpecificationObject(specification);
+}
+
+module.exports.createSpecification = createSpecification;
+module.exports.finalizeSpecificationObject = finalizeSpecificationObject;
+module.exports.getSpecificationObject = getSpecificationObject;
+module.exports.addDataToSwaggerObject = addDataToSwaggerObject;
+module.exports.updateSpecificationObject = updateSpecificationObject;
