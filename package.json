@@ -46,11 +46,9 @@
     "url": "https://github.com/Surnet/swagger-jsdoc.git"
   },
   "keywords": [
-    "jsdoc",
-    "restful",
-    "api",
-    "express",
-    "swagger"
+    "swagger",
+    "openapi",
+    "jsdoc"
   ],
   "author": "https://github.com/Surnet/swagger-jsdoc/graphs/contributors",
   "bugs": {

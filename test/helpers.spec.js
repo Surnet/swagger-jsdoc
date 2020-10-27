@@ -1,7 +1,7 @@
 /* eslint no-unused-expressions: 0 */
-const specHelper = require('../lib/helpers/specification');
-const hasEmptyProperty = require('../lib/helpers/hasEmptyProperty');
-const parseApiFileContent = require('../lib/helpers/parseApiFileContent');
+const specHelper = require('../src/helpers/specification');
+const hasEmptyProperty = require('../src/helpers/hasEmptyProperty');
+const parseApiFileContent = require('../src/helpers/parseApiFileContent');
 
 const swaggerObject = require('./files/v2/swaggerObject.json');
 const testData = require('./files/v2/testData');
