@@ -6,7 +6,7 @@ const {
   hasEmptyProperty,
   convertGlobPaths,
   parseApiFile,
-  filterJsDocComments,
+  getAnnotations,
 } = require('./utils');
 
 /**
@@ -128,11 +128,6 @@ function tagDuplicated(target, tag) {
 function attachTags(conf) {
   const { tag, swaggerObject, propertyName } = conf;
 
-  // Correct deprecated property.
-  if (propertyName === 'tag') {
-    conf.propertyName = 'tags';
-  }
-
   if (Array.isArray(tag)) {
     for (let i = 0; i < tag.length; i += 1) {
       if (!tagDuplicated(swaggerObject[propertyName], tag[i])) {
@@ -145,38 +140,6 @@ function attachTags(conf) {
 }
 
 /**
- * List of deprecated or wrong swagger schema properties in singular.
- * @returns {array} The list of deprecated property names.
- */
-function getSwaggerSchemaWrongProperties() {
-  return [
-    'consume',
-    'produce',
-    'path',
-    'tag',
-    'definition',
-    'securityDefinition',
-    'scheme',
-    'response',
-    'parameter',
-  ];
-}
-
-/**
- * Makes a deprecated property plural if necessary.
- * @param {string} propertyName - The swagger property name to check.
- * @returns {string} The updated propertyName if neccessary.
- */
-function correctSwaggerKey(propertyName) {
-  const wrong = getSwaggerSchemaWrongProperties();
-  if (wrong.indexOf(propertyName) > 0) {
-    // Returns the corrected property name.
-    return `${propertyName}s`;
-  }
-  return propertyName;
-}
-
-/**
  * Handles swagger propertyName in pathObject context for swaggerObject.
  * @param {object} swaggerObject - The swagger object to update.
  * @param {object} pathObject - The input context of an item for swaggerObject.
@@ -184,41 +147,32 @@ function correctSwaggerKey(propertyName) {
  */
 function organizeSwaggerProperties(swaggerObject, pathObject, propertyName) {
   const simpleProperties = [
-    'component',
     'components',
-    'consume',
     'consumes',
-    'produce',
     'produces',
     'path',
     'paths',
-    'schema',
     'schemas',
-    'securityDefinition',
     'securityDefinitions',
-    'response',
     'responses',
-    'parameter',
     'parameters',
-    'definition',
     'definitions',
   ];
 
   // Common properties.
   if (simpleProperties.indexOf(propertyName) !== -1) {
-    const keyName = correctSwaggerKey(propertyName);
     const definitionNames = Object.getOwnPropertyNames(
       pathObject[propertyName]
     );
     for (let k = 0; k < definitionNames.length; k += 1) {
       const definitionName = definitionNames[k];
-      swaggerObject[keyName][definitionName] = {
-        ...swaggerObject[keyName][definitionName],
+      swaggerObject[propertyName][definitionName] = {
+        ...swaggerObject[propertyName][definitionName],
         ...pathObject[propertyName][definitionName],
       };
     }
     // Tags.
-  } else if (propertyName === 'tag' || propertyName === 'tags') {
+  } else if (propertyName === 'tags') {
     const tag = pathObject[propertyName];
     attachTags({
       tag,
@@ -266,7 +220,7 @@ function addDataToSwaggerObject(swaggerObject, data) {
  */
 function updateSpecificationObject(parsedFile, specification) {
   addDataToSwaggerObject(specification, parsedFile.yaml);
-  addDataToSwaggerObject(specification, filterJsDocComments(parsedFile.jsdoc));
+  addDataToSwaggerObject(specification, getAnnotations(parsedFile.jsdoc));
 }
 
 function getSpecificationObject(options) {

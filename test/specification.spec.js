@@ -17,16 +17,9 @@ describe('Specification module', () => {
       }).toThrow('swaggerObject and data are required!');
     });
 
-    it('should handle "definition" and "definitions"', () => {
+    it('should handle  "definitions"', () => {
       specHelper.addDataToSwaggerObject(swaggerObject, testData.definitions);
       expect(swaggerObject.definitions).toEqual({
-        DefinitionSingular: {
-          required: ['username', 'password'],
-          properties: {
-            username: { type: 'string' },
-            password: { type: 'string' },
-          },
-        },
         DefinitionPlural: {
           required: ['username', 'password'],
           properties: {
@@ -37,16 +30,9 @@ describe('Specification module', () => {
       });
     });
 
-    it('should handle "parameter" and "parameters"', () => {
+    it('should handle "parameters"', () => {
       specHelper.addDataToSwaggerObject(swaggerObject, testData.parameters);
       expect(swaggerObject.parameters).toEqual({
-        ParameterSingular: {
-          name: 'username',
-          description: 'Username to use for login.',
-          in: 'formData',
-          required: true,
-          type: 'string',
-        },
         ParameterPlural: {
           name: 'limit',
           in: 'query',
@@ -58,17 +44,12 @@ describe('Specification module', () => {
       });
     });
 
-    it('should handle "securityDefinition" and "securityDefinitions"', () => {
+    it('should handle "securityDefinitions"', () => {
       specHelper.addDataToSwaggerObject(
         swaggerObject,
         testData.securityDefinitions
       );
       expect(swaggerObject.securityDefinitions).toEqual({
-        basicAuth: {
-          type: 'basic',
-          description:
-            'HTTP Basic Authentication. Works over `HTTP` and `HTTPS`',
-        },
         api_key: { type: 'apiKey', name: 'api_key', in: 'header' },
         petstore_auth: {
           type: 'oauth2',
@@ -82,10 +63,9 @@ describe('Specification module', () => {
       });
     });
 
-    it('should handle "response" and "responses"', () => {
+    it('should handle "responses"', () => {
       specHelper.addDataToSwaggerObject(swaggerObject, testData.responses);
       expect(swaggerObject.responses).toEqual({
-        NotFound: { description: 'Entity not found.' },
         IllegalInput: { description: 'Illegal input for operation.' },
       });
     });

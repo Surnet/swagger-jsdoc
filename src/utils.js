@@ -31,24 +31,24 @@ function hasEmptyProperty(obj) {
 }
 
 /**
- * Filters JSDoc comments for those tagged with '@swagger'
+ * Filters JSDoc comments with `@swagger`/`@openapi` annotation.
  * @param {array} jsDocComments - JSDoc comments
  * @returns {array} JSDoc comments tagged with '@swagger'
  */
-function filterJsDocComments(jsDocComments) {
-  const swaggerJsDocComments = [];
+function getAnnotations(jsDocComments) {
+  const annotations = [];
 
   for (let i = 0; i < jsDocComments.length; i += 1) {
     const jsDocComment = jsDocComments[i];
     for (let j = 0; j < jsDocComment.tags.length; j += 1) {
       const tag = jsDocComment.tags[j];
       if (tag.title === 'swagger' || tag.title === 'openapi') {
-        swaggerJsDocComments.push(jsYaml.safeLoad(tag.description));
+        annotations.push(jsYaml.safeLoad(tag.description));
       }
     }
   }
 
-  return swaggerJsDocComments;
+  return annotations;
 }
 
 /**
@@ -114,6 +114,6 @@ function parseApiFile(file) {
 
 module.exports.convertGlobPaths = convertGlobPaths;
 module.exports.hasEmptyProperty = hasEmptyProperty;
-module.exports.filterJsDocComments = filterJsDocComments;
+module.exports.getAnnotations = getAnnotations;
 module.exports.parseApiFileContent = parseApiFileContent;
 module.exports.parseApiFile = parseApiFile;
