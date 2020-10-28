@@ -150,7 +150,6 @@ function organizeSwaggerProperties(swaggerObject, pathObject, propertyName) {
     'components',
     'consumes',
     'produces',
-    'path',
     'paths',
     'schemas',
     'securityDefinitions',
