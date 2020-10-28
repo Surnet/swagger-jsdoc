@@ -6,7 +6,7 @@ const sh = promisify(exec);
 const dir = process.env.PWD;
 const bin = `${dir}/bin/swagger-jsdoc.js`;
 
-describe('command line interface', () => {
+describe('CLI module', () => {
   it('help menu is default fallback when no arguments', async () => {
     const result = await sh(`${bin}`);
     expect(result.stdout).toMatchSnapshot();

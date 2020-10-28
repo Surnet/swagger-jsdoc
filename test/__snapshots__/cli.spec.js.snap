@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`command line interface help menu is default fallback when no arguments 1`] = `
+exports[`CLI module help menu is default fallback when no arguments 1`] = `
 "Usage: swagger-jsdoc [options] <path ...>
 
 Options:
@@ -11,7 +11,7 @@ Options:
 "
 `;
 
-exports[`command line interface help menu works 1`] = `
+exports[`CLI module help menu works 1`] = `
 "Usage: swagger-jsdoc [options] <path ...>
 
 Options:
@@ -22,13 +22,13 @@ Options:
 "
 `;
 
-exports[`command line interface should reject definition file with invalid JSON syntax 1`] = `
+exports[`CLI module should reject definition file with invalid JSON syntax 1`] = `
 "Error while loading definition file 'test/files/v2/wrong_syntax.json':
 Unexpected token t in JSON at position 18
 "
 `;
 
-exports[`command line interface should reject definition file with invalid YAML syntax 1`] = `
+exports[`CLI module should reject definition file with invalid YAML syntax 1`] = `
 "Error while loading definition file 'test/files/v2/wrong_syntax.yaml':
 tag suffix cannot contain exclamation marks at line 2, column 5:
       !!!title: Hello World
@@ -36,7 +36,7 @@ tag suffix cannot contain exclamation marks at line 2, column 5:
 "
 `;
 
-exports[`command line interface should reject definition file with non-JSON compatible YAML syntax 1`] = `
+exports[`CLI module should reject definition file with non-JSON compatible YAML syntax 1`] = `
 "Error while loading definition file 'test/files/v2/non_json_compatible.yaml':
 unknown tag !<tag:yaml.org,2002:js/undefined> at line 3, column 3:
       version: 1.0.0
@@ -44,7 +44,7 @@ unknown tag !<tag:yaml.org,2002:js/undefined> at line 3, column 3:
 "
 `;
 
-exports[`command line interface should require a definition file 1`] = `
+exports[`CLI module should require a definition file 1`] = `
 "Definition file is required.
 You can do that, for example: 
 $ swag-jsdoc -d swaggerDef.js wrongDefinition
@@ -58,19 +58,19 @@ Options:
 "
 `;
 
-exports[`command line interface should require an info object in the definition 1`] = `
+exports[`CLI module should require an info object in the definition 1`] = `
 "Definition file should contain an info object!
 More at http://swagger.io/specification/#infoObject
 "
 `;
 
-exports[`command line interface should require arguments with jsDoc data about an API 1`] = `
+exports[`CLI module should require arguments with jsDoc data about an API 1`] = `
 "You must provide sources for reading API files.
 Either add filenames as arguments, or add an \\"apis\\" key in your definitions file.
 "
 `;
 
-exports[`command line interface should require title and version in the info object 1`] = `
+exports[`CLI module should require title and version in the info object 1`] = `
 "The title and version properties are required!
 More at http://swagger.io/specification/#infoObject
 "
