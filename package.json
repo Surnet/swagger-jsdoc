@@ -54,10 +54,6 @@
   "bugs": {
     "url": "https://github.com/Surnet/swagger-jsdoc/issues"
   },
-  "resolutions": {
-    "lodash": "^4.17.19",
-    "minimist": "^1.2.3"
-  },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
