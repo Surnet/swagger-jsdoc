@@ -122,31 +122,30 @@ function tagDuplicated(target, tag) {
 }
 
 /**
- * Adds the tags property to a swagger object.
- * @param {object} conf - Flexible configuration.
+ * Adds tags to a swagger object.
+ * @param {object} configuration
  */
-function attachTags(conf) {
-  const { tag, swaggerObject, propertyName } = conf;
+function attachTags(configuration) {
+  const { tag, swaggerObject, property } = configuration;
 
   if (Array.isArray(tag)) {
     for (let i = 0; i < tag.length; i += 1) {
-      if (!tagDuplicated(swaggerObject[propertyName], tag[i])) {
-        swaggerObject[propertyName].push(tag[i]);
+      if (!tagDuplicated(swaggerObject[property], tag[i])) {
+        swaggerObject[property].push(tag[i]);
       }
     }
-  } else if (!tagDuplicated(swaggerObject[propertyName], tag)) {
-    swaggerObject[propertyName].push(tag);
+  } else if (!tagDuplicated(swaggerObject[property], tag)) {
+    swaggerObject[property].push(tag);
   }
 }
 
 /**
- * Handles swagger propertyName in pathObject context for swaggerObject.
- * @param {object} swaggerObject - The swagger object to update.
- * @param {object} pathObject - The input context of an item for swaggerObject.
- * @param {string} propertyName - The property to handle.
+ * @param {object} swaggerObject
+ * @param {object} annotation
+ * @param {string} property
  */
-function organizeSwaggerProperties(swaggerObject, pathObject, propertyName) {
-  const simpleProperties = [
+function organizeSwaggerProperties(swaggerObject, annotation, property) {
+  const commonProperties = [
     'components',
     'consumes',
     'produces',
@@ -158,31 +157,21 @@ function organizeSwaggerProperties(swaggerObject, pathObject, propertyName) {
     'definitions',
   ];
 
-  // Common properties.
-  if (simpleProperties.indexOf(propertyName) !== -1) {
-    const definitionNames = Object.getOwnPropertyNames(
-      pathObject[propertyName]
-    );
-    for (let k = 0; k < definitionNames.length; k += 1) {
-      const definitionName = definitionNames[k];
-      swaggerObject[propertyName][definitionName] = {
-        ...swaggerObject[propertyName][definitionName],
-        ...pathObject[propertyName][definitionName],
+  debugger;
+  if (commonProperties.includes(property)) {
+    Object.keys(annotation[property]).forEach((definition) => {
+      swaggerObject[property][definition] = {
+        ...swaggerObject[property][definition],
+        ...annotation[property][definition],
       };
-    }
-    // Tags.
-  } else if (propertyName === 'tags') {
-    const tag = pathObject[propertyName];
-    attachTags({
-      tag,
-      swaggerObject,
-      propertyName,
     });
-    // Paths.
+    // Tags.
+  } else if (property === 'tags') {
+    attachTags({ tag: annotation[property], swaggerObject, property });
   } else {
-    swaggerObject.paths[propertyName] = {
-      ...swaggerObject.paths[propertyName],
-      ...pathObject[propertyName],
+    swaggerObject.paths[property] = {
+      ...swaggerObject.paths[property],
+      ...annotation[property],
     };
   }
 }
@@ -190,22 +179,20 @@ function organizeSwaggerProperties(swaggerObject, pathObject, propertyName) {
 /**
  * Adds the data in to the swagger object.
  * @param {object} swaggerObject - Swagger object which will be written to
- * @param {object[]} data - objects of parsed swagger data from yml or jsDoc
+ * @param {object[]} annotations - objects of parsed swagger data from yml or jsDoc
  *                          comments
  */
-function addDataToSwaggerObject(swaggerObject, data) {
-  if (!swaggerObject || !data) {
+function addDataToSwaggerObject(swaggerObject, annotations) {
+  if (!swaggerObject || !annotations) {
     throw new Error('swaggerObject and data are required!');
   }
 
-  for (let i = 0; i < data.length; i += 1) {
-    const pathObject = data[i];
-    const propertyNames = Object.getOwnPropertyNames(pathObject);
-    // Iterating the properties of the a given pathObject.
+  for (let i = 0; i < annotations.length; i += 1) {
+    const annotation = annotations[i];
+    const propertyNames = Object.getOwnPropertyNames(annotation);
     for (let j = 0; j < propertyNames.length; j += 1) {
-      const propertyName = propertyNames[j];
-      // Do what's necessary to organize the end specification.
-      organizeSwaggerProperties(swaggerObject, pathObject, propertyName);
+      const property = propertyNames[j];
+      organizeSwaggerProperties(swaggerObject, annotation, property);
     }
   }
 }
