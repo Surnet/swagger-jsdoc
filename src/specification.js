@@ -13,41 +13,45 @@ const {
  * Adds necessary properties for a given specification.
  * @see https://github.com/OAI/OpenAPI-Specification/tree/master/versions
  * @param {object} definition - The `definition` or `swaggerDefinition` from options.
- * @returns {object} Object containing required properties of a given specification version.
+ * @returns {object} swaggerObject
  */
 function createSpecification(definition) {
-  const specification = JSON.parse(JSON.stringify(definition));
+  let version;
+  const swaggerObject = JSON.parse(JSON.stringify(definition));
+  const specificationTemplate = {
+    v2: [
+      'paths',
+      'definitions',
+      'responses',
+      'parameters',
+      'securityDefinitions',
+    ],
+    v3: [
+      'paths',
+      'definitions',
+      'responses',
+      'parameters',
+      'securityDefinitions',
+      'components',
+    ],
+  };
 
-  // Properties corresponding to their specifications.
-  const v2 = [
-    'paths',
-    'definitions',
-    'responses',
-    'parameters',
-    'securityDefinitions',
-  ];
-  const v3 = [...v2, 'components'];
-
-  if (specification.openapi) {
-    specification.openapi = specification.openapi;
-    v3.forEach((property) => {
-      specification[property] = specification[property] || {};
-    });
-  } else if (specification.swagger) {
-    specification.swagger = specification.swagger;
-    v2.forEach((property) => {
-      specification[property] = specification[property] || {};
-    });
+  if (swaggerObject.openapi) {
+    version = 'v3';
+  } else if (swaggerObject.swagger) {
+    version = 'v2';
   } else {
-    specification.swagger = '2.0';
-    v2.forEach((property) => {
-      specification[property] = specification[property] || {};
-    });
+    version = 'v2';
+    swaggerObject.swagger = '2.0';
   }
 
-  specification.tags = specification.tags || [];
+  specificationTemplate[version].forEach((property) => {
+    swaggerObject[property] = swaggerObject[property] || {};
+  });
 
-  return specification;
+  swaggerObject.tags = swaggerObject.tags || [];
+
+  return swaggerObject;
 }
 
 /**
@@ -173,11 +177,8 @@ function addDataToSwaggerObject(swaggerObject, annotations) {
     throw new Error('swaggerObject and data are required!');
   }
 
-  for (let i = 0; i < annotations.length; i += 1) {
-    const annotation = annotations[i];
-    const propertyNames = Object.getOwnPropertyNames(annotation);
-    for (let j = 0; j < propertyNames.length; j += 1) {
-      const property = propertyNames[j];
+  for (const annotation of annotations) {
+    for (const property in annotation) {
       organizeSwaggerProperties(swaggerObject, annotation, property);
     }
   }

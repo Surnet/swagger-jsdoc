@@ -32,9 +32,7 @@ module.exports = (options) => {
   }
 
   try {
-    const specificationObject = getSpecificationObject(options);
-
-    return specificationObject;
+    return getSpecificationObject(options);
   } catch (err) {
     if (err instanceof YAMLException) {
       console.log('Error in yaml file:', err.mark.buffer);

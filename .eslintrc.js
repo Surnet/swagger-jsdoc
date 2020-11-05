@@ -8,5 +8,7 @@ module.exports = {
   rules: {
     'func-names': 'off',
     'no-console': 'off',
+    'no-restricted-syntax': 'off',
+    'guard-for-in': 'off',
   },
 };
