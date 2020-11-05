@@ -102,7 +102,7 @@ function finalizeSpecificationObject(swaggerObject) {
  * The target, is the part of the swagger specification that holds all tags.
  * @param {object} target - Swagger object place to include the tags data.
  * @param {object} tag - Swagger tag object to be included.
- * @returns {boolean} Does tag is already present in target
+ * @returns {boolean} tag is already present in target
  */
 function tagDuplicated(target, tag) {
   // Check input is workable.
@@ -122,29 +122,13 @@ function tagDuplicated(target, tag) {
 }
 
 /**
- * Adds tags to a swagger object.
- * @param {object} configuration
- */
-function attachTags(configuration) {
-  const { tag, swaggerObject, property } = configuration;
-
-  if (Array.isArray(tag)) {
-    for (let i = 0; i < tag.length; i += 1) {
-      if (!tagDuplicated(swaggerObject[property], tag[i])) {
-        swaggerObject[property].push(tag[i]);
-      }
-    }
-  } else if (!tagDuplicated(swaggerObject[property], tag)) {
-    swaggerObject[property].push(tag);
-  }
-}
-
-/**
  * @param {object} swaggerObject
  * @param {object} annotation
  * @param {string} property
  */
 function organizeSwaggerProperties(swaggerObject, annotation, property) {
+  if (property.startsWith('x-')) return; // extensions defined "inline" in annotations are not useful for the end specification
+
   const commonProperties = [
     'components',
     'consumes',
@@ -157,7 +141,6 @@ function organizeSwaggerProperties(swaggerObject, annotation, property) {
     'definitions',
   ];
 
-  debugger;
   if (commonProperties.includes(property)) {
     Object.keys(annotation[property]).forEach((definition) => {
       swaggerObject[property][definition] = {
@@ -165,10 +148,19 @@ function organizeSwaggerProperties(swaggerObject, annotation, property) {
         ...annotation[property][definition],
       };
     });
-    // Tags.
   } else if (property === 'tags') {
-    attachTags({ tag: annotation[property], swaggerObject, property });
+    const tag = annotation[property];
+    if (Array.isArray(tag)) {
+      for (let i = 0; i < tag.length; i += 1) {
+        if (!tagDuplicated(swaggerObject[property], tag[i])) {
+          swaggerObject[property].push(tag[i]);
+        }
+      }
+    } else if (!tagDuplicated(swaggerObject[property], tag)) {
+      swaggerObject[property].push(tag);
+    }
   } else {
+    // Paths which are not defined as "paths" property, starting with a slash "/"
     swaggerObject.paths[property] = {
       ...swaggerObject.paths[property],
       ...annotation[property],
