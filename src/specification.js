@@ -10,7 +10,7 @@ const {
 } = require('./utils');
 
 /**
- * Adds necessary properties for a given specification.
+ * Prepares the swaggerObject.
  * @see https://github.com/OAI/OpenAPI-Specification/tree/master/versions
  * @param {object} definition - The `definition` or `swaggerDefinition` from options.
  * @returns {object} swaggerObject
@@ -57,25 +57,22 @@ function createSpecification(definition) {
 /**
  * OpenAPI specification validator does not accept empty values for a few properties.
  * Solves validator error: "Schema error should NOT have additional properties"
- * @param {object} inputSpec - The swagger/openapi specification
- * @param {object} improvedSpec - The cleaned version of the inputSpec
+ * @param {object} swaggerObject
+ * @returns {object} swaggerObject
  */
-function cleanUselessProperties(inputSpec) {
-  const improvedSpec = JSON.parse(JSON.stringify(inputSpec));
-  const toClean = [
+function cleanSwaggerObject(swaggerObject) {
+  for (const prop of [
     'definitions',
     'responses',
     'parameters',
     'securityDefinitions',
-  ];
-
-  toClean.forEach((unnecessaryProp) => {
-    if (hasEmptyProperty(improvedSpec[unnecessaryProp])) {
-      delete improvedSpec[unnecessaryProp];
+  ]) {
+    if (hasEmptyProperty(swaggerObject[prop])) {
+      delete swaggerObject[prop];
     }
-  });
+  }
 
-  return improvedSpec;
+  return swaggerObject;
 }
 
 /**
@@ -94,7 +91,7 @@ function finalizeSpecificationObject(swaggerObject) {
   });
 
   if (specification.openapi) {
-    specification = cleanUselessProperties(specification);
+    specification = cleanSwaggerObject(specification);
   }
 
   return specification;
