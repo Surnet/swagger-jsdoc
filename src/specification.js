@@ -97,27 +97,20 @@ function finalizeSpecificationObject(swaggerObject) {
 }
 
 /**
- * Checks if tag is already contained withing target.
- * The tag is an object of type http://swagger.io/specification/#tagObject
- * The target, is the part of the swagger specification that holds all tags.
- * @param {object} target - Swagger object place to include the tags data.
- * @param {object} tag - Swagger tag object to be included.
- * @returns {boolean} tag is already present in target
+ * @param {array} tags property of swaggerObject specification
+ * @param {object} tag
+ * @returns {boolean}
  */
-function tagDuplicated(target, tag) {
-  // Check input is workable.
-  if (target && target.length && tag) {
-    for (let i = 0; i < target.length; i += 1) {
-      const targetTag = target[i];
-      // The name of the tag to include already exists in the taget.
-      // Therefore, it's not necessary to be added again.
+function isTagPresentInSpec(tags, tag) {
+  if (tags && tags.length && tag) {
+    for (let i = 0; i < tags.length; i += 1) {
+      const targetTag = tags[i];
       if (targetTag.name === tag.name) {
         return true;
       }
     }
   }
 
-  // This will indicate that `tag` is not present in `target`.
   return false;
 }
 
@@ -149,15 +142,16 @@ function organizeSwaggerProperties(swaggerObject, annotation, property) {
       };
     });
   } else if (property === 'tags') {
-    const tag = annotation[property];
-    if (Array.isArray(tag)) {
-      for (let i = 0; i < tag.length; i += 1) {
-        if (!tagDuplicated(swaggerObject[property], tag[i])) {
-          swaggerObject[property].push(tag[i]);
+    const { tags } = annotation;
+
+    if (Array.isArray(tags)) {
+      tags.forEach((tag) => {
+        if (!isTagPresentInSpec(swaggerObject.tags, tag)) {
+          swaggerObject.tags.push(tag);
         }
-      }
-    } else if (!tagDuplicated(swaggerObject[property], tag)) {
-      swaggerObject[property].push(tag);
+      });
+    } else if (!isTagPresentInSpec(swaggerObject.tags, tags)) {
+      swaggerObject.tags.push(tags);
     }
   } else {
     // Paths which are not defined as "paths" property, starting with a slash "/"
