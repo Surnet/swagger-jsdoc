@@ -48,7 +48,7 @@ $ yarn add swagger-jsdoc
 
 ### Fundamental concepts
 
-Before you start writing your specification and/or documentation, please keep in mind that there are two fundamental concepts you need to wrap you head around when working with `swagger-jsdoc` - definition object and input APIs.
+Before you start writing your specification and/or documentation, please keep in mind that there are two fundamental concepts you need to wrap your head around when working with `swagger-jsdoc` - definition object and input APIs.
 
 Definition object maps to [OpenAPI object](https://swagger.io/specification/#oasObject). This is where you would add information about your API and any root-level properties. Definition object is a required parameter.
 
