@@ -1,8 +1,4 @@
-const fs = require('fs');
-const path = require('path');
 const glob = require('glob');
-const jsYaml = require('js-yaml');
-const doctrine = require('doctrine');
 
 /**
  * Converts an array of globs to full paths
@@ -31,33 +27,28 @@ function hasEmptyProperty(obj) {
 }
 
 /**
- * Filters JSDoc comments with `@swagger`/`@openapi` annotation.
- * @param {array} jsDocComments - JSDoc comments
- * @returns {array} JSDoc comments tagged with '@swagger'
+ * Extracts the YAML description from JSDoc comments with `@swagger`/`@openapi` annotation.
+ * @param {object} jsDocComment - Single item of JSDoc comments from doctrine.parse
+ * @returns {array} YAML parts
  */
-function getAnnotations(jsDocComments) {
-  const annotations = [];
+function extractYamlFromJsDoc(jsDocComment) {
+  const yamlParts = [];
 
-  for (let i = 0; i < jsDocComments.length; i += 1) {
-    const jsDocComment = jsDocComments[i];
-    for (let j = 0; j < jsDocComment.tags.length; j += 1) {
-      const tag = jsDocComment.tags[j];
-      if (tag.title === 'swagger' || tag.title === 'openapi') {
-        annotations.push(jsYaml.safeLoad(tag.description));
-      }
+  for (const tag of jsDocComment.tags) {
+    if (tag.title === 'swagger' || tag.title === 'openapi') {
+      yamlParts.push(tag.description);
     }
   }
 
-  return annotations;
+  return yamlParts;
 }
 
 /**
- * Parse the provided API file content.
  * @param {string} fileContent - Content of the file
  * @param {string} ext - File format ('.yaml', '.yml', '.js', etc.)
  * @returns {{jsdoc: array, yaml: array}} JSDoc comments and Yaml files
  */
-function parseApiFileContent(fileContent, ext) {
+function getApiFileContent(fileContent, ext) {
   const jsDocRegex = /\/\*\*([\s\S]*?)\*\//gm;
   const csDocRegex = /###([\s\S]*?)###/gm;
   const yaml = [];
@@ -67,7 +58,7 @@ function parseApiFileContent(fileContent, ext) {
   switch (ext) {
     case '.yml':
     case '.yaml':
-      yaml.push(jsYaml.safeLoad(fileContent));
+      yaml.push(fileContent);
       break;
 
     case '.coffee':
@@ -79,7 +70,7 @@ function parseApiFileContent(fileContent, ext) {
           part[0] = `/**`;
           part[regexResults.length - 1] = '*/';
           part = part.join('');
-          jsdoc.push(doctrine.parse(part, { unwrap: true }));
+          jsdoc.push(part);
         }
       }
       break;
@@ -88,7 +79,7 @@ function parseApiFileContent(fileContent, ext) {
       regexResults = fileContent.match(jsDocRegex);
       if (regexResults) {
         for (let i = 0; i < regexResults.length; i += 1) {
-          jsdoc.push(doctrine.parse(regexResults[i], { unwrap: true }));
+          jsdoc.push(regexResults[i]);
         }
       }
     }
@@ -100,20 +91,7 @@ function parseApiFileContent(fileContent, ext) {
   };
 }
 
-/**
- * Parses the provided API file for JSDoc comments.
- * @param {string} file - File to be parsed
- * @returns {{jsdoc: array, yaml: array}} JSDoc comments and Yaml files
- */
-function parseApiFile(file) {
-  const fileContent = fs.readFileSync(file, { encoding: 'utf8' });
-  const ext = path.extname(file);
-
-  return parseApiFileContent(fileContent, ext);
-}
-
 module.exports.convertGlobPaths = convertGlobPaths;
 module.exports.hasEmptyProperty = hasEmptyProperty;
-module.exports.getAnnotations = getAnnotations;
-module.exports.parseApiFileContent = parseApiFileContent;
-module.exports.parseApiFile = parseApiFile;
+module.exports.extractYamlFromJsDoc = extractYamlFromJsDoc;
+module.exports.getApiFileContent = getApiFileContent;

@@ -19,7 +19,7 @@ describe('Utilities module', () => {
     });
   });
 
-  describe('parseApiFileContent', () => {
+  describe('getApiFileContent', () => {
     it('should extract jsdoc comments inside .js files', () => {
       const fileContent = `
         // Sets up the routes.
@@ -51,7 +51,7 @@ describe('Utilities module', () => {
         };
       `;
 
-      expect(utils.parseApiFileContent(fileContent, '.js')).toEqual({
+      expect(utils.getApiFileContent(fileContent, '.js')).toEqual({
         yaml: [],
         jsdoc: [
           {
@@ -108,7 +108,7 @@ describe('Utilities module', () => {
         res.json req.body
     `;
 
-      expect(utils.parseApiFileContent(fileContent, '.coffee')).toEqual({
+      expect(utils.getApiFileContent(fileContent, '.coffee')).toEqual({
         yaml: [],
         jsdoc: [
           {

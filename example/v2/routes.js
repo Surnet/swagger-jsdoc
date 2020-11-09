@@ -112,7 +112,7 @@ module.exports.setup = function (app) {
 
   /**
    * @swagger
-   * '/aws':
+   * /aws:
    *   get:
    *     summary: sample aws-specific route
    *     description: contains a reference outside this file

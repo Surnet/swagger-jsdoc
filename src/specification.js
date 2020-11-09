@@ -1,12 +1,17 @@
 /* eslint no-param-reassign: 0 */
 /* eslint no-self-assign: 0 */
+const EOL = require('os').EOL;
+const fs = require('fs');
+const path = require('path');
 const parser = require('swagger-parser');
+const jsYaml = require('js-yaml');
+const doctrine = require('doctrine');
 
 const {
   hasEmptyProperty,
   convertGlobPaths,
-  parseApiFile,
-  getAnnotations,
+  getApiFileContent,
+  extractYamlFromJsDoc,
 } = require('./utils');
 
 /**
@@ -181,30 +186,39 @@ function addDataToSwaggerObject(swaggerObject, annotations) {
   }
 }
 
-/**
- * Given an api file parsed for its jsdoc comments and yaml files, update the
- * specification.
- *
- * @param {object} parsedFile - Parsed API file.
- * @param {object} specification - Specification accumulator.
- */
-function updateSpecificationObject(parsedFile, specification) {
-  addDataToSwaggerObject(specification, parsedFile.yaml);
-  addDataToSwaggerObject(specification, getAnnotations(parsedFile.jsdoc));
-}
-
 function getSpecificationObject(options) {
   // Get input definition and prepare the specification's skeleton
   const definition = options.swaggerDefinition || options.definition;
   const specification = createSpecification(definition);
+  const specificationParts = { yaml: [], jsdoc: [] };
+  const yaml = [];
 
-  // Parse the documentation containing information about APIs.
-  const apiPaths = convertGlobPaths(options.apis);
+  for (const file of convertGlobPaths(options.apis)) {
+    const fileContent = fs.readFileSync(file, { encoding: 'utf8' });
+    const ext = path.extname(file);
+    const part = getApiFileContent(fileContent, ext);
 
-  for (let i = 0; i < apiPaths.length; i += 1) {
-    const parsedFile = parseApiFile(apiPaths[i]);
-    updateSpecificationObject(parsedFile, specification);
+    if (part.yaml.length) {
+      specificationParts.yaml.push();
+    }
+    if (part.jsdoc.length) {
+      specificationParts.jsdoc.push(part.jsdoc);
+    }
   }
+
+  for (const yamlParts of specificationParts.yaml) {
+    yaml.push(...yamlParts);
+  }
+
+  specificationParts.jsdoc.map((annotations) => {
+    for (const annotation of annotations) {
+      const jsDocComment = doctrine.parse(annotation, { unwrap: true });
+      yaml.push(...extractYamlFromJsDoc(jsDocComment));
+    }
+  });
+
+  debugger;
+  addDataToSwaggerObject(specification, jsYaml.safeLoad(yaml.join(EOL)));
 
   return finalizeSpecificationObject(specification);
 }
@@ -213,4 +227,3 @@ module.exports.createSpecification = createSpecification;
 module.exports.finalizeSpecificationObject = finalizeSpecificationObject;
 module.exports.getSpecificationObject = getSpecificationObject;
 module.exports.addDataToSwaggerObject = addDataToSwaggerObject;
-module.exports.updateSpecificationObject = updateSpecificationObject;

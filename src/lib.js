@@ -3,11 +3,10 @@ const { YAMLException } = require('js-yaml');
 const {
   getSpecificationObject,
   createSpecification,
-  updateSpecificationObject,
   finalizeSpecificationObject,
 } = require('./specification');
 
-const { parseApiFileContent } = require('./utils');
+const { getApiFileContent } = require('./utils');
 
 /**
  * Generates the specification.
@@ -42,6 +41,5 @@ module.exports = (options) => {
 };
 
 module.exports.createSpecification = createSpecification;
-module.exports.parseApiFileContent = parseApiFileContent;
-module.exports.updateSpecificationObject = updateSpecificationObject;
+module.exports.getApiFileContent = getApiFileContent;
 module.exports.finalizeSpecificationObject = finalizeSpecificationObject;
