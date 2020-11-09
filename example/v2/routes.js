@@ -112,15 +112,6 @@ module.exports.setup = function (app) {
 
   /**
    * @swagger
-   *  x-amazon-apigateway-integrations:
-   *  default-integration: &default-integration
-   *   type: object
-   *   x-amazon-apigateway-integration:
-   *     httpMethod: POST
-   *     passthroughBehavior: when_no_match
-   *     type: aws_proxy
-   *     uri: 'arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:123456789:function:helloworldlambda/invocations'
-   *
    * '/aws':
    *   get:
    *     summary: sample aws-specific route
