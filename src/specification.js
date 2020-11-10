@@ -1,6 +1,5 @@
 /* eslint no-param-reassign: 0 */
 /* eslint no-self-assign: 0 */
-const EOL = require('os').EOL;
 const fs = require('fs');
 const path = require('path');
 const parser = require('swagger-parser');
@@ -15,12 +14,12 @@ const {
 } = require('./utils');
 
 /**
- * Prepares the swaggerObject.
+ * Prepare the swagger/openapi specification object.
  * @see https://github.com/OAI/OpenAPI-Specification/tree/master/versions
  * @param {object} definition - The `definition` or `swaggerDefinition` from options.
  * @returns {object} swaggerObject
  */
-function createSpecification(definition) {
+function prepare(definition) {
   let version;
   const swaggerObject = JSON.parse(JSON.stringify(definition));
   const specificationTemplate = {
@@ -65,7 +64,7 @@ function createSpecification(definition) {
  * @param {object} swaggerObject
  * @returns {object} swaggerObject
  */
-function cleanSwaggerObject(swaggerObject) {
+function clean(swaggerObject) {
   for (const prop of [
     'definitions',
     'responses',
@@ -86,7 +85,7 @@ function cleanSwaggerObject(swaggerObject) {
  * @param {object} swaggerObject - Swagger object from parsing the api files.
  * @returns {object} The specification.
  */
-function finalizeSpecificationObject(swaggerObject) {
+function finalize(swaggerObject) {
   let specification = swaggerObject;
 
   parser.parse(swaggerObject, (err, api) => {
@@ -96,7 +95,7 @@ function finalizeSpecificationObject(swaggerObject) {
   });
 
   if (specification.openapi) {
-    specification = cleanSwaggerObject(specification);
+    specification = clean(specification);
   }
 
   return specification;
@@ -125,7 +124,7 @@ function isTagPresentInSpec(tags, tag) {
  * @param {object} annotation
  * @param {string} property
  */
-function organizeSwaggerProperties(swaggerObject, annotation, property) {
+function organize(swaggerObject, annotation, property) {
   if (property.startsWith('x-')) return; // extensions defined "inline" in annotations are not useful for the end specification
 
   const commonProperties = [
@@ -169,61 +168,45 @@ function organizeSwaggerProperties(swaggerObject, annotation, property) {
 }
 
 /**
- * Adds the data in to the swagger object.
- * @param {object} swaggerObject - Swagger object which will be written to
- * @param {object[]} annotations - objects of parsed swagger data from yml or jsDoc
- *                          comments
+ * @param {object} options
+ * @returns {object} swaggerObject
  */
-function addDataToSwaggerObject(swaggerObject, annotations) {
-  if (!swaggerObject || !annotations) {
-    throw new Error('swaggerObject and data are required!');
-  }
-
-  for (const annotation of annotations) {
-    for (const property in annotation) {
-      organizeSwaggerProperties(swaggerObject, annotation, property);
-    }
-  }
-}
-
-function getSpecificationObject(options) {
+function build(options) {
   // Get input definition and prepare the specification's skeleton
   const definition = options.swaggerDefinition || options.definition;
-  const specification = createSpecification(definition);
-  const specificationParts = { yaml: [], jsdoc: [] };
-  const yaml = [];
+  const specification = prepare(definition);
+  const yamlData = [];
 
   for (const file of convertGlobPaths(options.apis)) {
     const fileContent = fs.readFileSync(file, { encoding: 'utf8' });
     const ext = path.extname(file);
-    const part = getApiFileContent(fileContent, ext);
+    const {
+      yaml: yamlAnnotations,
+      jsdoc: jsdocAnnotations,
+    } = getApiFileContent(fileContent, ext);
 
-    if (part.yaml.length) {
-      specificationParts.yaml.push();
+    if (yamlAnnotations.length) {
+      yamlData.push(...yamlAnnotations);
     }
-    if (part.jsdoc.length) {
-      specificationParts.jsdoc.push(part.jsdoc);
+    if (jsdocAnnotations.length) {
+      for (const annotation of jsdocAnnotations) {
+        const jsDocComment = doctrine.parse(annotation, { unwrap: true });
+        yamlData.push(...extractYamlFromJsDoc(jsDocComment));
+      }
     }
   }
 
-  for (const yamlParts of specificationParts.yaml) {
-    yaml.push(...yamlParts);
+  for (const rawYamlDocument of yamlData) {
+    jsYaml.safeLoadAll(rawYamlDocument, (annotation) => {
+      for (const property in annotation) {
+        organize(specification, annotation, property);
+      }
+    });
   }
 
-  specificationParts.jsdoc.map((annotations) => {
-    for (const annotation of annotations) {
-      const jsDocComment = doctrine.parse(annotation, { unwrap: true });
-      yaml.push(...extractYamlFromJsDoc(jsDocComment));
-    }
-  });
-
-  debugger;
-  addDataToSwaggerObject(specification, jsYaml.safeLoad(yaml.join(EOL)));
-
-  return finalizeSpecificationObject(specification);
+  return finalize(specification);
 }
 
-module.exports.createSpecification = createSpecification;
-module.exports.finalizeSpecificationObject = finalizeSpecificationObject;
-module.exports.getSpecificationObject = getSpecificationObject;
-module.exports.addDataToSwaggerObject = addDataToSwaggerObject;
+module.exports.prepare = prepare;
+module.exports.build = build;
+module.exports.finalize = finalize;
