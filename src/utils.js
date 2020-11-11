@@ -62,11 +62,9 @@ function getApiFileContent(fileContent, ext) {
       break;
 
     case '.coffee':
-      regexResults = fileContent.match(csDocRegex);
-      if (regexResults) {
-        for (let i = 0; i < regexResults.length; i += 1) {
-          // Prepare input for doctrine
-          let part = regexResults[i].split('###');
+      if ((regexResults = fileContent.match(csDocRegex))) {
+        for (const result of regexResults) {
+          let part = result.split('###');
           part[0] = `/**`;
           part[regexResults.length - 1] = '*/';
           part = part.join('');
@@ -76,19 +74,15 @@ function getApiFileContent(fileContent, ext) {
       break;
 
     default: {
-      regexResults = fileContent.match(jsDocRegex);
-      if (regexResults) {
-        for (let i = 0; i < regexResults.length; i += 1) {
-          jsdoc.push(regexResults[i]);
+      if ((regexResults = fileContent.match(jsDocRegex))) {
+        for (const result of regexResults) {
+          jsdoc.push(result);
         }
       }
     }
   }
 
-  return {
-    yaml,
-    jsdoc,
-  };
+  return { yaml, jsdoc };
 }
 
 module.exports.convertGlobPaths = convertGlobPaths;

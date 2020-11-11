@@ -140,21 +140,21 @@ function organize(swaggerObject, annotation, property) {
   ];
 
   if (commonProperties.includes(property)) {
-    Object.keys(annotation[property]).forEach((definition) => {
+    for (const definition of Object.keys(annotation[property])) {
       swaggerObject[property][definition] = {
         ...swaggerObject[property][definition],
         ...annotation[property][definition],
       };
-    });
+    }
   } else if (property === 'tags') {
     const { tags } = annotation;
 
     if (Array.isArray(tags)) {
-      tags.forEach((tag) => {
+      for (const tag of tags) {
         if (!isTagPresentInSpec(swaggerObject.tags, tag)) {
           swaggerObject.tags.push(tag);
         }
-      });
+      }
     } else if (!isTagPresentInSpec(swaggerObject.tags, tags)) {
       swaggerObject.tags.push(tags);
     }
@@ -196,6 +196,7 @@ function build(options) {
     }
   }
 
+  debugger;
   for (const rawYamlDocument of yamlData) {
     jsYaml.safeLoadAll(rawYamlDocument, (annotation) => {
       for (const property in annotation) {
