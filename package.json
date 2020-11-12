@@ -6,9 +6,10 @@
     "node": ">=12.0.0"
   },
   "scripts": {
+    "start": "node example/v2/app.js",
+    "lint": "eslint .",
     "test:lint": "eslint .",
     "test:js": "jest --verbose",
-    "start": "node example/v2/app.js",
     "test": "run-p test:* -cn"
   },
   "main": "index.js",

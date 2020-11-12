@@ -1,3 +1,5 @@
+const fs = require('fs');
+const path = require('path');
 const glob = require('glob');
 
 /**
@@ -44,11 +46,12 @@ function extractYamlFromJsDoc(jsDocComment) {
 }
 
 /**
- * @param {string} fileContent - Content of the file
- * @param {string} ext - File format ('.yaml', '.yml', '.js', etc.)
+ * @param {string} filePath
  * @returns {{jsdoc: array, yaml: array}} JSDoc comments and Yaml files
  */
-function getApiFileContent(fileContent, ext) {
+function extractAnnotations(filePath) {
+  const fileContent = fs.readFileSync(filePath, { encoding: 'utf8' });
+  const ext = path.extname(filePath);
   const jsDocRegex = /\/\*\*([\s\S]*?)\*\//gm;
   const csDocRegex = /###([\s\S]*?)###/gm;
   const yaml = [];
@@ -62,22 +65,20 @@ function getApiFileContent(fileContent, ext) {
       break;
 
     case '.coffee':
-      if ((regexResults = fileContent.match(csDocRegex))) {
-        for (const result of regexResults) {
-          let part = result.split('###');
-          part[0] = `/**`;
-          part[regexResults.length - 1] = '*/';
-          part = part.join('');
-          jsdoc.push(part);
-        }
+      regexResults = fileContent.match(csDocRegex);
+      for (const result of regexResults) {
+        let part = result.split('###');
+        part[0] = `/**`;
+        part[regexResults.length - 1] = '*/';
+        part = part.join('');
+        jsdoc.push(part);
       }
       break;
 
     default: {
-      if ((regexResults = fileContent.match(jsDocRegex))) {
-        for (const result of regexResults) {
-          jsdoc.push(result);
-        }
+      regexResults = fileContent.match(jsDocRegex);
+      for (const result of regexResults) {
+        jsdoc.push(result);
       }
     }
   }
@@ -85,7 +86,20 @@ function getApiFileContent(fileContent, ext) {
   return { yaml, jsdoc };
 }
 
+/**
+ * @param {object} tag
+ * @param {array} tags
+ * @returns {boolean}
+ */
+function isTagPresentInTags(tag, tags) {
+  const match = tags.find((targetTag) => tag.name === targetTag.name);
+  if (match) return true;
+
+  return false;
+}
+
 module.exports.convertGlobPaths = convertGlobPaths;
 module.exports.hasEmptyProperty = hasEmptyProperty;
 module.exports.extractYamlFromJsDoc = extractYamlFromJsDoc;
-module.exports.getApiFileContent = getApiFileContent;
+module.exports.extractAnnotations = extractAnnotations;
+module.exports.isTagPresentInTags = isTagPresentInTags;

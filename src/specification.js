@@ -1,7 +1,3 @@
-/* eslint no-param-reassign: 0 */
-/* eslint no-self-assign: 0 */
-const fs = require('fs');
-const path = require('path');
 const parser = require('swagger-parser');
 const jsYaml = require('js-yaml');
 const doctrine = require('doctrine');
@@ -9,8 +5,9 @@ const doctrine = require('doctrine');
 const {
   hasEmptyProperty,
   convertGlobPaths,
-  getApiFileContent,
+  extractAnnotations,
   extractYamlFromJsDoc,
+  isTagPresentInTags,
 } = require('./utils');
 
 /**
@@ -102,24 +99,6 @@ function finalize(swaggerObject) {
 }
 
 /**
- * @param {array} tags property of swaggerObject specification
- * @param {object} tag
- * @returns {boolean}
- */
-function isTagPresentInSpec(tags, tag) {
-  if (tags && tags.length && tag) {
-    for (let i = 0; i < tags.length; i += 1) {
-      const targetTag = tags[i];
-      if (targetTag.name === tag.name) {
-        return true;
-      }
-    }
-  }
-
-  return false;
-}
-
-/**
  * @param {object} swaggerObject
  * @param {object} annotation
  * @param {string} property
@@ -151,11 +130,11 @@ function organize(swaggerObject, annotation, property) {
 
     if (Array.isArray(tags)) {
       for (const tag of tags) {
-        if (!isTagPresentInSpec(swaggerObject.tags, tag)) {
+        if (!isTagPresentInTags(tag, swaggerObject.tags)) {
           swaggerObject.tags.push(tag);
         }
       }
-    } else if (!isTagPresentInSpec(swaggerObject.tags, tags)) {
+    } else if (!isTagPresentInTags(tags, swaggerObject.tags)) {
       swaggerObject.tags.push(tags);
     }
   } else {
@@ -177,13 +156,11 @@ function build(options) {
   const specification = prepare(definition);
   const yamlData = [];
 
-  for (const file of convertGlobPaths(options.apis)) {
-    const fileContent = fs.readFileSync(file, { encoding: 'utf8' });
-    const ext = path.extname(file);
+  for (const filePath of convertGlobPaths(options.apis)) {
     const {
       yaml: yamlAnnotations,
       jsdoc: jsdocAnnotations,
-    } = getApiFileContent(fileContent, ext);
+    } = extractAnnotations(filePath);
 
     if (yamlAnnotations.length) {
       yamlData.push(...yamlAnnotations);
@@ -196,7 +173,6 @@ function build(options) {
     }
   }
 
-  debugger;
   for (const rawYamlDocument of yamlData) {
     jsYaml.safeLoadAll(rawYamlDocument, (annotation) => {
       for (const property in annotation) {

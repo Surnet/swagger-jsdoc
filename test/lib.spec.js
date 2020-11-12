@@ -12,7 +12,7 @@ describe('Main lib module', () => {
 
     it('should expose a few utilities', () => {
       expect(typeof swaggerJsdoc.createSpecification).toBe('function');
-      expect(typeof swaggerJsdoc.getApiFileContent).toBe('function');
+      expect(typeof swaggerJsdoc.extractAnnotations).toBe('function');
       expect(typeof swaggerJsdoc.updateSpecificationObject).toBe('function');
       expect(typeof swaggerJsdoc.finalizeSpecificationObject).toBe('function');
     });
