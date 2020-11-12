@@ -61,7 +61,7 @@ describe('Utilities module', () => {
       ).toEqual({
         yaml: [],
         jsdoc: [
-          '*/\n* @swagger\n* /login:\n*   post:\n*     description: Login to the application\n*     produces:\n*       - application/json\n',
+          '/**\n* @swagger\n* /login:\n*   post:\n*     description: Login to the application\n*     produces:\n*       - application/json\n*/',
         ],
       });
     });

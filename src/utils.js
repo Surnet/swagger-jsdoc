@@ -69,7 +69,7 @@ function extractAnnotations(filePath) {
       for (const result of regexResults) {
         let part = result.split('###');
         part[0] = `/**`;
-        part[regexResults.length - 1] = '*/';
+        part[part.length - 1] = '*/';
         part = part.join('');
         jsdoc.push(part);
       }
