@@ -1,26 +1,33 @@
 /* eslint no-unused-expressions: 0 */
 
-const specHelper = require('../src/specification');
-
+const specModule = require('../src/specification');
 const swaggerObject = require('./files/v2/swaggerObject.json');
-const testData = require('./files/v2/testData');
 
 describe('Specification module', () => {
-  describe('addDataToSwaggerObject', () => {
+  describe('organize', () => {
     it('should be a function', () => {
-      expect(typeof specHelper.addDataToSwaggerObject).toBe('function');
+      expect(typeof specModule.organize).toBe('function');
     });
 
-    it('should validate input', () => {
-      expect(() => {
-        specHelper.addDataToSwaggerObject();
-      }).toThrow('swaggerObject and data are required!');
-    });
-
-    it('should handle  "definitions"', () => {
-      specHelper.addDataToSwaggerObject(swaggerObject, testData.definitions);
+    it('should handle "definitions"', () => {
+      const annotation = {
+        definitions: {
+          testDefinition: {
+            required: ['username', 'password'],
+            properties: {
+              username: {
+                type: 'string',
+              },
+              password: {
+                type: 'string',
+              },
+            },
+          },
+        },
+      };
+      specModule.organize(swaggerObject, annotation, 'definitions');
       expect(swaggerObject.definitions).toEqual({
-        DefinitionPlural: {
+        testDefinition: {
           required: ['username', 'password'],
           properties: {
             username: { type: 'string' },
@@ -31,9 +38,21 @@ describe('Specification module', () => {
     });
 
     it('should handle "parameters"', () => {
-      specHelper.addDataToSwaggerObject(swaggerObject, testData.parameters);
+      const annotation = {
+        parameters: {
+          testParameter: {
+            name: 'limit',
+            in: 'query',
+            description: 'max records to return',
+            required: true,
+            type: 'integer',
+            format: 'int32',
+          },
+        },
+      };
+      specModule.organize(swaggerObject, annotation, 'parameters');
       expect(swaggerObject.parameters).toEqual({
-        ParameterPlural: {
+        testParameter: {
           name: 'limit',
           in: 'query',
           description: 'max records to return',
@@ -45,26 +64,34 @@ describe('Specification module', () => {
     });
 
     it('should handle "securityDefinitions"', () => {
-      specHelper.addDataToSwaggerObject(
-        swaggerObject,
-        testData.securityDefinitions
-      );
-      expect(swaggerObject.securityDefinitions).toEqual({
-        api_key: { type: 'apiKey', name: 'api_key', in: 'header' },
-        petstore_auth: {
-          type: 'oauth2',
-          authorizationUrl: 'http://swagger.io/api/oauth/dialog',
-          flow: 'implicit',
-          scopes: {
-            'write:pets': 'modify pets in your account',
-            'read:pets': 'read your pets',
+      const annotation = {
+        securityDefinitions: {
+          basicAuth: {
+            type: 'basic',
+            description:
+              'HTTP Basic Authentication. Works over `HTTP` and `HTTPS`',
           },
+        },
+      };
+      specModule.organize(swaggerObject, annotation, 'securityDefinitions');
+      expect(swaggerObject.securityDefinitions).toEqual({
+        basicAuth: {
+          type: 'basic',
+          description:
+            'HTTP Basic Authentication. Works over `HTTP` and `HTTPS`',
         },
       });
     });
 
     it('should handle "responses"', () => {
-      specHelper.addDataToSwaggerObject(swaggerObject, testData.responses);
+      const annotation = {
+        responses: {
+          IllegalInput: {
+            description: 'Illegal input for operation.',
+          },
+        },
+      };
+      specModule.organize(swaggerObject, annotation, 'responses');
       expect(swaggerObject.responses).toEqual({
         IllegalInput: { description: 'Illegal input for operation.' },
       });

@@ -184,6 +184,4 @@ function build(options) {
   return finalize(specification);
 }
 
-module.exports.prepare = prepare;
-module.exports.build = build;
-module.exports.finalize = finalize;
+module.exports = { prepare, build, organize, finalize };

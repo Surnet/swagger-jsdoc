@@ -1,20 +1,11 @@
 const path = require('path');
-const { YAMLException } = require('js-yaml');
 
 const swaggerJsdoc = require('../src/lib');
-const specHelper = require('../src/specification');
 
 describe('Main lib module', () => {
   describe('Public APIs', () => {
     it('main module is a function', () => {
       expect(typeof swaggerJsdoc).toBe('function');
-    });
-
-    it('should expose a few utilities', () => {
-      expect(typeof swaggerJsdoc.createSpecification).toBe('function');
-      expect(typeof swaggerJsdoc.extractAnnotations).toBe('function');
-      expect(typeof swaggerJsdoc.updateSpecificationObject).toBe('function');
-      expect(typeof swaggerJsdoc.finalizeSpecificationObject).toBe('function');
     });
   });
 
@@ -49,33 +40,6 @@ describe('Main lib module', () => {
       }).toThrow(
         `Missing or invalid input: 'options.apis' is required and it should be an array.`
       );
-    });
-
-    it('should provide verbose information for wrongly formatted yaml inputs', () => {
-      specHelper.getSpecificationObject = jest.fn().mockImplementation(() => {
-        throw new YAMLException('bad indentation of a mapping entry', {
-          name: null,
-          buffer: '/invalid_yaml:\n       - foo\n  bar\n\u0000',
-          position: 30,
-          line: 2,
-          column: 2,
-        });
-      });
-
-      expect(() => {
-        swaggerJsdoc({
-          swaggerDefinition: {
-            info: {
-              title: 'Hello World',
-              version: '1.0.0',
-              description: 'A sample API',
-            },
-            host: 'http://undefined:undefined',
-            basePath: '/',
-          },
-          apis: ['test/files/v2/wrong-yaml-identation1.js'],
-        });
-      }).toThrow();
     });
   });
 
