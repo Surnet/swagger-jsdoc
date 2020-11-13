@@ -1,5 +1,3 @@
-/* eslint no-unused-expressions: 0 */
-
 const specModule = require('../src/specification');
 const swaggerObject = require('./files/v2/swaggerObject.json');
 
