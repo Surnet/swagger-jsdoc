@@ -21,7 +21,8 @@
     "doctrine": "3.0.0",
     "glob": "7.1.6",
     "js-yaml": "3.14.0",
-    "swagger-parser": "10.0.2"
+    "swagger-parser": "10.0.2",
+    "yaml": "2.0.0-1"
   },
   "devDependencies": {
     "body-parser": "1.19.0",
