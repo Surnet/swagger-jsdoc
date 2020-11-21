@@ -151,10 +151,16 @@ function organize(swaggerObject, annotation, property) {
  * @returns {object} swaggerObject
  */
 function build(options) {
+  // YAML.defaultOptions.keepCstNodes = true;
+  // YAML.defaultOptions.keepUndefined = true;
+  // YAML.defaultOptions.prettyErrors = false;
+
   // Get input definition and prepare the specification's skeleton
   const definition = options.swaggerDefinition || options.definition;
   const specification = prepare(definition);
-  const yamlDocuments = [];
+  const yamlDocsAnchors = new Map();
+  const yamlDocsErrors = [];
+  const yamlDocsReady = [];
 
   for (const filePath of convertGlobPaths(options.apis)) {
     const {
@@ -163,25 +169,48 @@ function build(options) {
     } = extractAnnotations(filePath);
 
     if (yamlAnnotations.length) {
-      yamlDocuments.push(...yamlAnnotations.map(YAML.parseDocument));
+      for (const annotation of yamlAnnotations) {
+        const parsed = YAML.parseDocument(annotation);
+
+        const anchors = parsed.anchors.getNames();
+        if (anchors.length) {
+          for (const anchor of anchors) {
+            const node = parsed.anchors.getNode(anchor);
+            yamlDocsAnchors.set(anchor, node);
+          }
+        } else if (parsed.errors && parsed.errors.length) {
+          yamlDocsErrors.push(parsed);
+        } else {
+          yamlDocsReady.push(parsed);
+        }
+      }
     }
+
     if (jsdocAnnotations.length) {
       for (const annotation of jsdocAnnotations) {
         const jsDocComment = doctrine.parse(annotation, { unwrap: true });
-        yamlDocuments.push(
-          ...extractYamlFromJsDoc(jsDocComment).map(YAML.parseDocument)
-        );
+        for (const doc of extractYamlFromJsDoc(jsDocComment)) {
+          const parsed = YAML.parseDocument(doc);
+
+          const anchors = parsed.anchors.getNames();
+          if (anchors.length) {
+            for (const anchor of anchors) {
+              const node = parsed.anchors.getNode(anchor);
+              yamlDocsAnchors.set(anchor, node);
+            }
+          } else if (parsed.errors && parsed.errors.length) {
+            yamlDocsErrors.push(parsed);
+          } else {
+            yamlDocsReady.push(parsed);
+          }
+        }
       }
     }
   }
 
-  for (const document of yamlDocuments) {
-    let parsedDoc;
-
-    if (document.errors.length === 0) {
-      parsedDoc = document.toJSON();
-    } else {
-      const anchorsReferenceErrors = document.errors
+  if (yamlDocsErrors.length) {
+    for (const docWithErr of yamlDocsErrors) {
+      docWithErr.errors
         .filter((error) => error.name === 'YAMLReferenceError')
         // This should either be a smart regex or ideally a YAML library method using the error.range.
         .map(
@@ -191,27 +220,22 @@ function build(options) {
               .filter((a) => a)
               .join('')
               .split(' at line')[0]
-        );
-
-      for (const missingAnchor of anchorsReferenceErrors) {
-        yamlDocuments.find((doc) => {
-          const anchor = doc.anchors
-            .getNames()
-            .find((anchorMatch) => anchorMatch === missingAnchor);
-
-          if (anchor) {
-            debugger;
-            document.anchors.setAnchor(doc.anchors.getNode(anchor), anchor);
-            const errorSolvedIndex = document.errors.findIndex((error) => {
-              error.message.includes(anchor);
-            });
-            document.errors.splice(errorSolvedIndex, 1);
-            parsedDoc = document.toJSON();
-          }
+        )
+        .map((refErr) => {
+          const node = yamlDocsAnchors.get(refErr);
+          const alias = docWithErr.anchors.createAlias(node, refErr);
+          docWithErr.contents.items.unshift(alias);
+          const errorSolvedIndex = docWithErr.errors.findIndex((error) =>
+            error.message.includes(refErr)
+          );
+          docWithErr.errors.splice(errorSolvedIndex, 1);
+          return yamlDocsReady.push(docWithErr);
         });
-      }
     }
+  }
 
+  for (const document of yamlDocsReady) {
+    const parsedDoc = document.toJSON();
     for (const property in parsedDoc) {
       organize(specification, parsedDoc, property);
     }
