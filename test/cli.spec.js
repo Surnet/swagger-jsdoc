@@ -33,13 +33,13 @@ describe('CLI module', () => {
   });
 
   it('should require arguments with jsDoc data about an API', async () => {
-    const result = await sh(`${bin} -d example/v2/swaggerDef.js`);
+    const result = await sh(`${bin} -d example/app/swaggerDef.js`);
     expect(result.stdout).toMatchSnapshot();
   });
 
   it('should create swagger.json by default when the API input is good', async () => {
     const result = await sh(
-      `${bin} -d example/v2/swaggerDef.js example/v2/routes.js`
+      `${bin} -d example/app/swaggerDef.js example/app/routes.js`
     );
     expect(result.stdout).toBe('Swagger specification is ready.\n');
     const specification = fs.statSync('swagger.json');
@@ -55,7 +55,7 @@ describe('CLI module', () => {
 
   it('should accept custom configuration for output specification', async () => {
     const result = await sh(
-      `${bin} -d example/v2/swaggerDef.js -o customSpec.json example/v2/routes.js`
+      `${bin} -d example/app/swaggerDef.js -o customSpec.json example/app/routes.js`
     );
     expect(result.stdout).toBe('Swagger specification is ready.\n');
     const specification = fs.statSync('customSpec.json');
@@ -64,7 +64,7 @@ describe('CLI module', () => {
 
   it('should create a YAML swagger spec when a custom output configuration with a .yaml extension is used', async () => {
     const result = await sh(
-      `${bin} -d example/v2/swaggerDef.js -o customSpec.yaml example/v2/routes.js`
+      `${bin} -d example/app/swaggerDef.js -o customSpec.yaml example/app/routes.js`
     );
     expect(result.stdout).toBe('Swagger specification is ready.\n');
     const specification = fs.statSync('customSpec.yaml');
@@ -107,20 +107,14 @@ describe('CLI module', () => {
     expect(result.stdout).toMatchSnapshot();
   });
 
-  it('should reject bad YAML identation with feedback: upper line', async () => {
-    await expect(
-      sh(
-        `${bin} -d example/v2/swaggerDef.js test/files/v2/wrong-yaml-identation1.js`
-      )
-    ).rejects.toThrow();
-  });
-
-  it('should reject bad YAML identation with feedback: same line', async () => {
-    await expect(
-      sh(
-        `${bin} -d example/v2/swaggerDef.js test/files/v2/wrong-yaml-identation2.js`
-      )
-    ).rejects.toThrow();
+  it('should report YAML documents with errors', async () => {
+    const result = await sh(
+      `${bin} -d example/app/swaggerDef.js test/files/v2/wrong-yaml-identation.js`
+    );
+    expect(result.stdout).toContain(
+      'Not all input has been taken into account at your final specification.'
+    );
+    expect(result.stderr).toMatchSnapshot();
   });
 
   afterAll(() => {

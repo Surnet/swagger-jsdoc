@@ -235,6 +235,16 @@ function build(options) {
         }
       });
     }
+
+    // Place to provide feedback for errors. Previously throwing, now reporting only.
+    console.info(
+      'Not all input has been taken into account at your final specification.'
+    );
+    const errReport = yamlDocsErrors.map((documentWithErrors) => {
+      const { errors } = documentWithErrors;
+      return errors.join('\n');
+    });
+    console.error(`Here's the report: \n\n\n ${errReport}`);
   }
 
   for (const document of yamlDocsReady) {

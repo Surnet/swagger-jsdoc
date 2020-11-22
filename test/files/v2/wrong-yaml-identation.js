@@ -8,7 +8,5 @@ module.exports = (app) => {
    *        - foo
    *   bar
    */
-  app.get('/invalid_yaml', (req, res) => {
-    res.send('This should throw error with concrete line to fix in identation');
-  });
+  app.get('/invalid_yaml', () => {});
 };

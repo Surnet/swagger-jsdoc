@@ -109,18 +109,4 @@ module.exports.setup = (app) => {
   app.post('/users', (req, res) => {
     res.json(req.body);
   });
-
-  /**
-   * @swagger
-   * /aws:
-   *   get:
-   *     summary: sample aws-specific route
-   *     description: contains a reference outside this file
-   *     security: []
-   *     responses:
-   *       200:
-   *         description: OK
-   *     x-amazon-apigateway-integration: *default-integration
-   */
-  app.get('/aws', () => {});
 };

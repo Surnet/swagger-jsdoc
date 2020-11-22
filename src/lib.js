@@ -1,10 +1,11 @@
-const { YAMLException } = require('js-yaml');
-
 const { build } = require('./specification');
 
 /**
  * Generates the specification.
  * @param {object} options - Configuration options
+ * @param {object} options.swaggerDefinition
+ * @param {object} options.definition
+ * @param {array} options.apis
  * @returns {object} Output specification
  */
 module.exports = (options) => {
@@ -24,12 +25,5 @@ module.exports = (options) => {
     );
   }
 
-  try {
-    return build(options);
-  } catch (err) {
-    if (err instanceof YAMLException) {
-      console.log('Error in yaml file:', err.mark.buffer);
-    }
-    throw err;
-  }
+  return build(options);
 };
