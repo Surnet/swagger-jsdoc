@@ -1,5 +1,6 @@
 const parser = require('swagger-parser');
 const YAML = require('yaml');
+
 const doctrine = require('doctrine');
 
 const {
@@ -151,9 +152,7 @@ function organize(swaggerObject, annotation, property) {
  * @returns {object} swaggerObject
  */
 function build(options) {
-  // YAML.defaultOptions.keepCstNodes = true;
-  // YAML.defaultOptions.keepUndefined = true;
-  // YAML.defaultOptions.prettyErrors = false;
+  YAML.defaultOptions.keepCstNodes = true;
 
   // Get input definition and prepare the specification's skeleton
   const definition = options.swaggerDefinition || options.definition;
@@ -175,8 +174,7 @@ function build(options) {
         const anchors = parsed.anchors.getNames();
         if (anchors.length) {
           for (const anchor of anchors) {
-            const node = parsed.anchors.getNode(anchor);
-            yamlDocsAnchors.set(anchor, node);
+            yamlDocsAnchors.set(anchor, parsed);
           }
         } else if (parsed.errors && parsed.errors.length) {
           yamlDocsErrors.push(parsed);
@@ -195,8 +193,7 @@ function build(options) {
           const anchors = parsed.anchors.getNames();
           if (anchors.length) {
             for (const anchor of anchors) {
-              const node = parsed.anchors.getNode(anchor);
-              yamlDocsAnchors.set(anchor, node);
+              yamlDocsAnchors.set(anchor, parsed);
             }
           } else if (parsed.errors && parsed.errors.length) {
             yamlDocsErrors.push(parsed);
@@ -210,27 +207,33 @@ function build(options) {
 
   if (yamlDocsErrors.length) {
     for (const docWithErr of yamlDocsErrors) {
-      docWithErr.errors
-        .filter((error) => error.name === 'YAMLReferenceError')
-        // This should either be a smart regex or ideally a YAML library method using the error.range.
-        .map(
-          (error) =>
-            error.message
-              .split('Aliased anchor not found: ')
-              .filter((a) => a)
-              .join('')
-              .split(' at line')[0]
-        )
-        .map((refErr) => {
-          const node = yamlDocsAnchors.get(refErr);
-          const alias = docWithErr.anchors.createAlias(node, refErr);
-          docWithErr.contents.items.unshift(alias);
-          const errorSolvedIndex = docWithErr.errors.findIndex((error) =>
-            error.message.includes(refErr)
+      const errsToDelete = [];
+      docWithErr.errors.forEach((error, index) => {
+        if (error.name === 'YAMLReferenceError') {
+          // This should either be a smart regex or ideally a YAML library method using the error.range.
+          // The following works with both pretty and not pretty errors.
+          const refErr = error.message
+            .split('Aliased anchor not found: ')
+            .filter((a) => a)
+            .join('')
+            .split(' at line')[0];
+
+          const anchor = yamlDocsAnchors.get(refErr);
+          const anchorString = anchor.cstNode.toString();
+          const originalString = docWithErr.cstNode.toString();
+          const readyDocument = YAML.parseDocument(
+            `${anchorString}\n${originalString}`
           );
-          docWithErr.errors.splice(errorSolvedIndex, 1);
-          return yamlDocsReady.push(docWithErr);
-        });
+
+          yamlDocsReady.push(readyDocument);
+          errsToDelete.push(index);
+        }
+
+        // Cleanup solved errors in order to allow for parser to pass through.
+        for (errIndex of errsToDelete) {
+          docWithErr.errors.splice(errIndex, 1);
+        }
+      });
     }
   }
 
