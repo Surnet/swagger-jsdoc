@@ -230,7 +230,7 @@ function build(options) {
         }
 
         // Cleanup solved errors in order to allow for parser to pass through.
-        for (errIndex of errsToDelete) {
+        for (const errIndex of errsToDelete) {
           docWithErr.errors.splice(errIndex, 1);
         }
       });
