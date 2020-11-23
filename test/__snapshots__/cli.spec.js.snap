@@ -57,8 +57,6 @@ YAMLSemanticError: Implicit map keys need to be followed by map values at line 3
 
 exports[`CLI module should require a definition file 1`] = `
 "Definition file is required.
-You can do that, for example: 
-$ swag-jsdoc -d swaggerDef.js wrongDefinition
 Usage: swagger-jsdoc [options] <path ...>
 
 Options:

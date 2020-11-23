@@ -98,8 +98,40 @@ function isTagPresentInTags(tag, tags) {
   return false;
 }
 
+/**
+ * Get an object of the definition file configuration.
+ * @param {string} defPath
+ * @param {object} swaggerDefinition
+ */
+function loadDefinition(defPath, swaggerDefinition) {
+  const resolvedPath = path.resolve(defPath);
+  const extName = path.extname(resolvedPath);
+
+  // eslint-disable-next-line
+  const loadJs = () => require(resolvedPath);
+  const loadJson = () => JSON.parse(swaggerDefinition);
+  // eslint-disable-next-line
+  const loadYaml = () => require('yaml').parse(swaggerDefinition);
+
+  const LOADERS = {
+    '.js': loadJs,
+    '.json': loadJson,
+    '.yml': loadYaml,
+    '.yaml': loadYaml,
+  };
+
+  const loader = LOADERS[extName];
+
+  if (loader === undefined) {
+    throw new Error('Definition file should be .js, .json, .yml or .yaml');
+  }
+
+  return loader();
+}
+
 module.exports.convertGlobPaths = convertGlobPaths;
 module.exports.hasEmptyProperty = hasEmptyProperty;
 module.exports.extractYamlFromJsDoc = extractYamlFromJsDoc;
 module.exports.extractAnnotations = extractAnnotations;
 module.exports.isTagPresentInTags = isTagPresentInTags;
+module.exports.loadDefinition = loadDefinition;
