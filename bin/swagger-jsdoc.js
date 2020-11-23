@@ -1,41 +1,15 @@
 #!/usr/bin/env node
 
-const program = require('commander');
 const fs = require('fs');
 const path = require('path');
-const jsYaml = require('js-yaml');
-const swaggerJSDoc = require('..');
+const program = require('commander');
+const YAML = require('yaml');
+
+const swaggerJsdoc = require('..');
 const pkg = require('../package.json');
 
 const input = process.argv.slice(2);
 let output = 'swagger.json';
-
-/**
- * Creates a swagger specification from a definition and a set of files.
- * @param {object} swaggerDefinition - The swagger definition object.
- * @param {array} apis - List of files to extract documentation from.
- * @param {string} fileName - Name the output file.
- */
-function createSpecification(swaggerDefinition, apis, fileName) {
-  let swaggerSpec;
-  const ext = path.extname(fileName);
-  const options = {
-    swaggerDefinition,
-    apis,
-  };
-
-  if (ext === '.yml' || ext === '.yaml') {
-    swaggerSpec = jsYaml.dump(swaggerJSDoc(options), {
-      schema: jsYaml.JSON_SCHEMA,
-      noRefs: true,
-    });
-  } else {
-    swaggerSpec = JSON.stringify(swaggerJSDoc(options), null, 2);
-  }
-
-  fs.writeFileSync(fileName, swaggerSpec);
-  console.log('Swagger specification is ready.');
-}
 
 /**
  * Get an object of the definition file configuration.
@@ -49,10 +23,7 @@ function loadDefinition(defPath, swaggerDefinition) {
   // eslint-disable-next-line
   const loadJs = () => require(resolvedPath);
   const loadJson = () => JSON.parse(swaggerDefinition);
-  const loadYaml = () =>
-    jsYaml.load(swaggerDefinition, {
-      schema: jsYaml.JSON_SCHEMA, // OpenAPI spec mandates JSON-compatible YAML
-    });
+  const loadYaml = () => YAML.parse(swaggerDefinition);
 
   const LOADERS = {
     '.js': loadJs,
@@ -63,7 +34,6 @@ function loadDefinition(defPath, swaggerDefinition) {
 
   const loader = LOADERS[extName];
 
-  // Check whether the definition file is actually a usable file
   if (loader === undefined) {
     throw new Error('Definition file should be .js, .json, .yml or .yaml');
   }
@@ -131,22 +101,22 @@ fs.readFile(program.definition, 'utf-8', (err, data) => {
   // Continue only if arguments provided.
   if (!swaggerDefinition.apis && !program.args.length) {
     console.log('You must provide sources for reading API files.');
-    // jscs:disable maximumLineLength
     return console.log(
       'Either add filenames as arguments, or add an "apis" key in your definitions file.'
     );
   }
 
-  // If there's no argument passed, but the user has defined Apis in
-  // the definition file, pass them them onwards.
-  if (
-    program.args.length === 0 &&
-    swaggerDefinition.apis &&
-    swaggerDefinition.apis instanceof Array
-  ) {
-    program.args = swaggerDefinition.apis;
-    delete swaggerDefinition.apis;
-  }
+  fs.writeFileSync(
+    output,
+    JSON.stringify(
+      swaggerJsdoc({
+        swaggerDefinition,
+        apis: swaggerDefinition.apis || program.args,
+      }),
+      null,
+      2
+    )
+  );
 
-  return createSpecification(swaggerDefinition, program.args, output);
+  return console.log('Swagger specification is ready.');
 });

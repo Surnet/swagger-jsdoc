@@ -30,17 +30,11 @@ Unexpected token t in JSON at position 18
 
 exports[`CLI module should reject definition file with invalid YAML syntax 1`] = `
 "Error while loading definition file 'test/files/v2/wrong_syntax.yaml':
-tag suffix cannot contain exclamation marks at line 2, column 5:
-      !!!title: Hello World
-        ^
-"
-`;
+The !!! tag handle is non-default and was not declared. at line 2, column 3:
 
-exports[`CLI module should reject definition file with non-JSON compatible YAML syntax 1`] = `
-"Error while loading definition file 'test/files/v2/non_json_compatible.yaml':
-unknown tag !<tag:yaml.org,2002:js/undefined> at line 3, column 3:
-      version: 1.0.0
-      ^
+  !!!title: Hello World
+  ^^^^^^^^^^^^^^^^^^^^^…
+
 "
 `;
 

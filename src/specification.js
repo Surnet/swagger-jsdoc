@@ -1,7 +1,6 @@
+const doctrine = require('doctrine');
 const parser = require('swagger-parser');
 const YAML = require('yaml');
-
-const doctrine = require('doctrine');
 
 const {
   hasEmptyProperty,

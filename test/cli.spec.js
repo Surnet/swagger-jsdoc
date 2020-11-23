@@ -97,11 +97,6 @@ describe('CLI module', () => {
     expect(result.stdout).toMatchSnapshot();
   });
 
-  it('should reject definition file with non-JSON compatible YAML syntax', async () => {
-    const result = await sh(`${bin} -d test/files/v2/non_json_compatible.yaml`);
-    expect(result.stdout).toMatchSnapshot();
-  });
-
   it('should reject definition file with invalid JSON syntax', async () => {
     const result = await sh(`${bin} -d test/files/v2/wrong_syntax.json`);
     expect(result.stdout).toMatchSnapshot();
