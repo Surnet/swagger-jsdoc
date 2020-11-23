@@ -69,13 +69,7 @@ describe('Main lib module', () => {
   });
 
   describe('Specification v3: OpenAPI', () => {
-    const officialExamples = [
-      'api-with-examples',
-      'callback',
-      'links',
-      'petstore',
-      'openapi-jsdoc-annotation',
-    ];
+    const officialExamples = ['callback', 'links', 'petstore'];
 
     it('should respect default properties', () => {
       const definition = {
