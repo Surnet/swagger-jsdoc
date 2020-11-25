@@ -4,10 +4,10 @@ exports[`CLI module help menu is default fallback when no arguments 1`] = `
 "Usage: swagger-jsdoc [options] <path ...>
 
 Options:
-  -V, --version                     output the version number
-  -d, --definition <swaggerDef.js>  Input swagger definition.
-  -o, --output [swaggerSpec.json]   Output swagger specification.
-  -h, --help                        display help for command
+  -V, --version                            output the version number
+  -d, --definition <swaggerDefinition.js>  Input swagger definition.
+  -o, --output [swaggerSpec.json]          Output swagger specification.
+  -h, --help                               display help for command
 "
 `;
 
@@ -15,10 +15,10 @@ exports[`CLI module help menu works 1`] = `
 "Usage: swagger-jsdoc [options] <path ...>
 
 Options:
-  -V, --version                     output the version number
-  -d, --definition <swaggerDef.js>  Input swagger definition.
-  -o, --output [swaggerSpec.json]   Output swagger specification.
-  -h, --help                        display help for command
+  -V, --version                            output the version number
+  -d, --definition <swaggerDefinition.js>  Input swagger definition.
+  -o, --output [swaggerSpec.json]          Output swagger specification.
+  -h, --help                               display help for command
 "
 `;
 
@@ -60,10 +60,10 @@ exports[`CLI module should require a definition file 1`] = `
 Usage: swagger-jsdoc [options] <path ...>
 
 Options:
-  -V, --version                     output the version number
-  -d, --definition <swaggerDef.js>  Input swagger definition.
-  -o, --output [swaggerSpec.json]   Output swagger specification.
-  -h, --help                        display help for command
+  -V, --version                            output the version number
+  -d, --definition <swaggerDefinition.js>  Input swagger definition.
+  -o, --output [swaggerSpec.json]          Output swagger specification.
+  -h, --help                               display help for command
 "
 `;
 

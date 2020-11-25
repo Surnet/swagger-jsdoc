@@ -6,3 +6,4 @@
 - [CLI](./docs/CLI.md)
 - [Examples](../example)
 - [Tests](../test)
+- [Typescript](./TYPESCRIPT.md)

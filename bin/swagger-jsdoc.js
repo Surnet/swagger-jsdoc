@@ -10,7 +10,10 @@ const { loadDefinition } = require('../src/utils');
 program
   .version(pkg.version)
   .usage('[options] <path ...>')
-  .option('-d, --definition <swaggerDef.js>', 'Input swagger definition.')
+  .option(
+    '-d, --definition <swaggerDefinition.js>',
+    'Input swagger definition.'
+  )
   .option('-o, --output [swaggerSpec.json]', 'Output swagger specification.')
   .parse(process.argv);
 

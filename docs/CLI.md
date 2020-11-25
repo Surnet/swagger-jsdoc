@@ -37,23 +37,25 @@ When you don't want to or can't pass `apis` from the definition above, specify l
 One by one:
 
 ```bash
-swagger-jsdoc route1.js route2.js component1.yaml component2.yaml
+swagger-jsdoc -d swaggerDefinition.js route1.js route2.js component1.yaml component2.yaml
 ```
 
 Multiple with a pattern:
 
 ```bash
-swagger-jsdoc route*.js component*.yaml
+swagger-jsdoc -d swaggerDefinition.js route*.js component*.yaml
 ```
 
-Can be before or after definition. [Glob patterns](https://github.com/isaacs/node-glob) are acceptable to match multiple files with same extension `*.js`, `*.php`, etc. or patterns selecting files in nested folders as `**/*.js`, `**/*.php`, etc.
+[Glob patterns](https://github.com/isaacs/node-glob) are acceptable to match multiple files with same extension `*.js`, `*.php`, etc. or patterns selecting files in nested folders as `**/*.js`, `**/*.php`, etc.
 
 These paths are relative to current directory from where `swagger-jsdoc` is ran, not the application holding the APIs.
 
 ### Output file (optional)
 
+The output is `swagger.json` by default, but can be changed:
+
 ```bash
-swagger-jsdoc -o custom_name_specification.json
+swagger-jsdoc -d swaggerDefinition.js -o my_spec.json
 ```
 
-The output is `swagger.json` by default. When `.yaml` or `.yml` extension is used, the specification will be parsed and saved in YAML.
+When `.yaml` or `.yml` extension is used, the specification will be parsed and saved in YAML.
