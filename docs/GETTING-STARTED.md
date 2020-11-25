@@ -1,4 +1,4 @@
-## Getting started
+# Getting started
 
 `swagger-jsdoc` returns the validated OpenAPI specification as JSON or YAML.
 

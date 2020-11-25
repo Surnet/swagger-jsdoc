@@ -5,9 +5,31 @@ This library reads your [JSDoc](https://jsdoc.app/)-annotated source code and ge
 [![npm Downloads](https://img.shields.io/npm/dm/swagger-jsdoc.svg)](https://www.npmjs.com/package/swagger-jsdoc)
 ![CI](https://github.com/Surnet/swagger-jsdoc/workflows/CI/badge.svg)
 
+## Installation
+
+```bash
+npm install swagger-jsdoc --save
+```
+
+Or
+
+```bash
+yarn add swagger-jsdoc
+```
+
+## Supported specifications
+
+- OpenAPI 3.x
+- Swagger 2
+
 ## Documentation
 
 It's available within [`/docs`](./docs/README.md).
+
+### Webpack integrations
+
+- [swagger-jsdoc-webpack-plugin](https://github.com/patsimm/swagger-jsdoc-webpack-plugin) - Rebuild the swagger definition based on a predefined list of files on each webpack build.
+- [swagger-jsdoc-sync-webpack-plugin](https://github.com/gautier-lefebvre/swagger-jsdoc-sync-webpack-plugin) - Rebuild the swagger definition based on the files imported in your app on each webpack build.
 
 ## Reporting issues
 
