@@ -13,4 +13,4 @@ If you prefer to write the OpenAPI specification first and separately, you might
 
 ## What swagger-jsdoc is NOT (doing)
 
-The library does not add logic (implementation) to your specification. It is based on code annotations or static YAML files, but the logic itself. If you use [Swagger UI](https://swagger.io/tools/swagger-ui/) or a similar product to test your API and you receive errors, unexpected results and mystical data, it's not because of swagger-jsdoc library. It works only with what you put around your logic, not the contents of the logic.
+The library does not add logic (implementation) to your specification. It is based on code annotations or static YAML files, but not the logic itself. If you use [Swagger UI](https://swagger.io/tools/swagger-ui/) or a similar tools to test your API and you receive errors, unexpected results and mystical data, it's not because of swagger-jsdoc library. It works only with what you put around your logic, not the contents of the logic.

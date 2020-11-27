@@ -24,7 +24,7 @@ yarn add swagger-jsdoc
 
 ## Documentation
 
-It's available within [`/docs`](./docs/README.md).
+It's available within [`/docs`](https://github.com/Surnet/swagger-jsdoc/tree/master/docs/README.md).
 
 ### Webpack integrations
 
