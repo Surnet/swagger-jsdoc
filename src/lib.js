@@ -1,17 +1,11 @@
-const { YAMLException } = require('js-yaml');
-
-const {
-  getSpecificationObject,
-  createSpecification,
-  updateSpecificationObject,
-  finalizeSpecificationObject,
-} = require('./specification');
-
-const { parseApiFileContent } = require('./utils');
+const { build } = require('./specification');
 
 /**
  * Generates the specification.
  * @param {object} options - Configuration options
+ * @param {object} options.swaggerDefinition
+ * @param {object} options.definition
+ * @param {array} options.apis
  * @returns {object} Output specification
  */
 module.exports = (options) => {
@@ -31,19 +25,5 @@ module.exports = (options) => {
     );
   }
 
-  try {
-    const specificationObject = getSpecificationObject(options);
-
-    return specificationObject;
-  } catch (err) {
-    if (err instanceof YAMLException) {
-      console.log('Error in yaml file:', err.mark.buffer);
-    }
-    throw err;
-  }
+  return build(options);
 };
-
-module.exports.createSpecification = createSpecification;
-module.exports.parseApiFileContent = parseApiFileContent;
-module.exports.updateSpecificationObject = updateSpecificationObject;
-module.exports.finalizeSpecificationObject = finalizeSpecificationObject;

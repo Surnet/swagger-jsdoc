@@ -1,40 +1,61 @@
-## Command line usage of `swagger-jsdoc`
+# Command line interface
 
-If the module is installed globally, a command line helper `$ swagger-jsdoc` will be available.
-Otherwise `./bin/swagger-jsdoc` has access to the same interface.
+Available with the same name of the package when installed globally:
 
-### Usage
-
-The easiest way to get started is using the help menu.
-
-```
-$ swagger-jsdoc -h
+```bash
+swagger-jsdoc
 ```
 
-#### Specify a definition file
+Or through the standard ways provided by your package manager:
 
-Swagger-jsdoc will read the `apis` array in your definition file by default for file paths it should read.
-
-```
-$ swagger-jsdoc -d swaggerDef.js -o doc.json
+```bash
+yarn swagger-jsdoc
 ```
 
-This could be any `.js`, `.json`, `.yml` or `.yaml` file.
+## Usage
 
-#### Specify input files (optional)
+Print the help menu:
 
-```
-$ swagger-jsdoc route1.js route2.js
-```
-
-Free form input, can be before or after definition. [Glob patterns](https://github.com/isaacs/node-glob) are acceptable to match multiple files with same extension `*.js`, `*.php`, etc. or patterns selecting files in nested folders as `**/*.js`, `**/*.php`, etc.
-
-These paths are relative to current directory from which `swagger-jsdoc` is ran, not the application holding the APIs.
-
-#### Specify output file (optional)
-
-```
-$ swagger-jsdoc -o custom_specification.json
+```bash
+swagger-jsdoc -h
 ```
 
-`swagger.json` by default. Output specification can accept also a `.yaml` or `.yml`. This generated OpenAPI specification can then be further tweaked with [`swagger-editor`](http://swagger.io/swagger-editor/) or similar.
+### Definition file
+
+By default, the library will read the `apis` array from your definition file:
+
+```bash
+swagger-jsdoc -d swaggerDefinition.js
+```
+
+This could be any `.js`, `.json`, `.yml` or `.yaml` extensions.
+
+### Input files (optional)
+
+When you don't want to or can't pass `apis` from the definition above, specify like following:
+
+One by one:
+
+```bash
+swagger-jsdoc -d swaggerDefinition.js route1.js route2.js component1.yaml component2.yaml
+```
+
+Multiple with a pattern:
+
+```bash
+swagger-jsdoc -d swaggerDefinition.js route*.js component*.yaml
+```
+
+[Glob patterns](https://github.com/isaacs/node-glob) are acceptable to match multiple files with same extension `*.js`, `*.php`, etc. or patterns selecting files in nested folders as `**/*.js`, `**/*.php`, etc.
+
+These paths are relative to current directory from where `swagger-jsdoc` is ran, not the application holding the APIs.
+
+### Output file (optional)
+
+The output is `swagger.json` by default, but can be changed:
+
+```bash
+swagger-jsdoc -d swaggerDefinition.js -o my_spec.json
+```
+
+When `.yaml` or `.yml` extension is used, the specification will be parsed and saved in YAML.

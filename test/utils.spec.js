@@ -19,108 +19,49 @@ describe('Utilities module', () => {
     });
   });
 
-  describe('parseApiFileContent', () => {
-    it('should extract jsdoc comments inside .js files', () => {
-      const fileContent = `
-        // Sets up the routes.
-        module.exports.setup = function (app) {
-          /**
-           * @swagger
-           * tags:
-           *   name: Users
-           *   description: User management and login
-           */
-
-          /**
-           * @swagger
-           * /users:
-           *   post:
-           *     description: Returns users
-           *     tags: [Users]
-           *     produces:
-           *       - application/json
-           *     parameters:
-           *       - $ref: '#/parameters/username'
-           *     responses:
-           *       200:
-           *         description: users
-           */
-          app.post('/users', (req, res) => {
-            res.json(req.body);
-          });
-        };
-      `;
-
-      expect(utils.parseApiFileContent(fileContent, '.js')).toEqual({
+  describe('extractAnnotations', () => {
+    it('should extract jsdoc comments by default', () => {
+      expect(
+        utils.extractAnnotations(require.resolve('../example/app/routes2.js'))
+      ).toEqual({
         yaml: [],
         jsdoc: [
-          {
-            description: '',
-            tags: [
-              {
-                title: 'swagger',
-                description:
-                  'tags:\n  name: Users\n  description: User management and login',
-              },
-            ],
-          },
-          {
-            description: '',
-            tags: [
-              {
-                title: 'swagger',
-                description:
-                  "/users:\n  post:\n    description: Returns users\n    tags: [Users]\n    produces:\n      - application/json\n    parameters:\n      - $ref: '#/parameters/username'\n    responses:\n      200:\n        description: users",
-              },
-            ],
-          },
+          '/**\n   * @swagger\n   * /hello:\n   *   get:\n   *     description: Returns the homepage\n   *     responses:\n   *       200:\n   *         description: hello world\n   */',
         ],
       });
     });
 
-    it('should extract coffeescript comments inside .coffee files', () => {
-      const fileContent = `
-      # Coffeescript Example
+    it('should extract data from YAML files', () => {
+      expect(
+        utils.extractAnnotations(
+          require.resolve('../example/app/parameters.yaml')
+        )
+      ).toEqual({
+        yaml: [
+          'parameters:\n  username:\n    name: username\n    description: Username to use for login.\n    in: formData\n    required: true\n    type: string\n',
+        ],
+        jsdoc: [],
+      });
 
-      ###
-      * @swagger
-      * /login:
-      *   post:
-      *     description: Login to the application
-      *     produces:
-      *       - application/json
-      *     parameters:
-      *       - name: username
-      *         description: Username to use for login.
-      *         in: formData
-      *         required: true
-      *         type: string
-      *       - name: password
-      *         description: User's password.
-      *         in: formData
-      *         required: true
-      *         type: string
-      *     responses:
-      *       200:
-      *         description: login
-      ###
-      app.post '/login', (req, res) ->
-        res.json req.body
-    `;
+      expect(
+        utils.extractAnnotations(
+          require.resolve('../example/app/parameters.yml')
+        )
+      ).toEqual({
+        yaml: [
+          'parameters:\n  username:\n    name: username\n    description: Username to use for login.\n    in: formData\n    required: true\n    type: string\n',
+        ],
+        jsdoc: [],
+      });
+    });
 
-      expect(utils.parseApiFileContent(fileContent, '.coffee')).toEqual({
+    it('should extract jsdoc comments from coffeescript files/syntax', () => {
+      expect(
+        utils.extractAnnotations(require.resolve('../example/app/route.coffee'))
+      ).toEqual({
         yaml: [],
         jsdoc: [
-          {
-            description: '/',
-            tags: [
-              {
-                title: 'swagger',
-                description:
-                  "/login:\n  post:\n    description: Login to the application\n    produces:\n      - application/json\n    parameters:\n      - name: username\n        description: Username to use for login.\n        in: formData\n        required: true\n        type: string\n      - name: password\n        description: User's password.\n        in: formData\n        required: true\n        type: string\n    responses:\n      200:\n        description: login",
-              },
-            ],
-          },
+          '/**\n* @swagger\n* /login:\n*   post:\n*     description: Login to the application\n*     produces:\n*       - application/json\n*/',
         ],
       });
     });

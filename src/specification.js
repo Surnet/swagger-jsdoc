@@ -1,77 +1,79 @@
-/* eslint no-param-reassign: 0 */
-/* eslint no-self-assign: 0 */
+const doctrine = require('doctrine');
 const parser = require('swagger-parser');
+const YAML = require('yaml');
 
 const {
   hasEmptyProperty,
   convertGlobPaths,
-  parseApiFile,
-  getAnnotations,
+  extractAnnotations,
+  extractYamlFromJsDoc,
+  isTagPresentInTags,
 } = require('./utils');
 
 /**
- * Adds necessary properties for a given specification.
+ * Prepare the swagger/openapi specification object.
  * @see https://github.com/OAI/OpenAPI-Specification/tree/master/versions
  * @param {object} definition - The `definition` or `swaggerDefinition` from options.
- * @returns {object} Object containing required properties of a given specification version.
+ * @returns {object} swaggerObject
  */
-function createSpecification(definition) {
-  const specification = JSON.parse(JSON.stringify(definition));
+function prepare(definition) {
+  let version;
+  const swaggerObject = JSON.parse(JSON.stringify(definition));
+  const specificationTemplate = {
+    v2: [
+      'paths',
+      'definitions',
+      'responses',
+      'parameters',
+      'securityDefinitions',
+    ],
+    v3: [
+      'paths',
+      'definitions',
+      'responses',
+      'parameters',
+      'securityDefinitions',
+      'components',
+    ],
+  };
 
-  // Properties corresponding to their specifications.
-  const v2 = [
-    'paths',
-    'definitions',
-    'responses',
-    'parameters',
-    'securityDefinitions',
-  ];
-  const v3 = [...v2, 'components'];
-
-  if (specification.openapi) {
-    specification.openapi = specification.openapi;
-    v3.forEach((property) => {
-      specification[property] = specification[property] || {};
-    });
-  } else if (specification.swagger) {
-    specification.swagger = specification.swagger;
-    v2.forEach((property) => {
-      specification[property] = specification[property] || {};
-    });
+  if (swaggerObject.openapi) {
+    version = 'v3';
+  } else if (swaggerObject.swagger) {
+    version = 'v2';
   } else {
-    specification.swagger = '2.0';
-    v2.forEach((property) => {
-      specification[property] = specification[property] || {};
-    });
+    version = 'v2';
+    swaggerObject.swagger = '2.0';
   }
 
-  specification.tags = specification.tags || [];
+  specificationTemplate[version].forEach((property) => {
+    swaggerObject[property] = swaggerObject[property] || {};
+  });
 
-  return specification;
+  swaggerObject.tags = swaggerObject.tags || [];
+
+  return swaggerObject;
 }
 
 /**
  * OpenAPI specification validator does not accept empty values for a few properties.
  * Solves validator error: "Schema error should NOT have additional properties"
- * @param {object} inputSpec - The swagger/openapi specification
- * @param {object} improvedSpec - The cleaned version of the inputSpec
+ * @param {object} swaggerObject
+ * @returns {object} swaggerObject
  */
-function cleanUselessProperties(inputSpec) {
-  const improvedSpec = JSON.parse(JSON.stringify(inputSpec));
-  const toClean = [
+function clean(swaggerObject) {
+  for (const prop of [
     'definitions',
     'responses',
     'parameters',
     'securityDefinitions',
-  ];
-
-  toClean.forEach((unnecessaryProp) => {
-    if (hasEmptyProperty(improvedSpec[unnecessaryProp])) {
-      delete improvedSpec[unnecessaryProp];
+  ]) {
+    if (hasEmptyProperty(swaggerObject[prop])) {
+      delete swaggerObject[prop];
     }
-  });
+  }
 
-  return improvedSpec;
+  return swaggerObject;
 }
 
 /**
@@ -80,7 +82,7 @@ function cleanUselessProperties(inputSpec) {
  * @param {object} swaggerObject - Swagger object from parsing the api files.
  * @returns {object} The specification.
  */
-function finalizeSpecificationObject(swaggerObject) {
+function finalize(swaggerObject) {
   let specification = swaggerObject;
 
   parser.parse(swaggerObject, (err, api) => {
@@ -90,63 +92,21 @@ function finalizeSpecificationObject(swaggerObject) {
   });
 
   if (specification.openapi) {
-    specification = cleanUselessProperties(specification);
+    specification = clean(specification);
   }
 
   return specification;
 }
 
 /**
- * Checks if tag is already contained withing target.
- * The tag is an object of type http://swagger.io/specification/#tagObject
- * The target, is the part of the swagger specification that holds all tags.
- * @param {object} target - Swagger object place to include the tags data.
- * @param {object} tag - Swagger tag object to be included.
- * @returns {boolean} Does tag is already present in target
+ * @param {object} swaggerObject
+ * @param {object} annotation
+ * @param {string} property
  */
-function tagDuplicated(target, tag) {
-  // Check input is workable.
-  if (target && target.length && tag) {
-    for (let i = 0; i < target.length; i += 1) {
-      const targetTag = target[i];
-      // The name of the tag to include already exists in the taget.
-      // Therefore, it's not necessary to be added again.
-      if (targetTag.name === tag.name) {
-        return true;
-      }
-    }
-  }
+function organize(swaggerObject, annotation, property) {
+  if (property.startsWith('x-')) return; // extensions defined "inline" in annotations are not useful for the end specification
 
-  // This will indicate that `tag` is not present in `target`.
-  return false;
-}
-
-/**
- * Adds the tags property to a swagger object.
- * @param {object} conf - Flexible configuration.
- */
-function attachTags(conf) {
-  const { tag, swaggerObject, propertyName } = conf;
-
-  if (Array.isArray(tag)) {
-    for (let i = 0; i < tag.length; i += 1) {
-      if (!tagDuplicated(swaggerObject[propertyName], tag[i])) {
-        swaggerObject[propertyName].push(tag[i]);
-      }
-    }
-  } else if (!tagDuplicated(swaggerObject[propertyName], tag)) {
-    swaggerObject[propertyName].push(tag);
-  }
-}
-
-/**
- * Handles swagger propertyName in pathObject context for swaggerObject.
- * @param {object} swaggerObject - The swagger object to update.
- * @param {object} pathObject - The input context of an item for swaggerObject.
- * @param {string} propertyName - The property to handle.
- */
-function organizeSwaggerProperties(swaggerObject, pathObject, propertyName) {
-  const simpleProperties = [
+  const commonProperties = [
     'components',
     'consumes',
     'produces',
@@ -158,88 +118,142 @@ function organizeSwaggerProperties(swaggerObject, pathObject, propertyName) {
     'definitions',
   ];
 
-  // Common properties.
-  if (simpleProperties.indexOf(propertyName) !== -1) {
-    const definitionNames = Object.getOwnPropertyNames(
-      pathObject[propertyName]
-    );
-    for (let k = 0; k < definitionNames.length; k += 1) {
-      const definitionName = definitionNames[k];
-      swaggerObject[propertyName][definitionName] = {
-        ...swaggerObject[propertyName][definitionName],
-        ...pathObject[propertyName][definitionName],
+  if (commonProperties.includes(property)) {
+    for (const definition of Object.keys(annotation[property])) {
+      swaggerObject[property][definition] = {
+        ...swaggerObject[property][definition],
+        ...annotation[property][definition],
       };
     }
-    // Tags.
-  } else if (propertyName === 'tags') {
-    const tag = pathObject[propertyName];
-    attachTags({
-      tag,
-      swaggerObject,
-      propertyName,
-    });
-    // Paths.
+  } else if (property === 'tags') {
+    const { tags } = annotation;
+
+    if (Array.isArray(tags)) {
+      for (const tag of tags) {
+        if (!isTagPresentInTags(tag, swaggerObject.tags)) {
+          swaggerObject.tags.push(tag);
+        }
+      }
+    } else if (!isTagPresentInTags(tags, swaggerObject.tags)) {
+      swaggerObject.tags.push(tags);
+    }
   } else {
-    swaggerObject.paths[propertyName] = {
-      ...swaggerObject.paths[propertyName],
-      ...pathObject[propertyName],
+    // Paths which are not defined as "paths" property, starting with a slash "/"
+    swaggerObject.paths[property] = {
+      ...swaggerObject.paths[property],
+      ...annotation[property],
     };
   }
 }
 
 /**
- * Adds the data in to the swagger object.
- * @param {object} swaggerObject - Swagger object which will be written to
- * @param {object[]} data - objects of parsed swagger data from yml or jsDoc
- *                          comments
+ * @param {object} options
+ * @returns {object} swaggerObject
  */
-function addDataToSwaggerObject(swaggerObject, data) {
-  if (!swaggerObject || !data) {
-    throw new Error('swaggerObject and data are required!');
-  }
+function build(options) {
+  YAML.defaultOptions.keepCstNodes = true;
 
-  for (let i = 0; i < data.length; i += 1) {
-    const pathObject = data[i];
-    const propertyNames = Object.getOwnPropertyNames(pathObject);
-    // Iterating the properties of the a given pathObject.
-    for (let j = 0; j < propertyNames.length; j += 1) {
-      const propertyName = propertyNames[j];
-      // Do what's necessary to organize the end specification.
-      organizeSwaggerProperties(swaggerObject, pathObject, propertyName);
-    }
-  }
-}
-
-/**
- * Given an api file parsed for its jsdoc comments and yaml files, update the
- * specification.
- *
- * @param {object} parsedFile - Parsed API file.
- * @param {object} specification - Specification accumulator.
- */
-function updateSpecificationObject(parsedFile, specification) {
-  addDataToSwaggerObject(specification, parsedFile.yaml);
-  addDataToSwaggerObject(specification, getAnnotations(parsedFile.jsdoc));
-}
-
-function getSpecificationObject(options) {
   // Get input definition and prepare the specification's skeleton
   const definition = options.swaggerDefinition || options.definition;
-  const specification = createSpecification(definition);
+  const specification = prepare(definition);
+  const yamlDocsAnchors = new Map();
+  const yamlDocsErrors = [];
+  const yamlDocsReady = [];
 
-  // Parse the documentation containing information about APIs.
-  const apiPaths = convertGlobPaths(options.apis);
+  for (const filePath of convertGlobPaths(options.apis)) {
+    const {
+      yaml: yamlAnnotations,
+      jsdoc: jsdocAnnotations,
+    } = extractAnnotations(filePath);
 
-  for (let i = 0; i < apiPaths.length; i += 1) {
-    const parsedFile = parseApiFile(apiPaths[i]);
-    updateSpecificationObject(parsedFile, specification);
+    if (yamlAnnotations.length) {
+      for (const annotation of yamlAnnotations) {
+        const parsed = YAML.parseDocument(annotation);
+
+        const anchors = parsed.anchors.getNames();
+        if (anchors.length) {
+          for (const anchor of anchors) {
+            yamlDocsAnchors.set(anchor, parsed);
+          }
+        } else if (parsed.errors && parsed.errors.length) {
+          yamlDocsErrors.push(parsed);
+        } else {
+          yamlDocsReady.push(parsed);
+        }
+      }
+    }
+
+    if (jsdocAnnotations.length) {
+      for (const annotation of jsdocAnnotations) {
+        const jsDocComment = doctrine.parse(annotation, { unwrap: true });
+        for (const doc of extractYamlFromJsDoc(jsDocComment)) {
+          const parsed = YAML.parseDocument(doc);
+
+          const anchors = parsed.anchors.getNames();
+          if (anchors.length) {
+            for (const anchor of anchors) {
+              yamlDocsAnchors.set(anchor, parsed);
+            }
+          } else if (parsed.errors && parsed.errors.length) {
+            yamlDocsErrors.push(parsed);
+          } else {
+            yamlDocsReady.push(parsed);
+          }
+        }
+      }
+    }
   }
 
-  return finalizeSpecificationObject(specification);
+  if (yamlDocsErrors.length) {
+    for (const docWithErr of yamlDocsErrors) {
+      const errsToDelete = [];
+      docWithErr.errors.forEach((error, index) => {
+        if (error.name === 'YAMLReferenceError') {
+          // This should either be a smart regex or ideally a YAML library method using the error.range.
+          // The following works with both pretty and not pretty errors.
+          const refErr = error.message
+            .split('Aliased anchor not found: ')
+            .filter((a) => a)
+            .join('')
+            .split(' at line')[0];
+
+          const anchor = yamlDocsAnchors.get(refErr);
+          const anchorString = anchor.cstNode.toString();
+          const originalString = docWithErr.cstNode.toString();
+          const readyDocument = YAML.parseDocument(
+            `${anchorString}\n${originalString}`
+          );
+
+          yamlDocsReady.push(readyDocument);
+          errsToDelete.push(index);
+        }
+
+        // Cleanup solved errors in order to allow for parser to pass through.
+        for (const errIndex of errsToDelete) {
+          docWithErr.errors.splice(errIndex, 1);
+        }
+      });
+    }
+
+    // Place to provide feedback for errors. Previously throwing, now reporting only.
+    console.info(
+      'Not all input has been taken into account at your final specification.'
+    );
+    const errReport = yamlDocsErrors.map((documentWithErrors) => {
+      const { errors } = documentWithErrors;
+      return errors.join('\n');
+    });
+    console.error(`Here's the report: \n\n\n ${errReport}`);
+  }
+
+  for (const document of yamlDocsReady) {
+    const parsedDoc = document.toJSON();
+    for (const property in parsedDoc) {
+      organize(specification, parsedDoc, property);
+    }
+  }
+
+  return finalize(specification);
 }
 
-module.exports.createSpecification = createSpecification;
-module.exports.finalizeSpecificationObject = finalizeSpecificationObject;
-module.exports.getSpecificationObject = getSpecificationObject;
-module.exports.addDataToSwaggerObject = addDataToSwaggerObject;
-module.exports.updateSpecificationObject = updateSpecificationObject;
+module.exports = { prepare, build, organize, finalize };

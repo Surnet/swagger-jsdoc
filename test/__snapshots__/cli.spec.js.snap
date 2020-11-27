@@ -4,10 +4,10 @@ exports[`CLI module help menu is default fallback when no arguments 1`] = `
 "Usage: swagger-jsdoc [options] <path ...>
 
 Options:
-  -V, --version                     output the version number
-  -d, --definition <swaggerDef.js>  Input swagger definition.
-  -o, --output [swaggerSpec.json]   Output swagger specification.
-  -h, --help                        display help for command
+  -V, --version                            output the version number
+  -d, --definition <swaggerDefinition.js>  Input swagger definition.
+  -o, --output [swaggerSpec.json]          Output swagger specification.
+  -h, --help                               display help for command
 "
 `;
 
@@ -15,10 +15,10 @@ exports[`CLI module help menu works 1`] = `
 "Usage: swagger-jsdoc [options] <path ...>
 
 Options:
-  -V, --version                     output the version number
-  -d, --definition <swaggerDef.js>  Input swagger definition.
-  -o, --output [swaggerSpec.json]   Output swagger specification.
-  -h, --help                        display help for command
+  -V, --version                            output the version number
+  -d, --definition <swaggerDefinition.js>  Input swagger definition.
+  -o, --output [swaggerSpec.json]          Output swagger specification.
+  -h, --help                               display help for command
 "
 `;
 
@@ -30,31 +30,40 @@ Unexpected token t in JSON at position 18
 
 exports[`CLI module should reject definition file with invalid YAML syntax 1`] = `
 "Error while loading definition file 'test/files/v2/wrong_syntax.yaml':
-tag suffix cannot contain exclamation marks at line 2, column 5:
-      !!!title: Hello World
-        ^
+The !!! tag handle is non-default and was not declared. at line 2, column 3:
+
+  !!!title: Hello World
+  ^^^^^^^^^^^^^^^^^^^^^…
+
 "
 `;
 
-exports[`CLI module should reject definition file with non-JSON compatible YAML syntax 1`] = `
-"Error while loading definition file 'test/files/v2/non_json_compatible.yaml':
-unknown tag !<tag:yaml.org,2002:js/undefined> at line 3, column 3:
-      version: 1.0.0
-      ^
+exports[`CLI module should report YAML documents with errors 1`] = `
+"Here's the report: 
+
+
+ YAMLSyntaxError: All collection items must start at the same column at line 1, column 1:
+
+/invalid_yaml:
+^^^^^^^^^^^^^^…
+
+YAMLSemanticError: Implicit map keys need to be followed by map values at line 3, column 3:
+
+  bar
+  ^^^
+
 "
 `;
 
 exports[`CLI module should require a definition file 1`] = `
 "Definition file is required.
-You can do that, for example: 
-$ swag-jsdoc -d swaggerDef.js wrongDefinition
 Usage: swagger-jsdoc [options] <path ...>
 
 Options:
-  -V, --version                     output the version number
-  -d, --definition <swaggerDef.js>  Input swagger definition.
-  -o, --output [swaggerSpec.json]   Output swagger specification.
-  -h, --help                        display help for command
+  -V, --version                            output the version number
+  -d, --definition <swaggerDefinition.js>  Input swagger definition.
+  -o, --output [swaggerSpec.json]          Output swagger specification.
+  -h, --help                               display help for command
 "
 `;
 
