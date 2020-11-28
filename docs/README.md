@@ -1,9 +1,9 @@
 # Documentation
 
-- [Getting started](./docs/GETTING-STARTED.md)
+- [Getting started](./GETTING-STARTED.md)
 - [Project goals](./GOALS.md)
 - [Fundamental concepts](./CONCEPTS.md)
-- [CLI](./docs/CLI.md)
+- [CLI](./CLI.md)
 - [Examples](../example)
 - [Tests](../test)
 - [Typescript](./TYPESCRIPT.md)
