@@ -65,7 +65,7 @@ function extractAnnotations(filePath) {
       break;
 
     case '.coffee':
-      regexResults = fileContent.match(csDocRegex);
+      regexResults = fileContent.match(csDocRegex) || [];
       for (const result of regexResults) {
         let part = result.split('###');
         part[0] = `/**`;
@@ -76,7 +76,7 @@ function extractAnnotations(filePath) {
       break;
 
     default: {
-      regexResults = fileContent.match(jsDocRegex);
+      regexResults = fileContent.match(jsDocRegex) || [];
       for (const result of regexResults) {
         jsdoc.push(result);
       }

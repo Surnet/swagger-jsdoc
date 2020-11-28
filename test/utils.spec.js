@@ -65,5 +65,25 @@ describe('Utilities module', () => {
         ],
       });
     });
+
+    it('should return empty arrays from empty coffeescript files/syntax', () => {
+      expect(
+        utils.extractAnnotations(
+          require.resolve('./fixtures/empty-file.coffee')
+        )
+      ).toEqual({
+        yaml: [],
+        jsdoc: [],
+      });
+    });
+
+    it('should extract jsdoc comments from empty javascript files/syntax', () => {
+      expect(
+        utils.extractAnnotations(require.resolve('./fixtures/empty-file.js'))
+      ).toEqual({
+        yaml: [],
+        jsdoc: [],
+      });
+    });
   });
 });
