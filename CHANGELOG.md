@@ -1,7 +1,10 @@
 ## Change Log
 
-### upcoming (2020/11/28 10:25 +00:00)
+### upcoming (2020/11/28 14:53 +00:00)
 
+- [74395f2](https://github.com/Surnet/swagger-jsdoc/commit/74395f243d5e8977d8b20a253a90320318bc03f1) feat: support custom encoding in api files (@kalinchernev)
+- [270c0af](https://github.com/Surnet/swagger-jsdoc/commit/270c0af310d9c0090b4f9f48ad051565d5f4bf7e) documentation fixes (@kalinchernev)
+- [d217725](https://github.com/Surnet/swagger-jsdoc/commit/d2177254e9424fd4c93fea92c45b45c41d927e15) remove github-changes because of vulnerabilities (@kalinchernev)
 - [5908281](https://github.com/Surnet/swagger-jsdoc/commit/590828123201910b7ed62105a53719431635fb8a) add changelog (@kalinchernev)
 
 ### v6.0.0-rc.2 (2020/11/28 09:34 +00:00)
