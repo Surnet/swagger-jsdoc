@@ -1,5 +1,9 @@
 ## Change Log
 
+### upcoming (2020/11/28 10:25 +00:00)
+
+- [5908281](https://github.com/Surnet/swagger-jsdoc/commit/590828123201910b7ed62105a53719431635fb8a) add changelog (@kalinchernev)
+
 ### v6.0.0-rc.2 (2020/11/28 09:34 +00:00)
 
 - [3379925](https://github.com/Surnet/swagger-jsdoc/commit/337992556529bd2030a6e512dfb7951945fe7026) sync published version (@kalinchernev)
