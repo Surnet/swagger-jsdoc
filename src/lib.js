@@ -3,6 +3,7 @@ const { build } = require('./specification');
 /**
  * Generates the specification.
  * @param {object} options - Configuration options
+ * @param {string} options.encoding Optional, passed to readFileSync options. Defaults to 'utf8'.
  * @param {object} options.swaggerDefinition
  * @param {object} options.definition
  * @param {array} options.apis

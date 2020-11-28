@@ -3,9 +3,46 @@ const path = require('path');
 const swaggerJsdoc = require('../src/lib');
 
 describe('Main lib module', () => {
-  describe('Public APIs', () => {
-    it('main module is a function', () => {
+  describe('General', () => {
+    it('should be a function', () => {
       expect(typeof swaggerJsdoc).toBe('function');
+    });
+
+    it('should support custom encoding', () => {
+      const result = swaggerJsdoc({
+        swaggerDefinition: {
+          info: {
+            title: 'Example weird characters',
+            version: '1.0.0',
+          },
+        },
+        apis: ['./test/fixtures/non-utf-file.js'],
+        encoding: 'ascii',
+      });
+
+      expect(result).toEqual({
+        info: { title: 'Example weird characters', version: '1.0.0' },
+        swagger: '2.0',
+        paths: {
+          '/no-utf8': {
+            get: {
+              description:
+                "p\u001d\u00175D\u0015E\u0000a87p\u001d\u0019$ a:\u0018a;#p\u001d\u0019'a8;D\u000f",
+              responses: {
+                200: {
+                  description:
+                    'j\u001e\u000eG\u0012I<p\u001d\u0019\u001aa6\u0006 a;\u000bb2#E\u001da;+I1',
+                },
+              },
+            },
+          },
+        },
+        definitions: {},
+        responses: {},
+        parameters: {},
+        securityDefinitions: {},
+        tags: [],
+      });
     });
   });
 

@@ -164,7 +164,7 @@ function build(options) {
     const {
       yaml: yamlAnnotations,
       jsdoc: jsdocAnnotations,
-    } = extractAnnotations(filePath);
+    } = extractAnnotations(filePath, options.encoding);
 
     if (yamlAnnotations.length) {
       for (const annotation of yamlAnnotations) {
