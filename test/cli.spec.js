@@ -47,7 +47,9 @@ describe('CLI module', () => {
   });
 
   it('should create swagger.json by default when the API input is from definition file', async () => {
-    const result = await sh(`${bin} -d test/files/v2/api_definition.js`);
+    const result = await sh(
+      `${bin} -d test/files/v2/api_definition.js example/app/routes.js`
+    );
     expect(result.stdout).toBe('Swagger specification is ready.\n');
     const specification = fs.statSync('swagger.json');
     expect(specification.nlink).not.toBe(0);
@@ -72,21 +74,27 @@ describe('CLI module', () => {
   });
 
   it('should allow a JavaScript definition file', async () => {
-    const result = await sh(`${bin} -d test/files/v2/api_definition.js`);
+    const result = await sh(
+      `${bin} -d test/files/v2/api_definition.js example/app/routes.js`
+    );
     expect(result.stdout).toBe('Swagger specification is ready.\n');
     const specification = fs.statSync('swagger.json');
     expect(specification.nlink).not.toBe(0);
   });
 
   it('should allow a JSON definition file', async () => {
-    const result = await sh(`${bin} -d test/files/v2/api_definition.json`);
+    const result = await sh(
+      `${bin} -d test/files/v2/api_definition.json example/app/routes.js`
+    );
     expect(result.stdout).toBe('Swagger specification is ready.\n');
     const specification = fs.statSync('swagger.json');
     expect(specification.nlink).not.toBe(0);
   });
 
   it('should allow a YAML definition file', async () => {
-    const result = await sh(`${bin} -d test/files/v2/api_definition.yaml`);
+    const result = await sh(
+      `${bin} -d test/files/v2/api_definition.yaml example/app/routes.js`
+    );
     expect(result.stdout).toBe('Swagger specification is ready.\n');
     const specification = fs.statSync('swagger.json');
     expect(specification.nlink).not.toBe(0);
@@ -106,6 +114,7 @@ describe('CLI module', () => {
     const result = await sh(
       `${bin} -d example/app/swaggerDefinition.js test/files/v2/wrong-yaml-identation.js`
     );
+
     expect(result.stdout).toContain(
       'Not all input has been taken into account at your final specification.'
     );
