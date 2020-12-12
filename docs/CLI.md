@@ -1,6 +1,6 @@
 # Command line interface
 
-Available with the same name of the package when installed globally:
+The CLI is a thin wrapper around the library Node API. It's available with the same name of the package when installed globally:
 
 ```bash
 swagger-jsdoc

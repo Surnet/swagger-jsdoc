@@ -3,7 +3,7 @@
 `swagger-jsdoc` returns the validated OpenAPI specification as JSON or YAML.
 
 ```javascript
-const swaggerJSDoc = require('swagger-jsdoc');
+const swaggerJsdoc = require('swagger-jsdoc');
 
 const options = {
   swaggerDefinition: {
@@ -16,17 +16,17 @@ const options = {
   apis: ['./src/routes*.js'],
 };
 
-const swaggerSpec = swaggerJSDoc(options);
+const swaggerSpecification = swaggerJsdoc(options);
 ```
 
 - `options.definition` is also acceptable. Pass an [oasObject](https://swagger.io/specification/#oasObject)
-- `options.apis` are resolved with [node-glob](https://github.com/isaacs/node-glob). Construct these patterns carefully in order to reduce the number of possible matches which will speed up discovery of files. Values are relative to the current working directory, not the application serving the APIs.
+- `options.apis` are resolved with [node-glob](https://github.com/isaacs/node-glob). Construct these patterns carefully in order to reduce the number of possible matches speeding up files' discovery. Values are relative to the current working directory.
 
-Use any of the [swagger tools](https://swagger.io/tools/) to get the benefits of your `swaggerSpec`.
+Use any of the [swagger tools](https://swagger.io/tools/) to get the benefits of your `swaggerSpecification`.
 
 ## Annotating source code
 
-Placing `@swagger` or `@openapi` on top of a YAML formatted piece of documentation will source the information in the specification:
+Place `@swagger` or `@openapi` on top of YAML-formatted specification parts:
 
 ```javascript
 /**

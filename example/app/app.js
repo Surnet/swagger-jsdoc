@@ -6,7 +6,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const routes = require('./routes');
 const routes2 = require('./routes2');
-const swaggerJSDoc = require('../..');
+const swaggerJsdoc = require('../..');
 
 const PORT = process.env.PORT || 3000;
 
@@ -44,7 +44,7 @@ const options = {
 };
 
 // Initialize swagger-jsdoc -> returns validated swagger spec in json format
-const swaggerSpec = swaggerJSDoc(options);
+const swaggerSpec = swaggerJsdoc(options);
 
 // Serve swagger docs the way you like (Recommendation: swagger-tools)
 app.get('/api-docs.json', (req, res) => {
