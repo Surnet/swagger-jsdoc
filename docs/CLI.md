@@ -22,17 +22,17 @@ swagger-jsdoc -h
 
 ### Definition file
 
-By default, the library will read the `apis` array from your definition file:
+Adding `-d` parameter you can speciify easily a definition file.
 
 ```bash
-swagger-jsdoc -d swaggerDefinition.js
+swagger-jsdoc -d swaggerDefinition.js route*.js component*.yaml
 ```
 
 This could be any `.js`, `.json`, `.yml` or `.yaml` extensions.
 
 ### Input files (optional)
 
-When you don't want to or can't pass `apis` from the definition above, specify like following:
+Except the `definition file` mostly you would like to add `apis` definitions to swagger. You can specify it like following:
 
 One by one:
 
@@ -55,7 +55,7 @@ These paths are relative to current directory from where `swagger-jsdoc` is ran,
 The output is `swagger.json` by default, but can be changed:
 
 ```bash
-swagger-jsdoc -d swaggerDefinition.js -o my_spec.json
+swagger-jsdoc -d swaggerDefinition.js route1.js -o my_spec.json
 ```
 
 When `.yaml` or `.yml` extension is used, the specification will be parsed and saved in YAML.
