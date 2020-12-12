@@ -1,7 +1,14 @@
 ## Change Log
 
+### v6.0.0-rc.4 (2020/12/12 17:15 +00:00)
+
+- [#234](https://github.com/Surnet/swagger-jsdoc/pull/234) Remove 'api' attr from swagger definition (#234) (@mits87)
+
 ### v6.0.0-rc.3 (2020/11/28 15:37 +00:00)
 
+- [7ec0825](https://github.com/Surnet/swagger-jsdoc/commit/7ec08259e1ca36343be0a7ed5e3a2475b28b325a) chore: prepare v6.0.0-rc.3 (@kalinchernev)
+- [d99fbd5](https://github.com/Surnet/swagger-jsdoc/commit/d99fbd56599cbabbb3eaeee1497a5060e4e4bbc4) chore: prepare v6.0.0-rc.3 (@kalinchernev)
+- [9686d62](https://github.com/Surnet/swagger-jsdoc/commit/9686d62adbca6544241ac47027a23f8aa05a379b) docs: update examples (@kalinchernev)
 - [c4cea4c](https://github.com/Surnet/swagger-jsdoc/commit/c4cea4caaf94624d63e67be68f1e72a47d776cdc) docs: update changelog upcoming (@kalinchernev)
 - [74395f2](https://github.com/Surnet/swagger-jsdoc/commit/74395f243d5e8977d8b20a253a90320318bc03f1) feat: support custom encoding in api files (@kalinchernev)
 - [270c0af](https://github.com/Surnet/swagger-jsdoc/commit/270c0af310d9c0090b4f9f48ad051565d5f4bf7e) documentation fixes (@kalinchernev)

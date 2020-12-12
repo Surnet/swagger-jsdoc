@@ -22,17 +22,17 @@ swagger-jsdoc -h
 
 ### Definition file
 
-Adding `-d` parameter you can speciify easily a definition file.
+Set with `--definition` (or `-d`) flag:
 
 ```bash
-swagger-jsdoc -d swaggerDefinition.js route*.js component*.yaml
+swagger-jsdoc -d swaggerDefinition.js
 ```
 
-This could be any `.js`, `.json`, `.yml` or `.yaml` extensions.
+Acceptable file extensions: `.js`, `.json`, `.yml`, `.yaml`.
 
-### Input files (optional)
+### Input files
 
-Except the `definition file` mostly you would like to add `apis` definitions to swagger. You can specify it like following:
+Set through arguments.
 
 One by one:
 
@@ -48,7 +48,7 @@ swagger-jsdoc -d swaggerDefinition.js route*.js component*.yaml
 
 [Glob patterns](https://github.com/isaacs/node-glob) are acceptable to match multiple files with same extension `*.js`, `*.php`, etc. or patterns selecting files in nested folders as `**/*.js`, `**/*.php`, etc.
 
-These paths are relative to current directory from where `swagger-jsdoc` is ran, not the application holding the APIs.
+Paths are relative to the current working directory.
 
 ### Output file (optional)
 
@@ -58,4 +58,4 @@ The output is `swagger.json` by default, but can be changed:
 swagger-jsdoc -d swaggerDefinition.js route1.js -o my_spec.json
 ```
 
-When `.yaml` or `.yml` extension is used, the specification will be parsed and saved in YAML.
+When output file extension is `.yaml` or `.yml`, the specification will be parsed and saved in YAML format.
