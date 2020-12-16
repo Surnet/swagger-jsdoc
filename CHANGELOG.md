@@ -1,5 +1,11 @@
 ## Change Log
 
+### v6.0.0-rc.5 (2020/12/16 08:56 +00:00)
+
+- [#235](https://github.com/Surnet/swagger-jsdoc/pull/235) feat: support x-webhooks (#235) (@kalinchernev)
+- [348687e](https://github.com/Surnet/swagger-jsdoc/commit/348687ea0faffe47bf842fe4ecf22abf92bd00a2) Simplify docs (@kalinchernev)
+- [d2b194c](https://github.com/Surnet/swagger-jsdoc/commit/d2b194c82ea2956d8c424c6c3b1b1269c18a94a9) Update changelog (@kalinchernev)
+
 ### v6.0.0-rc.4 (2020/12/12 17:15 +00:00)
 
 - [#234](https://github.com/Surnet/swagger-jsdoc/pull/234) Remove 'api' attr from swagger definition (#234) (@mits87)

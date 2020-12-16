@@ -1,4 +1,5 @@
 .editorconfig
+.nvmrc
 .git*
 .eslintignore
 .prettierignore
