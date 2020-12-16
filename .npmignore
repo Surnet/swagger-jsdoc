@@ -7,7 +7,7 @@
 .nvm
 .eslintrc.js
 external.jsdoc
-example/
+examples/
 docs/
 jsdoc/
 test/

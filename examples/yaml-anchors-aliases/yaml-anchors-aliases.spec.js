@@ -11,8 +11,8 @@ describe('Example for using anchors and aliases in YAML documents', () => {
         },
       },
       apis: [
-        './example/yaml-anchors-aliases/x-amazon-apigateway-integrations.yaml',
-        './example/yaml-anchors-aliases/example.js',
+        './examples/yaml-anchors-aliases/x-amazon-apigateway-integrations.yaml',
+        './examples/yaml-anchors-aliases/example.js',
       ],
     });
     expect(result).toEqual(referenceSpecification);
