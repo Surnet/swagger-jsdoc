@@ -22,7 +22,7 @@ describe('Utilities module', () => {
   describe('extractAnnotations', () => {
     it('should extract jsdoc comments by default', () => {
       expect(
-        utils.extractAnnotations(require.resolve('../example/app/routes2.js'))
+        utils.extractAnnotations(require.resolve('../examples/app/routes2.js'))
       ).toEqual({
         yaml: [],
         jsdoc: [
@@ -34,7 +34,7 @@ describe('Utilities module', () => {
     it('should extract data from YAML files', () => {
       expect(
         utils.extractAnnotations(
-          require.resolve('../example/app/parameters.yaml')
+          require.resolve('../examples/app/parameters.yaml')
         )
       ).toEqual({
         yaml: [
@@ -45,7 +45,7 @@ describe('Utilities module', () => {
 
       expect(
         utils.extractAnnotations(
-          require.resolve('../example/app/parameters.yml')
+          require.resolve('../examples/app/parameters.yml')
         )
       ).toEqual({
         yaml: [
@@ -57,7 +57,9 @@ describe('Utilities module', () => {
 
     it('should extract jsdoc comments from coffeescript files/syntax', () => {
       expect(
-        utils.extractAnnotations(require.resolve('../example/app/route.coffee'))
+        utils.extractAnnotations(
+          require.resolve('../examples/app/route.coffee')
+        )
       ).toEqual({
         yaml: [],
         jsdoc: [

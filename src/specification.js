@@ -104,7 +104,16 @@ function finalize(swaggerObject) {
  * @param {string} property
  */
 function organize(swaggerObject, annotation, property) {
-  if (property.startsWith('x-')) return; // extensions defined "inline" in annotations are not useful for the end specification
+  // Root property on purpose.
+  // @see https://github.com/OAI/OpenAPI-Specification/blob/master/proposals/002_Webhooks.md#proposed-solution
+  if (property === 'x-webhooks') {
+    swaggerObject[property] = annotation[property];
+  }
+
+  // Other extensions can be in varying places depending on different vendors and opinions.
+  // The following return makes it so that they are not put in `paths` in the last case.
+  // New specific extensions will need to be handled on case-by-case if to be included in `paths`.
+  if (property.startsWith('x-')) return;
 
   const commonProperties = [
     'components',

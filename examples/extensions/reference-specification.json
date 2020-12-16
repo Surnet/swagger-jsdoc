@@ -1,0 +1,32 @@
+{
+  "info": { "title": "Example with extensions", "version": "0.0.1" },
+  "swagger": "2.0",
+  "paths": {},
+  "definitions": {},
+  "responses": {},
+  "parameters": {},
+  "securityDefinitions": {},
+  "tags": [],
+  "x-webhooks": {
+    "newPet": {
+      "post": {
+        "summary": "New pet",
+        "description": "Information about a new pet in the systems",
+        "operationId": "newPet",
+        "tags": ["pet"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Pet" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Return a 200 status to indicate that the data was received successfully"
+          }
+        }
+      }
+    }
+  }
+}

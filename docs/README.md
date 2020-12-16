@@ -4,7 +4,7 @@ Quick-start:
 
 - [Getting started](./GETTING-STARTED.md)
 - [CLI](./CLI.md)
-- [Examples](../example)
+- [Examples](../examples)
 
 Before you submit an issue:
 
