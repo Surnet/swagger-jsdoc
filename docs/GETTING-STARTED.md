@@ -7,7 +7,6 @@ const swaggerJsdoc = require('swagger-jsdoc');
 
 const options = {
   swaggerDefinition: {
-    openapi: '3.0.0',
     info: {
       title: 'Hello World',
       version: '1.0.0',
@@ -23,6 +22,31 @@ const swaggerSpecification = swaggerJsdoc(options);
 - `options.apis` are resolved with [node-glob](https://github.com/isaacs/node-glob). Construct these patterns carefully in order to reduce the number of possible matches speeding up files' discovery. Values are relative to the current working directory.
 
 Use any of the [swagger tools](https://swagger.io/tools/) to get the benefits of your `swaggerSpecification`.
+
+## Specification version
+
+`swagger-jsdoc` was created in 2015. The OpenAPI as a concept did not exist, and thus the naming of the package itself.
+
+The default target specification is 2.0. This provides backwards compatibility for many APIs written in the last couple of years.
+
+In order to create a specification compatibile with 3.0 or higher, i.e. the so called OpenAPI, set this information in the `swaggerDefinition`:
+
+```diff
+const swaggerJsdoc = require('swagger-jsdoc');
+
+const options = {
+  swaggerDefinition: {
++   openapi: '3.0.0',
+    info: {
+      title: 'Hello World',
+      version: '1.0.0',
+    },
+  },
+  apis: ['./src/routes*.js'],
+};
+
+const swaggerSpecification = swaggerJsdoc(options);
+```
 
 ## Annotating source code
 
@@ -52,6 +76,8 @@ app.post('/login', (req, res) => {
 ```
 
 ## Re-using Model Definitions
+
+The examples below are targeting specification 2.0. Please keep in mind that since 3.x, you can use [components](https://swagger.io/docs/specification/components/) in order to define and reuse resources.
 
 A model may be the same for multiple endpoints: `POST`, `PUT` responses, etc.
 
@@ -129,8 +155,6 @@ app.post('/users', (req, res) => {
   // Your implementation logic comes here ...
 });
 ```
-
-Keep in mind that since v3 of the specification, you can use [components](https://swagger.io/docs/specification/components/) in order to define and reuse resources.
 
 ## Using YAML
 
