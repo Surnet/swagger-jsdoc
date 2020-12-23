@@ -2,7 +2,7 @@
 
 ## Types
 
-Please see `[@types/swagger-jsdoc](https://www.npmjs.com/package/@types/swagger-jsdoc)`. The package has been created and maintained by one of the original creators of `swagger-jsdoc` [drGrove](https://github.com/drGrove).
+Please see [`@types/swagger-jsdoc`](https://www.npmjs.com/package/@types/swagger-jsdoc). The package has been created and maintained by one of the original creators of `swagger-jsdoc` [drGrove](https://github.com/drGrove).
 
 ## The library
 
