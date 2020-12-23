@@ -75,87 +75,6 @@ app.post('/login', (req, res) => {
 });
 ```
 
-## Re-using Model Definitions
-
-The examples below are targeting specification 2.0. Please keep in mind that since 3.x, you can use [components](https://swagger.io/docs/specification/components/) in order to define and reuse resources.
-
-A model may be the same for multiple endpoints: `POST`, `PUT` responses, etc.
-
-Duplicating parts of your code into multiple locations is error prone and requires more attention when maintaining your code base. To solve these, you can define a model and re-use it across multiple endpoints. You can also reference another model and add fields.
-
-```javascript
-/**
- * @swagger
- *
- * definitions:
- *   NewUser:
- *     type: object
- *     required:
- *       - username
- *       - password
- *     properties:
- *       username:
- *         type: string
- *       password:
- *         type: string
- *         format: password
- *   User:
- *     allOf:
- *       - $ref: '#/definitions/NewUser'
- *       - required:
- *         - id
- *       - properties:
- *         id:
- *           type: integer
- *           format: int64
- */
-
-/**
- * @swagger
- * /users:
- *   get:
- *     description: Returns users
- *     produces:
- *      - application/json
- *     responses:
- *       200:
- *         description: users
- *         schema:
- *           type: array
- *           items:
- *             $ref: '#/definitions/User'
- */
-app.get('/users', (req, res) => {
-  // Your implementation logic comes here ...
-});
-
-/**
- * @swagger
- *
- * /users:
- *   post:
- *     description: Creates a user
- *     produces:
- *       - application/json
- *     parameters:
- *       - name: user
- *         description: User object
- *         in:  body
- *         required: true
- *         type: string
- *         schema:
- *           $ref: '#/definitions/NewUser'
- *     responses:
- *       200:
- *         description: users
- *         schema:
- *           $ref: '#/definitions/User'
- */
-app.post('/users', (req, res) => {
-  // Your implementation logic comes here ...
-});
-```
-
 ## Using YAML
 
 It's possible to source parts of your specification through YAML files.
@@ -202,3 +121,22 @@ Additional materials to inspire you:
 - [Agile documentation for your API-driven project](https://kalinchernev.github.io/agile-documentation-api-driven-project) - 21/01/2017
 
 Suggestions for extending this helpful list are welcome! [Submit your article](https://github.com/Surnet/swagger-jsdoc/issues/new)
+
+## Examples
+
+Here's a list of example public open-source usages of the package:
+
+- [godaddy/gasket](https://github.com/godaddy/gasket)
+- [godaddy/warehouse.ai-status-api](https://github.com/godaddy/warehouse.ai-status-api)
+- [hana-developer-cli-tool-example](https://github.com/SAP-samples/hana-developer-cli-tool-example)
+- [studiohyperdrive/api-docs](https://github.com/studiohyperdrive/api-docs)
+
+## Related projects
+
+- [godaddy/swagger-jsdoc-deref](https://github.com/godaddy/swagger-jsdoc-deref)
+- [slanatech/swagger-stats](https://github.com/slanatech/swagger-stats)
+- [weseek/growi](https://github.com/weseek/growi)
+- [linagora/openpaas-esn](https://github.com/linagora/openpaas-esn)
+- [Tiemma/sonic-express](https://github.com/Tiemma/sonic-express)
+- [kevoj/nodetomic-api-swagger](https://github.com/kevoj/nodetomic-api-swagger)
+- [node-express-mongoose-boilerplate](https://github.com/hagopj13/node-express-mongoose-boilerplate)

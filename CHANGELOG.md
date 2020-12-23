@@ -1,5 +1,11 @@
 ## Change Log
 
+### v6.0.0 (2020/12/23 09:24 +00:00)
+
+- [0d0be79](https://github.com/Surnet/swagger-jsdoc/commit/0d0be797263a6f95dd0efcc5386b37b8757f8ecb) Update documentation (@kalinchernev)
+- [6db97e2](https://github.com/Surnet/swagger-jsdoc/commit/6db97e25832e0f94f87db9c5d5340122efe4f385) update changelog (@kalinchernev)
+- [a72a91f](https://github.com/Surnet/swagger-jsdoc/commit/a72a91f6262172b0bb49f089039cc176f1564d6c) prepare rc5 (@kalinchernev)
+
 ### v6.0.0-rc.5 (2020/12/16 08:56 +00:00)
 
 - [#235](https://github.com/Surnet/swagger-jsdoc/pull/235) feat: support x-webhooks (#235) (@kalinchernev)
