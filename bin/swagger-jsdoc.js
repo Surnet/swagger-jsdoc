@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 
 const fs = require('fs');
+const path = require('path');
+const YAML = require('yaml');
 const program = require('commander');
 
 const pkg = require('../package.json');
@@ -70,16 +72,28 @@ if (!program.args.length) {
   process.exit();
 }
 
-fs.writeFileSync(
-  output || 'swagger.json',
-  JSON.stringify(
-    swaggerJsdoc({
-      swaggerDefinition,
-      apis: program.args,
-    }),
-    null,
-    2
-  )
+let swaggerSpec = JSON.stringify(
+  swaggerJsdoc({
+    swaggerDefinition,
+    apis: program.args,
+  }),
+  null,
+  2
 );
+
+if (output) {
+  const ext = path.extname(output);
+
+  if (ext === '.yml' || ext === '.yaml') {
+    swaggerSpec = YAML.stringify(
+      swaggerJsdoc({
+        swaggerDefinition,
+        apis: program.args,
+      })
+    );
+  }
+}
+
+fs.writeFileSync(output || 'swagger.json', swaggerSpec);
 
 console.log('Swagger specification is ready.');
