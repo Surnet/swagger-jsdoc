@@ -95,4 +95,15 @@ describe('Specification module', () => {
       });
     });
   });
+
+  describe('format', () => {
+    it('should not modify input object when no format specified', () => {
+      expect(specModule.format({ foo: 'bar' })).toEqual({ foo: 'bar' });
+    });
+
+    it('should support yaml', () => {
+      expect(specModule.format({ foo: 'bar' }, '.yaml')).toEqual('foo: bar\n');
+      expect(specModule.format({ foo: 'bar' }, '.yml')).toEqual('foo: bar\n');
+    });
+  });
 });
