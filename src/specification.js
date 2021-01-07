@@ -56,6 +56,17 @@ function prepare(definition) {
 }
 
 /**
+ * @param {object} obj
+ * @param {string} ext
+ */
+function format(swaggerObject, ext) {
+  if (ext === '.yml' || ext === '.yaml') {
+    return YAML.stringify(swaggerObject);
+  }
+  return swaggerObject;
+}
+
+/**
  * OpenAPI specification validator does not accept empty values for a few properties.
  * Solves validator error: "Schema error should NOT have additional properties"
  * @param {object} swaggerObject
@@ -82,7 +93,7 @@ function clean(swaggerObject) {
  * @param {object} swaggerObject - Swagger object from parsing the api files.
  * @returns {object} The specification.
  */
-function finalize(swaggerObject) {
+function finalize(swaggerObject, options) {
   let specification = swaggerObject;
 
   parser.parse(swaggerObject, (err, api) => {
@@ -95,7 +106,7 @@ function finalize(swaggerObject) {
     specification = clean(specification);
   }
 
-  return specification;
+  return format(specification, options.format);
 }
 
 /**
@@ -265,7 +276,7 @@ function build(options) {
     }
   }
 
-  return finalize(specification);
+  return finalize(specification, options);
 }
 
-module.exports = { prepare, build, organize, finalize };
+module.exports = { prepare, build, organize, finalize, format };

@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const fs = require('fs');
+const path = require('path');
 const program = require('commander');
 
 const pkg = require('../package.json');
@@ -76,6 +77,7 @@ fs.writeFileSync(
     swaggerJsdoc({
       swaggerDefinition,
       apis: program.args,
+      format: path.extname(output || ''),
     }),
     null,
     2
