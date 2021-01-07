@@ -1,7 +1,13 @@
 ## Change Log
 
-### v6.0.0 (2020/12/23 09:24 +00:00)
+### v6.0.1 (2021/01/07 06:22 +00:00)
 
+- [#238](https://github.com/Surnet/swagger-jsdoc/pull/238) fix: yaml export format (#238) (@kalinchernev)
+
+### v6.0.0 (2020/12/23 09:38 +00:00)
+
+- [7aaa3e0](https://github.com/Surnet/swagger-jsdoc/commit/7aaa3e00b75c6deffcce09126beee391716549d2) Update TYPESCRIPT.md (@kalinchernev)
+- [d2965db](https://github.com/Surnet/swagger-jsdoc/commit/d2965dbf919956010bcc156e29fa086986e324e3) Release 6.0 (@kalinchernev)
 - [0d0be79](https://github.com/Surnet/swagger-jsdoc/commit/0d0be797263a6f95dd0efcc5386b37b8757f8ecb) Update documentation (@kalinchernev)
 - [6db97e2](https://github.com/Surnet/swagger-jsdoc/commit/6db97e25832e0f94f87db9c5d5340122efe4f385) update changelog (@kalinchernev)
 - [a72a91f](https://github.com/Surnet/swagger-jsdoc/commit/a72a91f6262172b0bb49f089039cc176f1564d6c) prepare rc5 (@kalinchernev)
