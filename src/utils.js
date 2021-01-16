@@ -1,6 +1,6 @@
-const fs = require('fs');
-const path = require('path');
-const glob = require('glob');
+import fs from 'fs';
+import path from 'path';
+import glob from 'glob';
 
 /**
  * Converts an array of globs to full paths
@@ -129,9 +129,11 @@ function loadDefinition(defPath, swaggerDefinition) {
   return loader();
 }
 
-module.exports.convertGlobPaths = convertGlobPaths;
-module.exports.hasEmptyProperty = hasEmptyProperty;
-module.exports.extractYamlFromJsDoc = extractYamlFromJsDoc;
-module.exports.extractAnnotations = extractAnnotations;
-module.exports.isTagPresentInTags = isTagPresentInTags;
-module.exports.loadDefinition = loadDefinition;
+export {
+  convertGlobPaths,
+  hasEmptyProperty,
+  extractAnnotations,
+  extractYamlFromJsDoc,
+  isTagPresentInTags,
+  loadDefinition,
+};

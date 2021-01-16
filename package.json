@@ -12,7 +12,8 @@
     "test:js": "jest --verbose",
     "test": "run-p test:* -cn"
   },
-  "main": "index.js",
+  "type": "module",
+  "exports": "./index.js",
   "bin": {
     "swagger-jsdoc": "./bin/swagger-jsdoc.js"
   },

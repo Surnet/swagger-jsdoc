@@ -1,14 +1,14 @@
-const doctrine = require('doctrine');
-const parser = require('swagger-parser');
-const YAML = require('yaml');
+import doctrine from 'doctrine';
+import parser from 'swagger-parser';
+import YAML from 'yaml';
 
-const {
+import {
   hasEmptyProperty,
   convertGlobPaths,
   extractAnnotations,
   extractYamlFromJsDoc,
   isTagPresentInTags,
-} = require('./utils');
+} from './utils.js';
 
 /**
  * Prepare the swagger/openapi specification object.
@@ -279,4 +279,4 @@ function build(options) {
   return finalize(specification, options);
 }
 
-module.exports = { prepare, build, organize, finalize, format };
+export { prepare, build, organize, finalize, format };

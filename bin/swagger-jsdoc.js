@@ -1,15 +1,13 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
-const path = require('path');
-const program = require('commander');
+import fs from 'fs';
+import { extname } from 'path';
+import program from 'commander';
 
-const pkg = require('../package.json');
-const swaggerJsdoc = require('..');
-const { loadDefinition } = require('../src/utils');
+import swaggerJsdoc from '../src/lib.js';
+import { loadDefinition } from '../src/utils.js';
 
 program
-  .version(pkg.version)
   .usage('[options] <path ...>')
   .option(
     '-d, --definition <swaggerDefinition.js>',
@@ -77,7 +75,7 @@ fs.writeFileSync(
     swaggerJsdoc({
       swaggerDefinition,
       apis: program.args,
-      format: path.extname(output || ''),
+      format: extname(output || ''),
     }),
     null,
     2

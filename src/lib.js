@@ -1,4 +1,4 @@
-const { build } = require('./specification');
+import { build } from './specification.js';
 
 /**
  * Generates the specification.
@@ -10,7 +10,7 @@ const { build } = require('./specification');
  * @param {array} options.apis
  * @returns {object} Output specification
  */
-module.exports = (options) => {
+export default (options) => {
   if (!options) {
     throw new Error(`Missing or invalid input: 'options' is required`);
   }
