@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-import fs from 'fs';
 import { extname } from 'path';
+import { writeFile } from 'fs/promises';
 import program from 'commander';
 
 import swaggerJsdoc from '../src/lib.js';
@@ -18,7 +18,6 @@ program
 
 if (!process.argv.slice(2).length) {
   program.help();
-  process.exit();
 }
 
 const { definition, output } = program;
@@ -26,60 +25,49 @@ const { definition, output } = program;
 if (!definition) {
   console.log('Definition file is required.');
   program.help();
-  process.exit();
 }
-
-let swaggerDefinition;
 
 try {
-  swaggerDefinition = loadDefinition(
-    definition,
-    fs.readFileSync(definition, 'utf-8')
+  const swaggerDefinition = await loadDefinition(definition);
+
+  if (!('info' in swaggerDefinition)) {
+    console.log('Definition file should contain an info object!');
+    console.log('More at http://swagger.io/specification/#infoObject');
+    process.exit();
+  }
+
+  if (
+    !('title' in swaggerDefinition.info) ||
+    !('version' in swaggerDefinition.info)
+  ) {
+    console.log('The title and version properties are required!');
+    console.log('More at http://swagger.io/specification/#infoObject');
+    process.exit();
+  }
+
+  if (!program.args.length) {
+    console.log('Input files are required!');
+    console.log(
+      'More at https://github.com/Surnet/swagger-jsdoc/blob/master/docs/CLI.md#input-files'
+    );
+    process.exit();
+  }
+
+  await writeFile(
+    output || 'swagger.json',
+    JSON.stringify(
+      swaggerJsdoc({
+        swaggerDefinition,
+        apis: program.args,
+        format: extname(output || ''),
+      }),
+      null,
+      2
+    )
   );
+
+  console.log('Swagger specification is ready.');
 } catch (error) {
-  console.log(
-    `Error while loading definition file '${definition}':\n${error.message}`
-  );
+  console.log(`Definition file error':\n${error.message}`);
   process.exit();
 }
-
-// Check for info object in the definition.
-if (!('info' in swaggerDefinition)) {
-  console.log('Definition file should contain an info object!');
-  console.log('More at http://swagger.io/specification/#infoObject');
-  process.exit();
-}
-
-// Check for title and version properties in the info object.
-if (
-  !('title' in swaggerDefinition.info) ||
-  !('version' in swaggerDefinition.info)
-) {
-  console.log('The title and version properties are required!');
-  console.log('More at http://swagger.io/specification/#infoObject');
-  process.exit();
-}
-
-// Continue only if arguments provided.
-if (!program.args.length) {
-  console.log('You must provide sources for reading API files.');
-  console.log(
-    'Either add filenames as arguments, or add an "apis" key in your configuration.'
-  );
-  process.exit();
-}
-
-fs.writeFileSync(
-  output || 'swagger.json',
-  JSON.stringify(
-    swaggerJsdoc({
-      swaggerDefinition,
-      apis: program.args,
-      format: extname(output || ''),
-    }),
-    null,
-    2
-  )
-);
-
-console.log('Swagger specification is ready.');

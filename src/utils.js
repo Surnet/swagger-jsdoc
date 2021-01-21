@@ -1,6 +1,8 @@
 import fs from 'fs';
-import path from 'path';
+import { readFile } from 'fs/promises';
+import { extname, resolve } from 'path';
 import glob from 'glob';
+import { parse } from 'yaml';
 
 /**
  * Converts an array of globs to full paths
@@ -51,7 +53,7 @@ function extractYamlFromJsDoc(jsDocComment) {
  */
 function extractAnnotations(filePath, encoding = 'utf8') {
   const fileContent = fs.readFileSync(filePath, { encoding });
-  const ext = path.extname(filePath);
+  const ext = extname(filePath);
   const jsDocRegex = /\/\*\*([\s\S]*?)\*\//gm;
   const csDocRegex = /###([\s\S]*?)###/gm;
   const yaml = [];
@@ -99,28 +101,34 @@ function isTagPresentInTags(tag, tags) {
 }
 
 /**
- * Get an object of the definition file configuration.
- * @param {string} defPath
- * @param {object} swaggerDefinition
+ * @param {string} definitionPath
  */
-function loadDefinition(defPath, swaggerDefinition) {
-  const resolvedPath = path.resolve(defPath);
-  const extName = path.extname(resolvedPath);
-
-  // eslint-disable-next-line
-  const loadJs = () => require(resolvedPath);
-  const loadJson = () => JSON.parse(swaggerDefinition);
-  // eslint-disable-next-line
-  const loadYaml = () => require('yaml').parse(swaggerDefinition);
+function loadDefinition(definitionPath) {
+  const loadESMJs = async () => {
+    try {
+      const m = await import(resolve(definitionPath));
+      return m.default;
+    } catch (error) {
+      throw error;
+    }
+  };
+  const loadJson = async () => {
+    const fileContents = await readFile(definitionPath);
+    return JSON.parse(fileContents);
+  };
+  const loadYaml = async () => {
+    const fileContents = await readFile(definitionPath);
+    return parse(String(fileContents));
+  };
 
   const LOADERS = {
-    '.js': loadJs,
+    '.js': loadESMJs,
     '.json': loadJson,
     '.yml': loadYaml,
     '.yaml': loadYaml,
   };
 
-  const loader = LOADERS[extName];
+  const loader = LOADERS[extname(definitionPath)];
 
   if (loader === undefined) {
     throw new Error('Definition file should be .js, .json, .yml or .yaml');
