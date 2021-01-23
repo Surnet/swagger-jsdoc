@@ -1,6 +1,6 @@
 /* istanbul ignore file */
 
-module.exports.setup = (app) => {
+export const setup = (app) => {
   /**
    * @swagger
    * /hello:

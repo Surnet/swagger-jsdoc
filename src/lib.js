@@ -10,7 +10,7 @@ import { build } from './specification.js';
  * @param {array} options.apis
  * @returns {object} Output specification
  */
-export default (options) => {
+const lib = (options) => {
   if (!options) {
     throw new Error(`Missing or invalid input: 'options' is required`);
   }
@@ -29,3 +29,5 @@ export default (options) => {
 
   return build(options);
 };
+
+export default lib;

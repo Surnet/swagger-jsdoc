@@ -9,13 +9,17 @@
     "start": "node examples/app/app.js",
     "lint": "eslint .",
     "test:lint": "eslint .",
-    "test:js": "jest --verbose",
+    "test:js": "NODE_OPTIONS=--experimental-vm-modules jest",
     "test": "run-p test:* -cn"
   },
   "type": "module",
   "exports": "./index.js",
   "bin": {
     "swagger-jsdoc": "./bin/swagger-jsdoc.js"
+  },
+  "jest": {
+    "verbose": true,
+    "transform": {}
   },
   "dependencies": {
     "commander": "6.2.0",

@@ -2,11 +2,11 @@
 /* eslint import/no-extraneous-dependencies: 0 */
 
 // Dependencies
-const express = require('express');
-const bodyParser = require('body-parser');
-const routes = require('./routes');
-const routes2 = require('./routes2');
-const swaggerJsdoc = require('../..');
+import express from 'express';
+import bodyParser from 'body-parser';
+import { setup as setupRoute1 } from './routes.js';
+import { setup as setupRoute2 } from './routes2.js';
+import swaggerJsdoc from '../../src/lib.js';
 
 const PORT = process.env.PORT || 3000;
 
@@ -53,8 +53,8 @@ app.get('/api-docs.json', (req, res) => {
 });
 
 // Set up the routes
-routes.setup(app);
-routes2.setup(app);
+setupRoute1(app);
+setupRoute2(app);
 
 // Start the server
 const server = app.listen(PORT, () => {
@@ -64,4 +64,4 @@ const server = app.listen(PORT, () => {
   console.log('Example app listening at http://%s:%s', host, port);
 });
 
-module.exports = { app, server };
+export { app, server };
