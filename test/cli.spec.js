@@ -1,6 +1,6 @@
-const fs = require('fs');
-const { promisify } = require('util');
-const { exec } = require('child_process');
+import fs from 'fs';
+import { promisify } from 'util';
+import { exec } from 'child_process';
 
 const sh = promisify(exec);
 const dir = process.env.PWD;
