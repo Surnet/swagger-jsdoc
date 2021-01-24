@@ -1,6 +1,10 @@
+import { readFile } from 'fs/promises';
 import request from 'supertest';
 import { app, server } from './app.js';
-import swaggerSpec from './swagger-spec.json';
+
+const swaggerSpec = JSON.parse(
+  await readFile(new URL('./swagger-spec.json', import.meta.url))
+);
 
 describe('Example application written in swagger specification (v2)', () => {
   it('should be healthy', async () => {
