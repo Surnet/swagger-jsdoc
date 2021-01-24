@@ -132,7 +132,7 @@ function loadDefinition(definitionPath) {
   return loader();
 }
 
-export {
+export default {
   convertGlobPaths,
   hasEmptyProperty,
   extractAnnotations,

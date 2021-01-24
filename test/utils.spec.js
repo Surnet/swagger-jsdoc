@@ -1,6 +1,9 @@
 /* eslint no-unused-expressions: 0 */
+import utils from '../src/utils.js';
 
-const utils = require('../src/utils');
+import { dirname, resolve } from 'path';
+import { fileURLToPath } from 'url';
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 describe('Utilities module', () => {
   describe('hasEmptyProperty', () => {
@@ -22,7 +25,9 @@ describe('Utilities module', () => {
   describe('extractAnnotations', () => {
     it('should extract jsdoc comments by default', () => {
       expect(
-        utils.extractAnnotations(require.resolve('../examples/app/routes2.js'))
+        utils.extractAnnotations(
+          resolve(__dirname, '../examples/app/routes2.js')
+        )
       ).toEqual({
         yaml: [],
         jsdoc: [
@@ -34,7 +39,7 @@ describe('Utilities module', () => {
     it('should extract data from YAML files', () => {
       expect(
         utils.extractAnnotations(
-          require.resolve('../examples/app/parameters.yaml')
+          resolve(__dirname, '../examples/app/parameters.yaml')
         )
       ).toEqual({
         yaml: [
@@ -45,7 +50,7 @@ describe('Utilities module', () => {
 
       expect(
         utils.extractAnnotations(
-          require.resolve('../examples/app/parameters.yml')
+          resolve(__dirname, '../examples/app/parameters.yml')
         )
       ).toEqual({
         yaml: [
@@ -58,7 +63,7 @@ describe('Utilities module', () => {
     it('should extract jsdoc comments from coffeescript files/syntax', () => {
       expect(
         utils.extractAnnotations(
-          require.resolve('../examples/app/route.coffee')
+          resolve(__dirname, '../examples/app/route.coffee')
         )
       ).toEqual({
         yaml: [],
@@ -70,7 +75,7 @@ describe('Utilities module', () => {
 
     it('should return empty arrays from empty coffeescript files/syntax', () => {
       expect(
-        utils.extractAnnotations(require.resolve('./fixtures/empty.coffee'))
+        utils.extractAnnotations(resolve(__dirname, './fixtures/empty.coffee'))
       ).toEqual({
         yaml: [],
         jsdoc: [],
@@ -79,7 +84,7 @@ describe('Utilities module', () => {
 
     it('should extract jsdoc comments from empty javascript files/syntax', () => {
       expect(
-        utils.extractAnnotations(require.resolve('./fixtures/empty.js'))
+        utils.extractAnnotations(resolve(__dirname, './fixtures/empty_file.js'))
       ).toEqual({
         yaml: [],
         jsdoc: [],
