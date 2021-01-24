@@ -8,7 +8,7 @@ import yaml from 'yaml';
  * @param {array} globs - Array of globs and/or normal paths
  * @return {array} Array of fully-qualified paths
  */
-function convertGlobPaths(globs) {
+export function convertGlobPaths(globs) {
   return globs
     .map((globString) => glob.sync(globString))
     .reduce((previous, current) => previous.concat(current), []);
@@ -19,7 +19,7 @@ function convertGlobPaths(globs) {
  * @param {object} obj - the object to check
  * @returns {boolean}
  */
-function hasEmptyProperty(obj) {
+export function hasEmptyProperty(obj) {
   return Object.keys(obj)
     .map((key) => obj[key])
     .every(
@@ -34,7 +34,7 @@ function hasEmptyProperty(obj) {
  * @param {object} jsDocComment - Single item of JSDoc comments from doctrine.parse
  * @returns {array} YAML parts
  */
-function extractYamlFromJsDoc(jsDocComment) {
+export function extractYamlFromJsDoc(jsDocComment) {
   const yamlParts = [];
 
   for (const tag of jsDocComment.tags) {
@@ -50,7 +50,7 @@ function extractYamlFromJsDoc(jsDocComment) {
  * @param {string} filePath
  * @returns {{jsdoc: array, yaml: array}} JSDoc comments and Yaml files
  */
-function extractAnnotations(filePath, encoding = 'utf8') {
+export function extractAnnotations(filePath, encoding = 'utf8') {
   const fileContent = readFileSync(filePath, { encoding });
   const ext = extname(filePath);
   const jsDocRegex = /\/\*\*([\s\S]*?)\*\//gm;
@@ -92,7 +92,7 @@ function extractAnnotations(filePath, encoding = 'utf8') {
  * @param {array} tags
  * @returns {boolean}
  */
-function isTagPresentInTags(tag, tags) {
+export function isTagPresentInTags(tag, tags) {
   const match = tags.find((targetTag) => tag.name === targetTag.name);
   if (match) return true;
 
@@ -102,7 +102,7 @@ function isTagPresentInTags(tag, tags) {
 /**
  * @param {string} definitionPath
  */
-function loadDefinition(definitionPath) {
+export function loadDefinition(definitionPath) {
   const loadESMJs = async () => {
     const m = await import(resolve(definitionPath));
     return m.default | {};
