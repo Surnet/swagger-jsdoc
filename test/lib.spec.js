@@ -177,7 +177,7 @@ describe('Main lib module', () => {
     officialExamples.forEach((example) => {
       it(`Example: ${example}`, () => {
         const title = `Sample specification testing ${example}`;
-        const examplePath = `${__dirname}/files/v3/${example}`;
+        const examplePath = `${__dirname}/fixtures/v3/${example}`;
 
         // eslint-disable-next-line
         const referenceSpecification = require(path.resolve(
