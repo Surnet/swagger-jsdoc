@@ -84,7 +84,7 @@ describe('Main lib module', () => {
     it('should support multiple paths', () => {
       let testObject = {
         swaggerDefinition: {},
-        apis: ['./**/*/external/*.yml'],
+        apis: ['./test/fixtures/merge/*.yml'],
       };
 
       testObject = swaggerJsdoc(testObject);

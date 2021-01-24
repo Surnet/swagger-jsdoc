@@ -21,13 +21,13 @@ Options:
 `;
 
 exports[`CLI module should reject definition file with invalid JSON syntax 1`] = `
-"Error while loading definition file 'test/files/v2/wrong_syntax.json':
+"Error while loading definition file 'test/fixtures/wrong_syntax.json':
 Unexpected token t in JSON at position 18
 "
 `;
 
 exports[`CLI module should reject definition file with invalid YAML syntax 1`] = `
-"Error while loading definition file 'test/files/v2/wrong_syntax.yaml':
+"Error while loading definition file 'test/fixtures/wrong_syntax.yaml':
 The !!! tag handle is non-default and was not declared. at line 2, column 3:
 
   !!!title: Hello World

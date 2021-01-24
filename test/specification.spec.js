@@ -1,5 +1,5 @@
 const specModule = require('../src/specification');
-const swaggerObject = require('./files/v2/swaggerObject.json');
+const swaggerObject = require('./fixtures/swaggerObject.json');
 
 describe('Specification module', () => {
   describe('organize', () => {

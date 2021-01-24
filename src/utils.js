@@ -104,12 +104,8 @@ function isTagPresentInTags(tag, tags) {
  */
 function loadDefinition(definitionPath) {
   const loadESMJs = async () => {
-    try {
-      const m = await import(resolve(definitionPath));
-      return m.default;
-    } catch (error) {
-      throw error;
-    }
+    const m = await import(resolve(definitionPath));
+    return m.default | {};
   };
   const loadJson = async () => {
     const fileContents = await fsp.readFile(definitionPath);

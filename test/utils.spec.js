@@ -70,9 +70,7 @@ describe('Utilities module', () => {
 
     it('should return empty arrays from empty coffeescript files/syntax', () => {
       expect(
-        utils.extractAnnotations(
-          require.resolve('./fixtures/empty-file.coffee')
-        )
+        utils.extractAnnotations(require.resolve('./fixtures/empty.coffee'))
       ).toEqual({
         yaml: [],
         jsdoc: [],
@@ -81,7 +79,7 @@ describe('Utilities module', () => {
 
     it('should extract jsdoc comments from empty javascript files/syntax', () => {
       expect(
-        utils.extractAnnotations(require.resolve('./fixtures/empty-file.js'))
+        utils.extractAnnotations(require.resolve('./fixtures/empty.js'))
       ).toEqual({
         yaml: [],
         jsdoc: [],
