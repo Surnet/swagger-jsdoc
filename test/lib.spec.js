@@ -1,6 +1,10 @@
-const path = require('path');
+import { promises as fs } from 'fs';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+import { jest } from '@jest/globals';
 
-const swaggerJsdoc = require('../src/lib');
+import swaggerJsdoc from '../src/lib.js';
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 describe('Main lib module', () => {
   describe('General', () => {
@@ -175,14 +179,15 @@ describe('Main lib module', () => {
     });
 
     officialExamples.forEach((example) => {
-      it(`Example: ${example}`, () => {
+      it(`Example: ${example}`, async () => {
         const title = `Sample specification testing ${example}`;
         const examplePath = `${__dirname}/fixtures/v3/${example}`;
 
-        // eslint-disable-next-line
-        const referenceSpecification = require(path.resolve(
-          `${examplePath}/openapi.json`
-        ));
+        const referenceSpecification = JSON.parse(
+          await fs.readFile(
+            new URL(`${examplePath}/openapi.json`, import.meta.url)
+          )
+        );
 
         const definition = {
           openapi: '3.0.0',

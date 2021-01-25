@@ -16,7 +16,7 @@ import {
  * @param {object} definition - The `definition` or `swaggerDefinition` from options.
  * @returns {object} swaggerObject
  */
-function prepare(definition) {
+export function prepare(definition) {
   let version;
   const swaggerObject = JSON.parse(JSON.stringify(definition));
   const specificationTemplate = {
@@ -59,7 +59,7 @@ function prepare(definition) {
  * @param {object} obj
  * @param {string} ext
  */
-function format(swaggerObject, ext) {
+export function format(swaggerObject, ext) {
   if (ext === '.yml' || ext === '.yaml') {
     return YAML.stringify(swaggerObject);
   }
@@ -72,7 +72,7 @@ function format(swaggerObject, ext) {
  * @param {object} swaggerObject
  * @returns {object} swaggerObject
  */
-function clean(swaggerObject) {
+export function clean(swaggerObject) {
   for (const prop of [
     'definitions',
     'responses',
@@ -93,7 +93,7 @@ function clean(swaggerObject) {
  * @param {object} swaggerObject - Swagger object from parsing the api files.
  * @returns {object} The specification.
  */
-function finalize(swaggerObject, options) {
+export function finalize(swaggerObject, options) {
   let specification = swaggerObject;
 
   parser.parse(swaggerObject, (err, api) => {
@@ -114,7 +114,7 @@ function finalize(swaggerObject, options) {
  * @param {object} annotation
  * @param {string} property
  */
-function organize(swaggerObject, annotation, property) {
+export function organize(swaggerObject, annotation, property) {
   // Root property on purpose.
   // @see https://github.com/OAI/OpenAPI-Specification/blob/master/proposals/002_Webhooks.md#proposed-solution
   if (property === 'x-webhooks') {
@@ -170,7 +170,7 @@ function organize(swaggerObject, annotation, property) {
  * @param {object} options
  * @returns {object} swaggerObject
  */
-function build(options) {
+export function build(options) {
   YAML.defaultOptions.keepCstNodes = true;
 
   // Get input definition and prepare the specification's skeleton
@@ -279,4 +279,4 @@ function build(options) {
   return finalize(specification, options);
 }
 
-export { prepare, build, organize, finalize, format };
+export default { prepare, build, organize, finalize, format };

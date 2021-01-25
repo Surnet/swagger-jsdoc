@@ -1,5 +1,26 @@
-const specModule = require('../src/specification');
-const swaggerObject = require('./fixtures/swaggerObject.json');
+import specModule from '../src/specification.js';
+
+const swaggerObject = {
+  info: {
+    title: 'Hello World',
+    version: '1.0.0',
+    description: 'A sample API',
+  },
+  host: 'localhost:3000',
+  basePath: '/',
+  swagger: '2.0',
+  schemes: [],
+  consumes: [],
+  produces: [],
+  paths: {},
+  definitions: {},
+  responses: {},
+  parameters: {},
+  securityDefinitions: {},
+  security: {},
+  tags: [],
+  externalDocs: {},
+};
 
 describe('Specification module', () => {
   describe('organize', () => {
