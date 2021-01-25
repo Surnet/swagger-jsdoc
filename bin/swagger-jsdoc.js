@@ -1,13 +1,18 @@
 #!/usr/bin/env node
 
 import { extname } from 'path';
-import { writeFile } from 'fs/promises';
+import { readFile, writeFile } from 'fs/promises';
 import program from 'commander';
 
 import swaggerJsdoc from '../src/lib.js';
 import { loadDefinition } from '../src/utils.js';
 
+const pkg = JSON.parse(
+  await readFile(new URL('../package.json', import.meta.url))
+);
+
 program
+  .version(pkg.version)
   .usage('[options] <path ...>')
   .option(
     '-d, --definition <swaggerDefinition.js>',
