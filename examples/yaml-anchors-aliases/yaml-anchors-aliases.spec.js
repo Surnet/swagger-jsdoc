@@ -1,9 +1,8 @@
+import { createRequire } from 'module';
 import swaggerJsdoc from '../../src/lib.js';
-import { readFile } from 'fs/promises';
 
-const referenceSpecification = JSON.parse(
-  await readFile(new URL('./reference-specification.json', import.meta.url))
-);
+const require = createRequire(import.meta.url);
+const referenceSpecification = require('./reference-specification.json');
 
 describe('Example for using anchors and aliases in YAML documents', () => {
   it('should handle references in a separate YAML file', () => {

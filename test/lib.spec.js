@@ -1,9 +1,10 @@
-import { promises as fs } from 'fs';
 import { dirname } from 'path';
+import { createRequire } from 'module';
 import { fileURLToPath } from 'url';
 import { jest } from '@jest/globals';
 
 import swaggerJsdoc from '../src/lib.js';
+const require = createRequire(import.meta.url);
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 describe('Main lib module', () => {
@@ -183,11 +184,8 @@ describe('Main lib module', () => {
         const title = `Sample specification testing ${example}`;
         const examplePath = `${__dirname}/fixtures/v3/${example}`;
 
-        const referenceSpecification = JSON.parse(
-          await fs.readFile(
-            new URL(`${examplePath}/openapi.json`, import.meta.url)
-          )
-        );
+        const referenceSpecification = require(`${examplePath}/openapi.json`, import.meta
+          .url);
 
         const definition = {
           openapi: '3.0.0',

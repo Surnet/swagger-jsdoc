@@ -1,10 +1,9 @@
-import { readFile } from 'fs/promises';
+import { createRequire } from 'module';
 import request from 'supertest';
 import { app, server } from './app.js';
 
-const swaggerSpec = JSON.parse(
-  await readFile(new URL('./swagger-spec.json', import.meta.url))
-);
+const require = createRequire(import.meta.url);
+const swaggerSpec = require('./swagger-spec.json');
 
 describe('Example application written in swagger specification (v2)', () => {
   it('should be healthy', async () => {
