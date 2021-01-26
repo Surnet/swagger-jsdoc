@@ -1,7 +1,15 @@
 module.exports = {
   root: true,
+  env: {
+    es6: true,
+    node: true,
+  },
+  parserOptions: {
+    sourceType: 'module',
+    ecmaVersion: 11,
+  },
   extends: [
-    'airbnb-base',
+    'eslint:recommended',
     'plugin:prettier/recommended',
     'plugin:jest/recommended',
   ],

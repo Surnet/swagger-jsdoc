@@ -55,6 +55,12 @@ YAMLSemanticError: Implicit map keys need to be followed by map values at line 3
 "
 `;
 
+exports[`CLI module should require a default export 1`] = `
+"Definition file error':
+Cannot use 'in' operator to search for 'info' in 0
+"
+`;
+
 exports[`CLI module should require a definition file 1`] = `
 "Definition file is required.
 Usage: swagger-jsdoc [options] <path ...>

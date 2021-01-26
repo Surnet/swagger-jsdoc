@@ -278,5 +278,3 @@ export function build(options) {
 
   return finalize(specification, options);
 }
-
-export default { prepare, build, organize, finalize, format };

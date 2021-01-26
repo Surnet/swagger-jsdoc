@@ -1,4 +1,4 @@
-import specModule from '../src/specification.js';
+import { organize, format } from '../src/specification.js';
 
 const swaggerObject = {
   info: {
@@ -25,7 +25,7 @@ const swaggerObject = {
 describe('Specification module', () => {
   describe('organize', () => {
     it('should be a function', () => {
-      expect(typeof specModule.organize).toBe('function');
+      expect(typeof organize).toBe('function');
     });
 
     it('should handle "definitions"', () => {
@@ -44,7 +44,7 @@ describe('Specification module', () => {
           },
         },
       };
-      specModule.organize(swaggerObject, annotation, 'definitions');
+      organize(swaggerObject, annotation, 'definitions');
       expect(swaggerObject.definitions).toEqual({
         testDefinition: {
           required: ['username', 'password'],
@@ -69,7 +69,7 @@ describe('Specification module', () => {
           },
         },
       };
-      specModule.organize(swaggerObject, annotation, 'parameters');
+      organize(swaggerObject, annotation, 'parameters');
       expect(swaggerObject.parameters).toEqual({
         testParameter: {
           name: 'limit',
@@ -92,7 +92,7 @@ describe('Specification module', () => {
           },
         },
       };
-      specModule.organize(swaggerObject, annotation, 'securityDefinitions');
+      organize(swaggerObject, annotation, 'securityDefinitions');
       expect(swaggerObject.securityDefinitions).toEqual({
         basicAuth: {
           type: 'basic',
@@ -110,7 +110,7 @@ describe('Specification module', () => {
           },
         },
       };
-      specModule.organize(swaggerObject, annotation, 'responses');
+      organize(swaggerObject, annotation, 'responses');
       expect(swaggerObject.responses).toEqual({
         IllegalInput: { description: 'Illegal input for operation.' },
       });
@@ -119,12 +119,12 @@ describe('Specification module', () => {
 
   describe('format', () => {
     it('should not modify input object when no format specified', () => {
-      expect(specModule.format({ foo: 'bar' })).toEqual({ foo: 'bar' });
+      expect(format({ foo: 'bar' })).toEqual({ foo: 'bar' });
     });
 
     it('should support yaml', () => {
-      expect(specModule.format({ foo: 'bar' }, '.yaml')).toEqual('foo: bar\n');
-      expect(specModule.format({ foo: 'bar' }, '.yml')).toEqual('foo: bar\n');
+      expect(format({ foo: 'bar' }, '.yaml')).toEqual('foo: bar\n');
+      expect(format({ foo: 'bar' }, '.yml')).toEqual('foo: bar\n');
     });
   });
 });
