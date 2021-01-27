@@ -1,5 +1,6 @@
 import { promises as fsp, readFileSync } from 'fs';
-import { extname, resolve } from 'path';
+import { createRequire } from 'module';
+import { extname } from 'path';
 import glob from 'glob';
 import yaml from 'yaml';
 
@@ -102,10 +103,16 @@ export function isTagPresentInTags(tag, tags) {
 /**
  * @param {string} definitionPath
  */
-export function loadDefinition(definitionPath) {
-  const loadESMJs = async () => {
-    const m = await import(resolve(definitionPath));
+export async function loadDefinition(definitionPath) {
+  const loadESM = async () => {
+    const m = await import(definitionPath);
+
+    console.log('m', m);
     return m.default | {};
+  };
+  const loadCJS = () => {
+    const require = createRequire(import.meta.url);
+    return require(definitionPath);
   };
   const loadJson = async () => {
     const fileContents = await fsp.readFile(definitionPath);
@@ -117,7 +124,8 @@ export function loadDefinition(definitionPath) {
   };
 
   const LOADERS = {
-    '.js': loadESMJs,
+    '.js': loadESM,
+    '.cjs': loadCJS,
     '.json': loadJson,
     '.yml': loadYaml,
     '.yaml': loadYaml,
@@ -129,14 +137,7 @@ export function loadDefinition(definitionPath) {
     throw new Error('Definition file should be .js, .json, .yml or .yaml');
   }
 
-  return loader();
-}
+  const result = await loader();
 
-export default {
-  convertGlobPaths,
-  hasEmptyProperty,
-  extractAnnotations,
-  extractYamlFromJsDoc,
-  isTagPresentInTags,
-  loadDefinition,
-};
+  return result;
+}
