@@ -75,7 +75,7 @@ More at http://swagger.io/specification/#infoObject
 
 exports[`CLI module should require arguments with jsDoc data about an API 1`] = `
 "You must provide sources for reading API files.
-Either add filenames as arguments, or add an \\"apis\\" key in your configuration.
+Add filenames as arguments (note that the \\"apis\\" key in the configuration is not read anymore).
 "
 `;
 
