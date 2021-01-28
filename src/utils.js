@@ -104,11 +104,9 @@ export function isTagPresentInTags(tag, tags) {
  * @param {string} definitionPath
  */
 export async function loadDefinition(definitionPath) {
-  const loadESM = async () => {
-    const m = await import(definitionPath);
-
-    console.log('m', m);
-    return m.default | {};
+  const loadModule = async () => {
+    const esmodule = await import(definitionPath);
+    return esmodule.default;
   };
   const loadCJS = () => {
     const require = createRequire(import.meta.url);
@@ -124,7 +122,8 @@ export async function loadDefinition(definitionPath) {
   };
 
   const LOADERS = {
-    '.js': loadESM,
+    '.js': loadModule,
+    '.mjs': loadModule,
     '.cjs': loadCJS,
     '.json': loadJson,
     '.yml': loadYaml,
@@ -134,7 +133,11 @@ export async function loadDefinition(definitionPath) {
   const loader = LOADERS[extname(definitionPath)];
 
   if (loader === undefined) {
-    throw new Error('Definition file should be .js, .json, .yml or .yaml');
+    throw new Error(
+      `Definition file should be any of the following: ${Object.keys(
+        LOADERS
+      ).join(', ')}`
+    );
   }
 
   const result = await loader();
