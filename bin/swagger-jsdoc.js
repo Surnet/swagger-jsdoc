@@ -65,9 +65,6 @@ if (
 // Continue only if arguments provided.
 if (!program.args.length) {
   console.log('You must provide sources for reading API files.');
-  console.log(
-    'Add filenames as arguments (note that the "apis" key in the configuration is not read anymore).'
-  );
   process.exit();
 }
 
