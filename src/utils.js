@@ -144,3 +144,27 @@ export async function loadDefinition(definitionPath) {
 
   return result;
 }
+
+/**
+ * @param {object} swaggerDefinition
+ */
+export function validateDefinition(swaggerDefinition) {
+  if (!swaggerDefinition) {
+    throw new Error('Swagger definition object is required');
+  }
+
+  if (!swaggerDefinition.info) {
+    throw new Error('Definition file should contain an info object!');
+  }
+
+  if (
+    !('title' in swaggerDefinition.info) ||
+    !('version' in swaggerDefinition.info)
+  ) {
+    throw new Error(
+      'Definition info object requires title and version properties!'
+    );
+  }
+
+  return true;
+}

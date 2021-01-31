@@ -3,6 +3,7 @@ import {
   extractAnnotations,
   hasEmptyProperty,
   loadDefinition,
+  validateDefinition,
 } from '../src/utils.js';
 
 import { dirname, resolve } from 'path';
@@ -157,6 +158,50 @@ describe('Utilities module', () => {
           description: 'A sample API',
         },
       });
+    });
+  });
+
+  describe('validateDefinition', () => {
+    it('should throw on bad input', () => {
+      expect(() => {
+        validateDefinition();
+      }).toThrow('Swagger definition object is required');
+    });
+
+    it(`should throw on missing 'info' property`, () => {
+      expect(() => {
+        validateDefinition({});
+      }).toThrow('Definition file should contain an info object!');
+    });
+
+    it(`should throw on missing 'title' and 'version' properties in the info object`, () => {
+      expect(() => {
+        validateDefinition({ info: {} });
+      }).toThrow(
+        'Definition info object requires title and version properties!'
+      );
+
+      expect(() => {
+        validateDefinition({ info: { title: '' } });
+      }).toThrow(
+        'Definition info object requires title and version properties!'
+      );
+
+      expect(() => {
+        validateDefinition({ info: { version: '' } });
+      }).toThrow(
+        'Definition info object requires title and version properties!'
+      );
+
+      expect(() => {
+        validateDefinition({ info: { version: '', title: '' } });
+      }).not.toThrow();
+    });
+
+    it('should return true on valid input', () => {
+      expect(validateDefinition({ info: { version: '', title: '' } })).toBe(
+        true
+      );
     });
   });
 });

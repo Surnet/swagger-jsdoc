@@ -2,9 +2,10 @@
 
 import { extname } from 'path';
 import { createRequire } from 'module';
-import { writeFile } from 'fs/promises';
+import { promises as fs } from 'fs';
 import program from 'commander';
 
+const { writeFile } = fs;
 import swaggerJsdoc from '../src/lib.js';
 import { loadDefinition } from '../src/utils.js';
 
@@ -35,21 +36,6 @@ const executeBinary = async () => {
 
   try {
     const swaggerDefinition = await loadDefinition(definition);
-
-    if (!('info' in swaggerDefinition)) {
-      console.log('Definition file should contain an info object!');
-      console.log('More at http://swagger.io/specification/#infoObject');
-      process.exit();
-    }
-
-    if (
-      !('title' in swaggerDefinition.info) ||
-      !('version' in swaggerDefinition.info)
-    ) {
-      console.log('The title and version properties are required!');
-      console.log('More at http://swagger.io/specification/#infoObject');
-      process.exit();
-    }
 
     if (!program.args.length) {
       console.log('Input files are required!');
