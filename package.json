@@ -1,7 +1,7 @@
 {
   "name": "swagger-jsdoc",
   "description": "Generates swagger doc based on JSDoc",
-  "version": "6.0.1",
+  "version": "7.0.0",
   "engines": {
     "node": ">=12.0.0"
   },
@@ -14,9 +14,6 @@
   },
   "type": "module",
   "exports": "./index.js",
-  "bin": {
-    "swagger-jsdoc": "./bin/swagger-jsdoc.js"
-  },
   "jest": {
     "verbose": true,
     "transform": {}

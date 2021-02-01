@@ -3,7 +3,6 @@
 Quick-start:
 
 - [Getting started](./GETTING-STARTED.md)
-- [CLI](./CLI.md)
 - [Examples](../examples)
 
 Before you submit an issue:
