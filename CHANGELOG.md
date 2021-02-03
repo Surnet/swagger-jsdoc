@@ -1,7 +1,13 @@
 ## Change Log
 
-### v6.0.1 (2021/01/07 06:22 +00:00)
+### v6.0.2 (2021/01/29 11:02 +00:00)
 
+- [87e51e9](https://github.com/Surnet/swagger-jsdoc/commit/87e51e9688aa75994d38735369cf210a65813159) chore: prepare v6.0.2 (@kalinchernev)
+- [#241](https://github.com/Surnet/swagger-jsdoc/pull/241) Issue with error message when using deprecated "apis" key (#241) (@CleyFaye)
+
+### v6.0.1 (2021/01/07 06:23 +00:00)
+
+- [92d51ba](https://github.com/Surnet/swagger-jsdoc/commit/92d51bacae77f4bc3d421872dea33ce366b7a108) update version (@kalinchernev)
 - [#238](https://github.com/Surnet/swagger-jsdoc/pull/238) fix: yaml export format (#238) (@kalinchernev)
 
 ### v6.0.0 (2020/12/23 09:38 +00:00)
@@ -149,7 +155,7 @@
 ### v3.2.6 (2018/11/30 16:09 +00:00)
 
 - [3563890](https://github.com/Surnet/swagger-jsdoc/commit/35638903cd84c11b58d0f980b3e3aeb0ee70e22f) Release 3.2.6 (@kalinchernev)
-- [#147](https://github.com/Surnet/swagger-jsdoc/pull/147) Adding specification configuration documentation to GETTING-STARTED.md (#147) (@masonheverett)
+- [#147](https://github.com/Surnet/swagger-jsdoc/pull/147) Adding specification configuration documentation to GETTING-STARTED.md (#147) (Mason Everett)
 
 ### v3.2.5 (2018/11/26 18:44 +00:00)
 
