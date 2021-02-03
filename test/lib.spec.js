@@ -180,7 +180,7 @@ describe('Main lib module', () => {
     });
 
     officialExamples.forEach((example) => {
-      it(`Example: ${example}`, async () => {
+      it(`Example: ${example}`, () => {
         const title = `Sample specification testing ${example}`;
         const examplePath = `${__dirname}/fixtures/v3/${example}`;
 

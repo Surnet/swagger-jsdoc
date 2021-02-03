@@ -101,10 +101,18 @@ export function isTagPresentInTags(tag, tags) {
 }
 
 /**
- * @param {string} definitionPath
+ * @param {string} definitionPath path to the swaggerDefinition
  */
 export async function loadDefinition(definitionPath) {
   const loadModule = async () => {
+    /**
+     * Load ESM module
+     * @see https://nodejs.org/api/esm.html
+     *
+     * `definitionPath` will be treated as an absolute specifier.
+     * The relative and bare specifiers would be based on assumptions which are not stable.
+     * For example, if path from cli `examples/app/parameters.*` goes in, it will be assumed as bare, which is wrong.
+     */
     const esmodule = await import(definitionPath);
     return esmodule.default;
   };

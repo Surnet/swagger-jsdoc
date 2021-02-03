@@ -6,7 +6,7 @@ module.exports = {
   },
   parserOptions: {
     sourceType: 'module',
-    ecmaVersion: 11,
+    ecmaVersion: 12,
   },
   extends: [
     'eslint:recommended',
