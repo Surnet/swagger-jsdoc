@@ -6,8 +6,8 @@ import {
   validateDefinition,
 } from '../src/utils.js';
 
+import { pathToFileURL, fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
-import { fileURLToPath } from 'url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 describe('Utilities module', () => {
@@ -126,7 +126,8 @@ describe('Utilities module', () => {
 
     it('should support .js', async () => {
       const def = resolve(__dirname, `${example}.js`);
-      const result = await loadDefinition(def);
+      const fileUrl = pathToFileURL(def);
+      const result = await loadDefinition(fileUrl.href);
       expect(result).toEqual({
         info: {
           title: 'Hello World',
@@ -150,7 +151,8 @@ describe('Utilities module', () => {
 
     it('should support .mjs', async () => {
       const def = resolve(__dirname, `${example}.mjs`);
-      const result = await loadDefinition(def);
+      const fileUrl = pathToFileURL(def);
+      const result = await loadDefinition(fileUrl.href);
       expect(result).toEqual({
         info: {
           title: 'Hello World',

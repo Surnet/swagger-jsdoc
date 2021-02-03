@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x, 14.x]
+        node-version: [14.x, latest]
 
     steps:
       - uses: actions/checkout@v2
@@ -24,16 +24,3 @@ jobs:
         run: yarn install --frozen-lockfile
       - name: Run tests
         run: yarn test
-
-  # publish:
-  #   name: publish
-  #   needs: tests
-  #   runs-on: ubuntu-latest
-  #   if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - name: Publish
-  #       uses: mikeal/merge-release@master
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #         NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
