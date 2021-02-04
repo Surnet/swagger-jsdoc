@@ -9,7 +9,7 @@
     "start": "node examples/app/app.js",
     "lint": "eslint .",
     "test:lint": "eslint .",
-    "test:js": "NODE_OPTIONS=--experimental-vm-modules jest",
+    "test:js": "NODE_OPTIONS=--experimental-vm-modules jest --no-cache",
     "test": "run-p test:* -cn"
   },
   "type": "module",
