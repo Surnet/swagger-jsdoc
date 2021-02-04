@@ -114,6 +114,7 @@ function loadDefinition(defPath, swaggerDefinition) {
   const loadYaml = () => require('yaml').parse(swaggerDefinition);
 
   const LOADERS = {
+    '.cls': loadJs,
     '.js': loadJs,
     '.json': loadJson,
     '.yml': loadYaml,
