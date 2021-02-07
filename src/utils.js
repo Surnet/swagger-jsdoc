@@ -146,25 +146,37 @@ export async function loadDefinition(definitionPath) {
 }
 
 /**
- * @param {object} swaggerDefinition
+ * @param {object} options
+ * @returns {object} the original input if valid, throws otherwise
  */
-export function validateDefinition(swaggerDefinition) {
-  if (!swaggerDefinition) {
-    throw new Error('Swagger definition object is required');
+export function validateOptions(options) {
+  if (!options) {
+    throw new Error(`'options' parameter is required!`);
   }
 
-  if (!swaggerDefinition.info) {
-    throw new Error('Definition file should contain an info object!');
-  }
-
-  if (
-    !('title' in swaggerDefinition.info) ||
-    !('version' in swaggerDefinition.info)
-  ) {
+  if (!options.swaggerDefinition && !options.definition) {
     throw new Error(
-      'Definition info object requires title and version properties!'
+      `'options.swaggerDefinition' or 'options.definition' is required!`
     );
   }
 
-  return true;
+  const def = options.swaggerDefinition || options.definition;
+
+  if (!def.info) {
+    throw new Error(
+      `Swagger definition ('options.swaggerDefinition') should contain an info object!`
+    );
+  }
+
+  if (!('title' in def.info) || !('version' in def.info)) {
+    throw new Error(
+      `Swagger definition info object ('options.swaggerDefinition.info') requires title and version properties!`
+    );
+  }
+
+  if (!options.apis || !Array.isArray(options.apis)) {
+    throw new Error(`'options.apis' is required and it should be an array!`);
+  }
+
+  return options;
 }

@@ -3,7 +3,7 @@ import {
   extractAnnotations,
   hasEmptyProperty,
   loadDefinition,
-  validateDefinition,
+  validateOptions,
 } from '../src/utils.js';
 
 import { fileURLToPath } from 'url';
@@ -163,47 +163,64 @@ describe('Utilities module', () => {
     });
   });
 
-  describe('validateDefinition', () => {
+  describe('validateOptions', () => {
+    it('should throw on empty input', () => {
+      expect(() => {
+        validateOptions();
+      }).toThrow("'options' parameter is required!");
+    });
+
     it('should throw on bad input', () => {
       expect(() => {
-        validateDefinition();
-      }).toThrow('Swagger definition object is required');
+        validateOptions({});
+      }).toThrow(
+        `'options.swaggerDefinition' or 'options.definition' is required!`
+      );
     });
 
     it(`should throw on missing 'info' property`, () => {
       expect(() => {
-        validateDefinition({});
-      }).toThrow('Definition file should contain an info object!');
+        const options = { swaggerDefinition: {} };
+        validateOptions(options);
+      }).toThrow(
+        `Swagger definition ('options.swaggerDefinition') should contain an info object!`
+      );
     });
 
     it(`should throw on missing 'title' and 'version' properties in the info object`, () => {
       expect(() => {
-        validateDefinition({ info: {} });
+        validateOptions({ swaggerDefinition: { info: {} } });
       }).toThrow(
-        'Definition info object requires title and version properties!'
+        `Swagger definition info object ('options.swaggerDefinition.info') requires title and version properties!`
       );
 
       expect(() => {
-        validateDefinition({ info: { title: '' } });
+        validateOptions({ swaggerDefinition: { info: { title: '' } } });
       }).toThrow(
-        'Definition info object requires title and version properties!'
+        `Swagger definition info object ('options.swaggerDefinition.info') requires title and version properties!`
       );
 
       expect(() => {
-        validateDefinition({ info: { version: '' } });
+        validateOptions({ swaggerDefinition: { info: { version: '' } } });
       }).toThrow(
-        'Definition info object requires title and version properties!'
+        `Swagger definition info object ('options.swaggerDefinition.info') requires title and version properties!`
       );
-
-      expect(() => {
-        validateDefinition({ info: { version: '', title: '' } });
-      }).not.toThrow();
     });
 
-    it('should return true on valid input', () => {
-      expect(validateDefinition({ info: { version: '', title: '' } })).toBe(
-        true
-      );
+    it(`should throw on missing 'apis' property`, () => {
+      expect(() => {
+        validateOptions({
+          swaggerDefinition: { info: { version: '', title: '' } },
+        });
+      }).toThrow(`'options.apis' is required and it should be an array!`);
+    });
+
+    it('should return original options on valid input', () => {
+      const options = {
+        swaggerDefinition: { info: { version: '', title: '' } },
+        apis: [],
+      };
+      expect(validateOptions(options)).toEqual(options);
     });
   });
 });

@@ -1,7 +1,6 @@
 import { dirname } from 'path';
 import { createRequire } from 'module';
 import { fileURLToPath } from 'url';
-import { jest } from '@jest/globals';
 
 import swaggerJsdoc from '../src/lib.js';
 const require = createRequire(import.meta.url);
@@ -51,44 +50,9 @@ describe('Main lib module', () => {
     });
   });
 
-  describe('Error handling', () => {
-    beforeEach(() => {
-      jest.clearAllMocks();
-    });
-
-    it('should require options input', () => {
-      expect(() => {
-        swaggerJsdoc();
-      }).toThrow(`Missing or invalid input: 'options' is required`);
-    });
-
-    it('should require a definition input', () => {
-      expect(() => {
-        swaggerJsdoc({});
-      }).toThrow(
-        `Missing or invalid input: 'options.swaggerDefinition' or 'options.definition' is required`
-      );
-    });
-
-    it('should require an api files input', () => {
-      expect(() => {
-        swaggerJsdoc({ definition: {} });
-      }).toThrow(
-        `Missing or invalid input: 'options.apis' is required and it should be an array.`
-      );
-
-      expect(() => {
-        swaggerJsdoc({ definition: {}, apis: {} });
-      }).toThrow(
-        `Missing or invalid input: 'options.apis' is required and it should be an array.`
-      );
-    });
-  });
-
   describe('Specification v2: Swagger', () => {
     it('should support multiple paths', () => {
       let testObject = {
-        swaggerDefinition: {},
         apis: ['./test/fixtures/merge/*.yml'],
       };
 
