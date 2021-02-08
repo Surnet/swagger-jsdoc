@@ -8,10 +8,6 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 describe('Main lib module', () => {
   describe('General', () => {
-    it('should be a function', () => {
-      expect(typeof swaggerJsdoc).toBe('function');
-    });
-
     it('should support custom encoding', () => {
       const result = swaggerJsdoc({
         swaggerDefinition: {
@@ -43,30 +39,6 @@ describe('Main lib module', () => {
         },
         definitions: {},
         responses: {},
-        parameters: {},
-        securityDefinitions: {},
-        tags: [],
-      });
-    });
-  });
-
-  describe('Specification v2: Swagger', () => {
-    it('should support multiple paths', () => {
-      let testObject = {
-        apis: ['./test/fixtures/merge/*.yml'],
-      };
-
-      testObject = swaggerJsdoc(testObject);
-      expect(testObject).toEqual({
-        swagger: '2.0',
-        paths: {},
-        definitions: {},
-        responses: {
-          api: {
-            foo: { 200: { description: 'OK' } },
-            bar: { 200: { description: 'OK' } },
-          },
-        },
         parameters: {},
         securityDefinitions: {},
         tags: [],

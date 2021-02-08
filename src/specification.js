@@ -111,59 +111,65 @@ export function finalize(swaggerObject, options) {
 
 /**
  * @param {object} swaggerObject
- * @param {object} annotation
- * @param {string} property
+ * @param {Array<object>} annotations
+ * @returns {object} swaggerObject
  */
-export function organize(swaggerObject, annotation, property) {
-  // Root property on purpose.
-  // @see https://github.com/OAI/OpenAPI-Specification/blob/master/proposals/002_Webhooks.md#proposed-solution
-  if (property === 'x-webhooks') {
-    swaggerObject[property] = annotation[property];
-  }
-
-  // Other extensions can be in varying places depending on different vendors and opinions.
-  // The following return makes it so that they are not put in `paths` in the last case.
-  // New specific extensions will need to be handled on case-by-case if to be included in `paths`.
-  if (property.startsWith('x-')) return;
-
-  const commonProperties = [
-    'components',
-    'consumes',
-    'produces',
-    'paths',
-    'schemas',
-    'securityDefinitions',
-    'responses',
-    'parameters',
-    'definitions',
-  ];
-
-  if (commonProperties.includes(property)) {
-    for (const definition of Object.keys(annotation[property])) {
-      swaggerObject[property][definition] = {
-        ...swaggerObject[property][definition],
-        ...annotation[property][definition],
-      };
-    }
-  } else if (property === 'tags') {
-    const { tags } = annotation;
-
-    if (Array.isArray(tags)) {
-      for (const tag of tags) {
-        if (!isTagPresentInTags(tag, swaggerObject.tags)) {
-          swaggerObject.tags.push(tag);
-        }
+export function organize(swaggerObject, annotations) {
+  for (const annotation of annotations) {
+    for (const property in annotation) {
+      // Root property on purpose.
+      // @see https://github.com/OAI/OpenAPI-Specification/blob/master/proposals/002_Webhooks.md#proposed-solution
+      if (property === 'x-webhooks') {
+        swaggerObject[property] = annotation[property];
       }
-    } else if (!isTagPresentInTags(tags, swaggerObject.tags)) {
-      swaggerObject.tags.push(tags);
+
+      // Other extensions can be in varying places depending on different vendors and opinions.
+      // The following return makes it so that they are not put in `paths` in the last case.
+      // New specific extensions will need to be handled on case-by-case if to be included in `paths`.
+      if (property.startsWith('x-')) continue;
+
+      const commonProperties = [
+        'components',
+        'consumes',
+        'produces',
+        'paths',
+        'schemas',
+        'securityDefinitions',
+        'responses',
+        'parameters',
+        'definitions',
+      ];
+
+      if (commonProperties.includes(property)) {
+        for (const definition of Object.keys(annotation[property])) {
+          swaggerObject[property][definition] = {
+            ...swaggerObject[property][definition],
+            ...annotation[property][definition],
+          };
+        }
+      } else if (property === 'tags') {
+        const { tags } = annotation;
+
+        if (Array.isArray(tags)) {
+          for (const tag of tags) {
+            if (!isTagPresentInTags(tag, swaggerObject.tags)) {
+              swaggerObject.tags.push(tag);
+            }
+          }
+        } else if (!isTagPresentInTags(tags, swaggerObject.tags)) {
+          swaggerObject.tags.push(tags);
+        }
+      } else {
+        // Paths which are not defined as "paths" property, starting with a slash "/"
+        swaggerObject.paths[property] = {
+          ...swaggerObject.paths[property],
+          ...annotation[property],
+        };
+      }
     }
-  } else {
-    // Paths which are not defined as "paths" property, starting with a slash "/"
-    swaggerObject.paths[property] = {
-      ...swaggerObject.paths[property],
-      ...annotation[property],
-    };
   }
+
+  return swaggerObject;
 }
 
 /**
@@ -269,12 +275,10 @@ export function build(options) {
     }
   }
 
-  for (const document of yamlDocsReady) {
-    const parsedDoc = document.toJSON();
-    for (const property in parsedDoc) {
-      organize(specification, parsedDoc, property);
-    }
-  }
+  organize(
+    specification,
+    yamlDocsReady.map((doc) => doc.toJSON())
+  );
 
   return finalize(specification, options);
 }

@@ -4,48 +4,72 @@ const swaggerObject = {
   info: {
     title: 'Hello World',
     version: '1.0.0',
-    description: 'A sample API',
   },
-  host: 'localhost:3000',
-  basePath: '/',
-  swagger: '2.0',
-  schemes: [],
-  consumes: [],
-  produces: [],
-  paths: {},
-  definitions: {},
   responses: {},
+  definitions: {},
   parameters: {},
   securityDefinitions: {},
-  security: {},
-  tags: [],
-  externalDocs: {},
 };
 
 describe('Specification module', () => {
   describe('organize', () => {
-    it('should be a function', () => {
-      expect(typeof organize).toBe('function');
-    });
-
-    it('should handle "definitions"', () => {
-      const annotation = {
-        definitions: {
-          testDefinition: {
-            required: ['username', 'password'],
-            properties: {
-              username: {
-                type: 'string',
-              },
-              password: {
-                type: 'string',
+    it('should support merging', () => {
+      const testSpec = JSON.parse(JSON.stringify(swaggerObject));
+      const annotations = [
+        {
+          responses: {
+            api: {
+              foo: {
+                200: {
+                  description: 'OK',
+                },
               },
             },
           },
         },
-      };
-      organize(swaggerObject, annotation, 'definitions');
-      expect(swaggerObject.definitions).toEqual({
+        {
+          responses: {
+            api: {
+              bar: {
+                200: {
+                  description: 'OK',
+                },
+              },
+            },
+          },
+        },
+      ];
+
+      organize(testSpec, annotations);
+      expect(testSpec.responses).toEqual({
+        api: {
+          bar: { 200: { description: 'OK' } },
+          foo: { 200: { description: 'OK' } },
+        },
+      });
+    });
+
+    it('should handle "definitions"', () => {
+      const testSpec = JSON.parse(JSON.stringify(swaggerObject));
+      const annotations = [
+        {
+          definitions: {
+            testDefinition: {
+              required: ['username', 'password'],
+              properties: {
+                username: {
+                  type: 'string',
+                },
+                password: {
+                  type: 'string',
+                },
+              },
+            },
+          },
+        },
+      ];
+      organize(testSpec, annotations);
+      expect(testSpec.definitions).toEqual({
         testDefinition: {
           required: ['username', 'password'],
           properties: {
@@ -57,20 +81,23 @@ describe('Specification module', () => {
     });
 
     it('should handle "parameters"', () => {
-      const annotation = {
-        parameters: {
-          testParameter: {
-            name: 'limit',
-            in: 'query',
-            description: 'max records to return',
-            required: true,
-            type: 'integer',
-            format: 'int32',
+      const testSpec = JSON.parse(JSON.stringify(swaggerObject));
+      const annotations = [
+        {
+          parameters: {
+            testParameter: {
+              name: 'limit',
+              in: 'query',
+              description: 'max records to return',
+              required: true,
+              type: 'integer',
+              format: 'int32',
+            },
           },
         },
-      };
-      organize(swaggerObject, annotation, 'parameters');
-      expect(swaggerObject.parameters).toEqual({
+      ];
+      organize(testSpec, annotations);
+      expect(testSpec.parameters).toEqual({
         testParameter: {
           name: 'limit',
           in: 'query',
@@ -83,17 +110,20 @@ describe('Specification module', () => {
     });
 
     it('should handle "securityDefinitions"', () => {
-      const annotation = {
-        securityDefinitions: {
-          basicAuth: {
-            type: 'basic',
-            description:
-              'HTTP Basic Authentication. Works over `HTTP` and `HTTPS`',
+      const testSpec = JSON.parse(JSON.stringify(swaggerObject));
+      const annotations = [
+        {
+          securityDefinitions: {
+            basicAuth: {
+              type: 'basic',
+              description:
+                'HTTP Basic Authentication. Works over `HTTP` and `HTTPS`',
+            },
           },
         },
-      };
-      organize(swaggerObject, annotation, 'securityDefinitions');
-      expect(swaggerObject.securityDefinitions).toEqual({
+      ];
+      organize(testSpec, annotations);
+      expect(testSpec.securityDefinitions).toEqual({
         basicAuth: {
           type: 'basic',
           description:
@@ -103,15 +133,18 @@ describe('Specification module', () => {
     });
 
     it('should handle "responses"', () => {
-      const annotation = {
-        responses: {
-          IllegalInput: {
-            description: 'Illegal input for operation.',
+      const testSpec = JSON.parse(JSON.stringify(swaggerObject));
+      const annotations = [
+        {
+          responses: {
+            IllegalInput: {
+              description: 'Illegal input for operation.',
+            },
           },
         },
-      };
-      organize(swaggerObject, annotation, 'responses');
-      expect(swaggerObject.responses).toEqual({
+      ];
+      organize(testSpec, annotations);
+      expect(testSpec.responses).toEqual({
         IllegalInput: { description: 'Illegal input for operation.' },
       });
     });
