@@ -1,4 +1,3 @@
-/* eslint no-unused-expressions: 0 */
 import {
   extractAnnotations,
   hasEmptyProperty,
@@ -83,12 +82,51 @@ describe('Utilities module', () => {
       });
     });
 
-    it('should extract jsdoc comments from empty javascript files/syntax', () => {
+    it('should return empty arrays from empty javascript files/syntax', () => {
       expect(
         extractAnnotations(resolve(__dirname, './fixtures/empty/example.js'))
       ).toEqual({
         yaml: [],
         jsdoc: [],
+      });
+    });
+
+    it('should respect custom encoding', () => {
+      expect(
+        extractAnnotations(resolve(__dirname, './fixtures/non-utf-file.js'))
+      ).toEqual({
+        yaml: [],
+        jsdoc: [
+          '/**\n' +
+            '   * @swagger\n' +
+            '   * /no-utf8:\n' +
+            '   *   get:\n' +
+            '   *     description: 𝗵ĕŀḷ𝙤 ẘợ𝙧ḻď\n' +
+            '   *     responses:\n' +
+            '   *       200:\n' +
+            '   *         description: ꞎǒɼ𝙚ᶆ ịⲣŝừɱ\n' +
+            '   */',
+        ],
+      });
+
+      expect(
+        extractAnnotations(
+          resolve(__dirname, './fixtures/non-utf-file.js'),
+          'ascii'
+        )
+      ).toEqual({
+        yaml: [],
+        jsdoc: [
+          '/**\n' +
+            '   * @swagger\n' +
+            '   * /no-utf8:\n' +
+            '   *   get:\n' +
+            "   *     description: p\u001d\u00175D\u0015E\u0000a87p\u001d\u0019$ a:\u0018a;#p\u001d\u0019'a8;D\u000f\n" +
+            '   *     responses:\n' +
+            '   *       200:\n' +
+            '   *         description: j\u001e\u000eG\u0012I<p\u001d\u0019\u001aa6\u0006 a;\u000bb2#E\u001da;+I1\n' +
+            '   */',
+        ],
       });
     });
   });

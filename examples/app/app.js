@@ -5,7 +5,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import { setup as setupRoute1 } from './routes.js';
 import { setup as setupRoute2 } from './routes2.js';
-import swaggerJsdoc from '../../src/lib.js';
+import swaggerJsdoc from '../../index.js';
 
 const PORT = process.env.PORT || 3000;
 

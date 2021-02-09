@@ -1,5 +1,5 @@
 import { createRequire } from 'module';
-import swaggerJsdoc from '../../src/lib.js';
+import swaggerJsdoc from '../../index.js';
 
 const require = createRequire(import.meta.url);
 const referenceSpecification = require('./reference-specification.json');
