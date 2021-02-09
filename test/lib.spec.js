@@ -1,10 +1,4 @@
-import { dirname } from 'path';
-import { createRequire } from 'module';
-import { fileURLToPath } from 'url';
-
 import swaggerJsdoc from '../src/lib.js';
-const require = createRequire(import.meta.url);
-const __dirname = dirname(fileURLToPath(import.meta.url));
 
 describe('Main lib module', () => {
   describe('General', () => {
@@ -20,124 +14,19 @@ describe('Main lib module', () => {
         encoding: 'ascii',
       });
 
-      expect(result).toEqual({
-        info: { title: 'Example weird characters', version: '1.0.0' },
-        swagger: '2.0',
-        paths: {
-          '/no-utf8': {
-            get: {
-              description:
-                "p\u001d\u00175D\u0015E\u0000a87p\u001d\u0019$ a:\u0018a;#p\u001d\u0019'a8;D\u000f",
-              responses: {
-                200: {
-                  description:
-                    'j\u001e\u000eG\u0012I<p\u001d\u0019\u001aa6\u0006 a;\u000bb2#E\u001da;+I1',
-                },
-              },
-            },
-          },
-        },
-        definitions: {},
-        responses: {},
-        parameters: {},
-        securityDefinitions: {},
-        tags: [],
-      });
-    });
-  });
-
-  describe('Specification v3: OpenAPI', () => {
-    const officialExamples = ['callback', 'links', 'petstore'];
-
-    it('should respect default properties', () => {
-      const definition = {
-        openapi: '3.0.0',
-        servers: [
-          {
-            url: '{scheme}://developer.uspto.gov/ds-api',
-            variables: {
-              scheme: {
+      expect(result.paths).toEqual({
+        '/no-utf8': {
+          get: {
+            description:
+              "p\u001d\u00175D\u0015E\u0000a87p\u001d\u0019$ a:\u0018a;#p\u001d\u0019'a8;D\u000f",
+            responses: {
+              200: {
                 description:
-                  'The Data Set API is accessible via https and http',
-                enum: ['https', 'http'],
-                default: 'https',
+                  'j\u001e\u000eG\u0012I<p\u001d\u0019\u001aa6\u0006 a;\u000bb2#E\u001da;+I1',
               },
             },
           },
-        ],
-        info: {
-          description:
-            'The Data Set API (DSAPI) allows the public users to discover and search USPTO exported data sets. This is a generic API that allows USPTO users to make any CSV based data files searchable through API. With the help of GET call, it returns the list of data fields that are searchable. With the help of POST call, data can be fetched based on the filters on the field names. Please note that POST call is used to search the actual data. The reason for the POST call is that it allows users to specify any complex search criteria without worry about the GET size limitations as well as encoding of the input parameters.',
-          version: '1.0.0',
-          title: 'USPTO Data Set API',
-          contact: {
-            name: 'Open Data Portal',
-            url: 'https://developer.uspto.gov',
-            email: 'developer@uspto.gov',
-          },
         },
-      };
-
-      const options = {
-        definition,
-        apis: [],
-      };
-
-      expect(swaggerJsdoc(options)).toEqual({
-        openapi: '3.0.0',
-        servers: [
-          {
-            url: '{scheme}://developer.uspto.gov/ds-api',
-            variables: {
-              scheme: {
-                description:
-                  'The Data Set API is accessible via https and http',
-                enum: ['https', 'http'],
-                default: 'https',
-              },
-            },
-          },
-        ],
-        info: {
-          description:
-            'The Data Set API (DSAPI) allows the public users to discover and search USPTO exported data sets. This is a generic API that allows USPTO users to make any CSV based data files searchable through API. With the help of GET call, it returns the list of data fields that are searchable. With the help of POST call, data can be fetched based on the filters on the field names. Please note that POST call is used to search the actual data. The reason for the POST call is that it allows users to specify any complex search criteria without worry about the GET size limitations as well as encoding of the input parameters.',
-          version: '1.0.0',
-          title: 'USPTO Data Set API',
-          contact: {
-            name: 'Open Data Portal',
-            url: 'https://developer.uspto.gov',
-            email: 'developer@uspto.gov',
-          },
-        },
-        paths: {},
-        components: {},
-        tags: [],
-      });
-    });
-
-    officialExamples.forEach((example) => {
-      it(`Example: ${example}`, () => {
-        const title = `Sample specification testing ${example}`;
-        const examplePath = `${__dirname}/fixtures/v3/${example}`;
-
-        const referenceSpecification = require(`${examplePath}/openapi.json`, import.meta
-          .url);
-
-        const definition = {
-          openapi: '3.0.0',
-          info: {
-            version: '1.0.0',
-            title,
-          },
-        };
-
-        const options = {
-          definition,
-          apis: [`${examplePath}/api.js`],
-        };
-
-        const specification = swaggerJsdoc(options);
-        expect(specification).toEqual(referenceSpecification);
       });
     });
   });

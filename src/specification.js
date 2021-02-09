@@ -18,9 +18,7 @@ import {
  */
 export function prepare(options) {
   let version;
-  const swaggerObject = JSON.parse(
-    JSON.stringify(options.swaggerDefinition || options.definition)
-  );
+  const swaggerObject = options.swaggerDefinition || options.definition;
   const specificationTemplate = {
     v2: [
       'paths',

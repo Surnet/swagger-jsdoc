@@ -2,7 +2,7 @@ import { prepare, extract, organize, finalize } from './specification.js';
 import { validateOptions } from './utils.js';
 
 /**
- * Generates the specification.
+ * Main library function
  * @param {object} options - Configuration options
  * @param {string} options.encoding Optional, passed to readFileSync options. Defaults to 'utf8'.
  * @param {string} options.format Optional, defaults to '.json' - target file format '.yml' or '.yaml'.

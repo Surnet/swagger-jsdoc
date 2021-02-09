@@ -1,4 +1,4 @@
-import { organize, format } from '../src/specification.js';
+import { prepare, organize, format } from '../src/specification.js';
 
 const swaggerObject = {
   info: {
@@ -12,6 +12,35 @@ const swaggerObject = {
 };
 
 describe('Specification module', () => {
+  describe('prepare', () => {
+    it('should produce swagger specification by default: backwards compatibility', () => {
+      const testSpec = JSON.parse(JSON.stringify(swaggerObject));
+      const result = prepare({ swaggerDefinition: testSpec });
+      expect(result.swagger).toBe('2.0');
+      expect(result.tags).toEqual([]);
+      expect(result.paths).toEqual({});
+    });
+
+    it(`should produce swagger specification when 'swagger' property`, () => {
+      const testSpec = JSON.parse(JSON.stringify(swaggerObject));
+      testSpec.swagger = '2.0';
+      let result = prepare({ swaggerDefinition: testSpec });
+      expect(result.swagger).toBe('2.0');
+      expect(result.tags).toEqual([]);
+      expect(result.paths).toEqual({});
+    });
+
+    it(`should produce openapi specification when 'openapi' property`, () => {
+      const testSpec = JSON.parse(JSON.stringify(swaggerObject));
+      testSpec.openapi = '3.0';
+      const result = prepare({ swaggerDefinition: testSpec });
+      expect(result.openapi).toBe('3.0');
+      expect(result.tags).toEqual([]);
+      expect(result.paths).toEqual({});
+      expect(result.components).toEqual({});
+    });
+  });
+
   describe('organize', () => {
     it('should support merging', () => {
       const testSpec = JSON.parse(JSON.stringify(swaggerObject));
