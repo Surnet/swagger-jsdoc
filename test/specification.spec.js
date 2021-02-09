@@ -1,4 +1,4 @@
-import { prepare, organize, format } from '../src/specification.js';
+import { prepare, organize, format, clean } from '../src/specification.js';
 
 const swaggerObject = {
   info: {
@@ -187,6 +187,28 @@ describe('Specification module', () => {
     it('should support yaml', () => {
       expect(format({ foo: 'bar' }, '.yaml')).toEqual('foo: bar\n');
       expect(format({ foo: 'bar' }, '.yml')).toEqual('foo: bar\n');
+    });
+  });
+
+  describe('clean', () => {
+    it('should ensure clean property definitions', () => {
+      expect(clean({ definitions: { foo: {} } })).toEqual({});
+    });
+
+    it('should ensure clean property responses', () => {
+      expect(clean({ responses: { foo: {} } })).toEqual({});
+    });
+
+    it('should ensure clean property parameters', () => {
+      expect(clean({ parameters: { foo: {} } })).toEqual({});
+    });
+
+    it('should ensure clean property securityDefinitions', () => {
+      expect(clean({ securityDefinitions: { foo: {} } })).toEqual({});
+    });
+
+    it('should not clean other cases', () => {
+      expect(clean({ misc: { foo: {} } })).toEqual({ misc: { foo: {} } });
     });
   });
 });

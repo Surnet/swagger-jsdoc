@@ -21,6 +21,8 @@ export function convertGlobPaths(globs) {
  * @returns {boolean}
  */
 export function hasEmptyProperty(obj) {
+  if (!obj) return;
+
   return Object.keys(obj)
     .map((key) => obj[key])
     .every(
