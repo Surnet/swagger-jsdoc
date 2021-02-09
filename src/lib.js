@@ -1,4 +1,4 @@
-import { build } from './specification.js';
+import { prepare, extract, organize, finalize } from './specification.js';
 import { validateOptions } from './utils.js';
 
 /**
@@ -9,11 +9,17 @@ import { validateOptions } from './utils.js';
  * @param {object} options.swaggerDefinition
  * @param {object} options.definition
  * @param {array} options.apis
- * @returns {object} Output specification
+ * @returns {object|string} Output specification as json or yaml
  */
 const lib = (options) => {
   validateOptions(options);
-  return build(options);
+
+  const spec = prepare(options);
+  const parts = extract(options);
+
+  organize(spec, parts);
+
+  return finalize(spec, options);
 };
 
 export default lib;

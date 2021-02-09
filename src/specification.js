@@ -13,12 +13,14 @@ import {
 /**
  * Prepare the swagger/openapi specification object.
  * @see https://github.com/OAI/OpenAPI-Specification/tree/master/versions
- * @param {object} definition - The `definition` or `swaggerDefinition` from options.
+ * @param {object} options The library input options.
  * @returns {object} swaggerObject
  */
-export function prepare(definition) {
+export function prepare(options) {
   let version;
-  const swaggerObject = JSON.parse(JSON.stringify(definition));
+  const swaggerObject = JSON.parse(
+    JSON.stringify(options.swaggerDefinition || options.definition)
+  );
   const specificationTemplate = {
     v2: [
       'paths',
@@ -176,12 +178,9 @@ export function organize(swaggerObject, annotations) {
  * @param {object} options
  * @returns {object} swaggerObject
  */
-export function build(options) {
+export function extract(options) {
   YAML.defaultOptions.keepCstNodes = true;
 
-  // Get input definition and prepare the specification's skeleton
-  const definition = options.swaggerDefinition || options.definition;
-  const specification = prepare(definition);
   const yamlDocsAnchors = new Map();
   const yamlDocsErrors = [];
   const yamlDocsReady = [];
@@ -275,10 +274,5 @@ export function build(options) {
     }
   }
 
-  organize(
-    specification,
-    yamlDocsReady.map((doc) => doc.toJSON())
-  );
-
-  return finalize(specification, options);
+  return yamlDocsReady.map((doc) => doc.toJSON());
 }
