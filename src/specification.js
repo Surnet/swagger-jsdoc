@@ -106,7 +106,11 @@ export function finalize(swaggerObject, options) {
     specification = clean(specification);
   }
 
-  return format(specification, options.format);
+  if (options && options.format) {
+    specification = format(specification, options.format);
+  }
+
+  return specification;
 }
 
 /**

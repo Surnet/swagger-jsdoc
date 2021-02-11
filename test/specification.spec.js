@@ -1,4 +1,10 @@
-import { prepare, organize, format, clean } from '../src/specification.js';
+import {
+  prepare,
+  organize,
+  format,
+  clean,
+  finalize,
+} from '../src/specification.js';
 
 const swaggerObject = {
   info: {
@@ -209,6 +215,19 @@ describe('Specification module', () => {
 
     it('should not clean other cases', () => {
       expect(clean({ misc: { foo: {} } })).toEqual({ misc: { foo: {} } });
+    });
+  });
+
+  describe('finalize', () => {
+    // Node ESM with Jest and mocking is not possible at this moment
+    it('should clean up when target specification is openapi', () => {
+      const spec = { openapi: 'yes, please', parameters: { seeabovewhy: {} } };
+      expect(finalize(spec)).toEqual({ openapi: 'yes, please' });
+    });
+
+    it('should call the format method when input options ask for it', () => {
+      const spec = { openapi: 'yes' };
+      expect(finalize(spec, { format: '.yaml' })).toBe('openapi: yes\n');
     });
   });
 });
