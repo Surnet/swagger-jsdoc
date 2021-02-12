@@ -68,17 +68,17 @@ if (!program.args.length) {
   process.exit();
 }
 
-fs.writeFileSync(
-  output || 'swagger.json',
-  JSON.stringify(
-    swaggerJsdoc({
-      swaggerDefinition,
-      apis: program.args,
-      format: path.extname(output || ''),
-    }),
-    null,
-    2
-  )
-);
+const format = path.extname(output || '');
+const result = swaggerJsdoc({
+  swaggerDefinition,
+  apis: program.args,
+  format,
+});
 
 console.log('Swagger specification is ready.');
+
+if (format) {
+  fs.writeFileSync(output || 'swagger.json', result);
+} else {
+  fs.writeFileSync(output || 'swagger.json', JSON.stringify(result, null, 2));
+}
