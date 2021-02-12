@@ -57,7 +57,7 @@ describe('CLI module', () => {
 
   it('should accept custom configuration for output specification', async () => {
     const result = await sh(
-      `${bin} -d examples/app/swaggerDefinition.js -o customSpec.json examples/app/routes.js`
+      `${bin} -d examples/app/swaggerDefinition.js examples/app/routes.js -o customSpec.json`
     );
     expect(result.stdout).toBe('Swagger specification is ready.\n');
     const specification = fs.statSync('customSpec.json');
