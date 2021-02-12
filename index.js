@@ -11,11 +11,11 @@ import { validateOptions } from './src/utils.js';
  * @param {array} options.apis
  * @returns {object|string} Output specification as json or yaml
  */
-const lib = (options) => {
+const lib = async (options) => {
   validateOptions(options);
 
   const spec = prepare(options);
-  const parts = extract(options);
+  const parts = await extract(options);
 
   organize(spec, parts);
 

@@ -180,7 +180,7 @@ export function organize(swaggerObject, annotations) {
  * @param {object} options
  * @returns {object} swaggerObject
  */
-export function extract(options) {
+export async function extract(options) {
   YAML.defaultOptions.keepCstNodes = true;
 
   const yamlDocsAnchors = new Map();
@@ -191,7 +191,7 @@ export function extract(options) {
     const {
       yaml: yamlAnnotations,
       jsdoc: jsdocAnnotations,
-    } = extractAnnotations(filePath, options.encoding);
+    } = await extractAnnotations(filePath, options.encoding);
 
     if (yamlAnnotations.length) {
       for (const annotation of yamlAnnotations) {

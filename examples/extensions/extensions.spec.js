@@ -5,8 +5,8 @@ const require = createRequire(import.meta.url);
 const referenceSpecification = require('./reference-specification.json');
 
 describe('Example for using extensions', () => {
-  it('should support x-webhooks', () => {
-    const result = swaggerJsdoc({
+  it('should support x-webhooks', async () => {
+    const result = await swaggerJsdoc({
       swaggerDefinition: {
         info: {
           title: 'Example with extensions',

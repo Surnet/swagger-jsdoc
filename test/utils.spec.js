@@ -27,10 +27,12 @@ describe('Utilities module', () => {
   });
 
   describe('extractAnnotations', () => {
-    it('should extract jsdoc comments by default', () => {
-      expect(
-        extractAnnotations(resolve(__dirname, '../examples/app/routes2.js'))
-      ).toEqual({
+    it('should extract jsdoc comments by default', async () => {
+      expect.assertions(1);
+      const result = await extractAnnotations(
+        resolve(__dirname, '../examples/app/routes2.js')
+      );
+      expect(result).toEqual({
         yaml: [],
         jsdoc: [
           '/**\n   * @swagger\n   * /hello:\n   *   get:\n   *     description: Returns the homepage\n   *     responses:\n   *       200:\n   *         description: hello world\n   */',
@@ -38,21 +40,11 @@ describe('Utilities module', () => {
       });
     });
 
-    it('should extract data from YAML files', () => {
-      expect(
-        extractAnnotations(
-          resolve(__dirname, '../examples/app/parameters.yaml')
-        )
-      ).toEqual({
-        yaml: [
-          'parameters:\n  username:\n    name: username\n    description: Username to use for login.\n    in: formData\n    required: true\n    type: string\n',
-        ],
-        jsdoc: [],
-      });
-
-      expect(
-        extractAnnotations(resolve(__dirname, '../examples/app/parameters.yml'))
-      ).toEqual({
+    it('should extract data from YAML files', async () => {
+      const result = await extractAnnotations(
+        resolve(__dirname, '../examples/app/parameters.yaml')
+      );
+      expect(result).toEqual({
         yaml: [
           'parameters:\n  username:\n    name: username\n    description: Username to use for login.\n    in: formData\n    required: true\n    type: string\n',
         ],
@@ -60,10 +52,11 @@ describe('Utilities module', () => {
       });
     });
 
-    it('should extract jsdoc comments from coffeescript files/syntax', () => {
-      expect(
-        extractAnnotations(resolve(__dirname, '../examples/app/route.coffee'))
-      ).toEqual({
+    it('should extract jsdoc comments from coffeescript files/syntax', async () => {
+      const result = await extractAnnotations(
+        resolve(__dirname, '../examples/app/route.coffee')
+      );
+      expect(result).toEqual({
         yaml: [],
         jsdoc: [
           '/**\n* @swagger\n* /login:\n*   post:\n*     description: Login to the application\n*     produces:\n*       - application/json\n*/',
@@ -71,30 +64,31 @@ describe('Utilities module', () => {
       });
     });
 
-    it('should return empty arrays from empty coffeescript files/syntax', () => {
-      expect(
-        extractAnnotations(
-          resolve(__dirname, './fixtures/empty/example.coffee')
-        )
-      ).toEqual({
+    it('should return empty arrays from empty coffeescript files/syntax', async () => {
+      const result = await extractAnnotations(
+        resolve(__dirname, './fixtures/empty/example.coffee')
+      );
+      expect(result).toEqual({
         yaml: [],
         jsdoc: [],
       });
     });
 
-    it('should return empty arrays from empty javascript files/syntax', () => {
-      expect(
-        extractAnnotations(resolve(__dirname, './fixtures/empty/example.js'))
-      ).toEqual({
+    it('should return empty arrays from empty javascript files/syntax', async () => {
+      const result = await extractAnnotations(
+        resolve(__dirname, './fixtures/empty/example.js')
+      );
+      expect(result).toEqual({
         yaml: [],
         jsdoc: [],
       });
     });
 
-    it('should respect custom encoding', () => {
-      expect(
-        extractAnnotations(resolve(__dirname, './fixtures/non-utf-file.js'))
-      ).toEqual({
+    it('should respect custom encoding', async () => {
+      const regular = await extractAnnotations(
+        resolve(__dirname, './fixtures/non-utf-file.js')
+      );
+      expect(regular).toEqual({
         yaml: [],
         jsdoc: [
           '/**\n' +
@@ -109,12 +103,11 @@ describe('Utilities module', () => {
         ],
       });
 
-      expect(
-        extractAnnotations(
-          resolve(__dirname, './fixtures/non-utf-file.js'),
-          'ascii'
-        )
-      ).toEqual({
+      const encoded = await extractAnnotations(
+        resolve(__dirname, './fixtures/non-utf-file.js'),
+        'ascii'
+      );
+      expect(encoded).toEqual({
         yaml: [],
         jsdoc: [
           '/**\n' +

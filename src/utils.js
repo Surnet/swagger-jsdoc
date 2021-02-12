@@ -1,4 +1,4 @@
-import { promises as fsp, readFileSync } from 'fs';
+import { promises as fs } from 'fs';
 import { createRequire } from 'module';
 import { extname } from 'path';
 import glob from 'glob';
@@ -53,8 +53,8 @@ export function extractYamlFromJsDoc(jsDocComment) {
  * @param {string} filePath
  * @returns {{jsdoc: array, yaml: array}} JSDoc comments and Yaml files
  */
-export function extractAnnotations(filePath, encoding = 'utf8') {
-  const fileContent = readFileSync(filePath, { encoding });
+export async function extractAnnotations(filePath, encoding = 'utf8') {
+  const fileContent = await fs.readFile(filePath, { encoding });
   const ext = extname(filePath);
   const jsDocRegex = /\/\*\*([\s\S]*?)\*\//gm;
   const csDocRegex = /###([\s\S]*?)###/gm;
@@ -115,11 +115,11 @@ export async function loadDefinition(definitionPath) {
     return require(definitionPath);
   };
   const loadJson = async () => {
-    const fileContents = await fsp.readFile(definitionPath);
+    const fileContents = await fs.readFile(definitionPath);
     return JSON.parse(fileContents);
   };
   const loadYaml = async () => {
-    const fileContents = await fsp.readFile(definitionPath);
+    const fileContents = await fs.readFile(definitionPath);
     return yaml.parse(String(fileContents));
   };
 
