@@ -23,8 +23,8 @@ if (!process.argv.slice(2).length) {
   process.exit();
 }
 
-let { output } = program;
 const { definition } = program;
+const output = program.output || 'swagger.json';
 
 if (!definition) {
   console.log('Definition file is required.');
@@ -69,18 +69,18 @@ if (!program.args.length) {
   process.exit();
 }
 
-const format = path.extname(output || '');
+const format = path.extname(output);
+
 const result = swaggerJsdoc({
   swaggerDefinition,
   apis: program.args,
   format,
 });
 
-output = output || 'swagger.json';
-console.log('Swagger specification is ready.');
-
 if (format === '.json') {
   fs.writeFileSync(output, JSON.stringify(result, null, 2));
 } else {
   fs.writeFileSync(output, result);
 }
+
+console.log('Swagger specification is ready.');
