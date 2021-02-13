@@ -1,6 +1,8 @@
 import {
   extractAnnotations,
+  extractYamlFromJsDoc,
   hasEmptyProperty,
+  isTagPresentInTags,
   loadDefinition,
   validateOptions,
 } from '../src/utils.js';
@@ -26,6 +28,52 @@ describe('Utilities module', () => {
     });
   });
 
+  describe('extractYamlFromJsDoc', () => {
+    it('should handle items annotated by @swagger', () => {
+      const example = {
+        description: '',
+        tags: [
+          {
+            title: 'swagger',
+            description:
+              '/:\n  get:\n    description: Returns the homepage\n    responses:\n      200:\n        description: hello world',
+          },
+        ],
+      };
+      const result = extractYamlFromJsDoc(example);
+      expect(result).toEqual([
+        '/:\n' +
+          '  get:\n' +
+          '    description: Returns the homepage\n' +
+          '    responses:\n' +
+          '      200:\n' +
+          '        description: hello world',
+      ]);
+    });
+
+    it('should handle items annotated by @openapi', () => {
+      const example = {
+        description: '',
+        tags: [
+          {
+            title: 'openapi',
+            description:
+              '/:\n  get:\n    description: Returns the homepage\n    responses:\n      200:\n        description: hello world',
+          },
+        ],
+      };
+      const result = extractYamlFromJsDoc(example);
+      expect(result).toEqual([
+        '/:\n' +
+          '  get:\n' +
+          '    description: Returns the homepage\n' +
+          '    responses:\n' +
+          '      200:\n' +
+          '        description: hello world',
+      ]);
+    });
+  });
+
   describe('extractAnnotations', () => {
     it('should extract jsdoc comments by default', async () => {
       expect.assertions(1);
@@ -41,8 +89,18 @@ describe('Utilities module', () => {
     });
 
     it('should extract data from YAML files', async () => {
-      const result = await extractAnnotations(
+      let result = await extractAnnotations(
         resolve(__dirname, '../examples/app/parameters.yaml')
+      );
+      expect(result).toEqual({
+        yaml: [
+          'parameters:\n  username:\n    name: username\n    description: Username to use for login.\n    in: formData\n    required: true\n    type: string\n',
+        ],
+        jsdoc: [],
+      });
+
+      result = await extractAnnotations(
+        resolve(__dirname, '../examples/app/parameters.yml')
       );
       expect(result).toEqual({
         yaml: [
@@ -121,6 +179,36 @@ describe('Utilities module', () => {
             '   */',
         ],
       });
+    });
+  });
+
+  describe('isTagPresentInTags', () => {
+    it(`should be true when it's true`, () => {
+      expect(
+        isTagPresentInTags(
+          { name: 'Users', description: 'User management and login' },
+          [
+            {
+              name: 'Users',
+              description: 'User management and login',
+            },
+          ]
+        )
+      ).toBe(true);
+    });
+
+    it(`should be false when it's false`, () => {
+      expect(
+        isTagPresentInTags(
+          { name: 'User', description: 'User management and login' },
+          [
+            {
+              name: 'Users',
+              description: 'User management and login',
+            },
+          ]
+        )
+      ).toBe(false);
     });
   });
 

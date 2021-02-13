@@ -2,9 +2,9 @@ import { prepare, extract, organize, finalize } from './src/specification.js';
 import { validateOptions } from './src/utils.js';
 
 /**
- * Main library function
+ * Main function
  * @param {object} options - Configuration options
- * @param {string} options.encoding Optional, passed to readFileSync options. Defaults to 'utf8'.
+ * @param {string} options.encoding Optional, passed to read file function options. Defaults to 'utf8'.
  * @param {string} options.format Optional, defaults to '.json' - target file format '.yml' or '.yaml'.
  * @param {object} options.swaggerDefinition
  * @param {object} options.definition

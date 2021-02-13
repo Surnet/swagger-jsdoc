@@ -92,13 +92,13 @@ export async function extractAnnotations(filePath, encoding = 'utf8') {
 
 /**
  * @param {object} tag
+ * @param {string} tag.name
  * @param {array} tags
  * @returns {boolean}
  */
 export function isTagPresentInTags(tag, tags) {
   const match = tags.find((targetTag) => tag.name === targetTag.name);
   if (match) return true;
-
   return false;
 }
 
