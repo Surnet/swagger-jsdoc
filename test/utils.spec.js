@@ -29,6 +29,20 @@ describe('Utilities module', () => {
   });
 
   describe('extractYamlFromJsDoc', () => {
+    it('should not handle false cases', () => {
+      expect(
+        extractYamlFromJsDoc({
+          description: '',
+          tags: [
+            {
+              title: 'coverage',
+              description: 'for else path',
+            },
+          ],
+        })
+      ).toEqual([]);
+    });
+
     it('should handle items annotated by @swagger', () => {
       const example = {
         description: '',
@@ -335,8 +349,14 @@ describe('Utilities module', () => {
     });
 
     it('should return original options on valid input', () => {
-      const options = {
+      let options = {
         swaggerDefinition: { info: { version: '', title: '' } },
+        apis: [],
+      };
+      expect(validateOptions(options)).toEqual(options);
+
+      options = {
+        definition: { info: { version: '', title: '' } },
         apis: [],
       };
       expect(validateOptions(options)).toEqual(options);
