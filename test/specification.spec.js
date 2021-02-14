@@ -29,6 +29,14 @@ describe('Specification module', () => {
       expect(result.paths).toEqual({});
     });
 
+    it('should accept also definition property istead of a swaggerDefinition', () => {
+      const testSpec = JSON.parse(JSON.stringify(swaggerObject));
+      const result = prepare({ definition: testSpec });
+      expect(result.swagger).toBe('2.0');
+      expect(result.tags).toEqual([]);
+      expect(result.paths).toEqual({});
+    });
+
     it(`should produce swagger specification when 'swagger' property`, () => {
       const testSpec = JSON.parse(JSON.stringify(swaggerObject));
       testSpec.swagger = '2.0';
