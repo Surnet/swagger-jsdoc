@@ -181,6 +181,17 @@ export function organize(swaggerObject, annotations) {
  * @returns {object} swaggerObject
  */
 export async function extract(options) {
+  if (
+    !options ||
+    !options.apis ||
+    options.apis.length === 0 ||
+    Array.isArray(options.apis) === false
+  ) {
+    throw new Error(
+      'Bad input parameter: options is required, as well as options.apis[]'
+    );
+  }
+
   YAML.defaultOptions.keepCstNodes = true;
 
   const yamlDocsAnchors = new Map();

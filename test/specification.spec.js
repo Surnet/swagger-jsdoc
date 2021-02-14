@@ -1,9 +1,11 @@
+import jest from 'jest-mock';
 import {
   prepare,
   organize,
   format,
   clean,
   finalize,
+  extract,
 } from '../src/specification.js';
 
 const swaggerObject = {
@@ -44,6 +46,52 @@ describe('Specification module', () => {
       expect(result.tags).toEqual([]);
       expect(result.paths).toEqual({});
       expect(result.components).toEqual({});
+    });
+  });
+
+  describe('format', () => {
+    it('should not modify input object when no format specified', () => {
+      expect(format({ foo: 'bar' })).toEqual({ foo: 'bar' });
+    });
+
+    it('should support yaml', () => {
+      expect(format({ foo: 'bar' }, '.yaml')).toEqual('foo: bar\n');
+      expect(format({ foo: 'bar' }, '.yml')).toEqual('foo: bar\n');
+    });
+  });
+
+  describe('clean', () => {
+    it('should ensure clean property definitions', () => {
+      expect(clean({ definitions: { foo: {} } })).toEqual({});
+    });
+
+    it('should ensure clean property responses', () => {
+      expect(clean({ responses: { foo: {} } })).toEqual({});
+    });
+
+    it('should ensure clean property parameters', () => {
+      expect(clean({ parameters: { foo: {} } })).toEqual({});
+    });
+
+    it('should ensure clean property securityDefinitions', () => {
+      expect(clean({ securityDefinitions: { foo: {} } })).toEqual({});
+    });
+
+    it('should not clean other cases', () => {
+      expect(clean({ misc: { foo: {} } })).toEqual({ misc: { foo: {} } });
+    });
+  });
+
+  describe('finalize', () => {
+    // Node ESM with Jest and mocking is not possible at this moment
+    it('should clean up when target specification is openapi', () => {
+      const spec = { openapi: 'yes, please', parameters: { seeabovewhy: {} } };
+      expect(finalize(spec)).toEqual({ openapi: 'yes, please' });
+    });
+
+    it('should call the format method when input options ask for it', () => {
+      const spec = { openapi: 'yes' };
+      expect(finalize(spec, { format: '.yaml' })).toBe('openapi: yes\n');
     });
   });
 
@@ -185,49 +233,90 @@ describe('Specification module', () => {
     });
   });
 
-  describe('format', () => {
-    it('should not modify input object when no format specified', () => {
-      expect(format({ foo: 'bar' })).toEqual({ foo: 'bar' });
+  describe('extract', () => {
+    it('should throw on bad input', async () => {
+      await expect(extract()).rejects.toThrow(
+        'Bad input parameter: options is required, as well as options.apis[]'
+      );
+
+      await expect(extract({})).rejects.toThrow(
+        'Bad input parameter: options is required, as well as options.apis[]'
+      );
+
+      await expect(extract({ apis: {} })).rejects.toThrow(
+        'Bad input parameter: options is required, as well as options.apis[]'
+      );
+
+      await expect(extract({ apis: [] })).rejects.toThrow(
+        'Bad input parameter: options is required, as well as options.apis[]'
+      );
     });
 
-    it('should support yaml', () => {
-      expect(format({ foo: 'bar' }, '.yaml')).toEqual('foo: bar\n');
-      expect(format({ foo: 'bar' }, '.yml')).toEqual('foo: bar\n');
-    });
-  });
-
-  describe('clean', () => {
-    it('should ensure clean property definitions', () => {
-      expect(clean({ definitions: { foo: {} } })).toEqual({});
+    it('should extract annotations', async () => {
+      const annotations = await extract({ apis: ['./examples/app/routes.js'] });
+      expect(annotations.length).toBe(7);
     });
 
-    it('should ensure clean property responses', () => {
-      expect(clean({ responses: { foo: {} } })).toEqual({});
+    it('should report issues: js files case', async () => {
+      const consoleInfo = jest.spyOn(console, 'info');
+      const consoleErr = jest.spyOn(console, 'error');
+      const annotations = await extract({
+        apis: ['./test/fixtures/wrong/example.js'],
+      });
+      expect(annotations.length).toBe(0);
+      expect(consoleInfo).toHaveBeenCalledWith(
+        'Not all input has been taken into account at your final specification.'
+      );
+      expect(consoleErr.mock.calls).toEqual([
+        [
+          "Here's the report: \n" +
+            '\n' +
+            '\n' +
+            ' YAMLSyntaxError: All collection items must start at the same column at line 1, column 1:\n' +
+            '\n' +
+            '/invalid_yaml:\n' +
+            '^^^^^^^^^^^^^^…\n' +
+            '\n' +
+            'YAMLSemanticError: Implicit map keys need to be followed by map values at line 3, column 3:\n' +
+            '\n' +
+            '  bar\n' +
+            '  ^^^\n',
+        ],
+      ]);
+
+      consoleInfo.mockClear();
+      consoleErr.mockClear();
     });
 
-    it('should ensure clean property parameters', () => {
-      expect(clean({ parameters: { foo: {} } })).toEqual({});
-    });
+    it('should report issues: yaml files case', async () => {
+      const consoleInfo = jest.spyOn(console, 'info');
+      const consoleErr = jest.spyOn(console, 'error');
+      const annotations = await extract({
+        apis: ['./test/fixtures/wrong/example.yaml'],
+      });
+      expect(annotations.length).toBe(0);
+      expect(consoleInfo).toHaveBeenCalledWith(
+        'Not all input has been taken into account at your final specification.'
+      );
+      expect(consoleErr.mock.calls).toEqual([
+        [
+          "Here's the report: \n" +
+            '\n' +
+            '\n' +
+            ' YAMLSemanticError: The !!! tag handle is non-default and was not declared. at line 2, column 3:\n' +
+            '\n' +
+            '  !!!title: Hello World\n' +
+            '  ^^^^^^^^^^^^^^^^^^^^^…\n' +
+            '\n' +
+            'YAMLSemanticError: Implicit map keys need to be on a single line at line 2, column 3:\n' +
+            '\n' +
+            '  !!!title: Hello World\n' +
+            '  ^^^^^^^^^^^^^^^^^^^^^…\n',
+        ],
+      ]);
 
-    it('should ensure clean property securityDefinitions', () => {
-      expect(clean({ securityDefinitions: { foo: {} } })).toEqual({});
-    });
-
-    it('should not clean other cases', () => {
-      expect(clean({ misc: { foo: {} } })).toEqual({ misc: { foo: {} } });
-    });
-  });
-
-  describe('finalize', () => {
-    // Node ESM with Jest and mocking is not possible at this moment
-    it('should clean up when target specification is openapi', () => {
-      const spec = { openapi: 'yes, please', parameters: { seeabovewhy: {} } };
-      expect(finalize(spec)).toEqual({ openapi: 'yes, please' });
-    });
-
-    it('should call the format method when input options ask for it', () => {
-      const spec = { openapi: 'yes' };
-      expect(finalize(spec, { format: '.yaml' })).toBe('openapi: yes\n');
+      consoleInfo.mockClear();
+      consoleErr.mockClear();
     });
   });
 });
