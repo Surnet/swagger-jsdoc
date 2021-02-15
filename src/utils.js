@@ -108,13 +108,14 @@ function loadDefinition(defPath, swaggerDefinition) {
   const extName = path.extname(resolvedPath);
 
   // eslint-disable-next-line
-  const loadJs = () => require(resolvedPath);
+  const loadCjs = () => require(resolvedPath);
   const loadJson = () => JSON.parse(swaggerDefinition);
   // eslint-disable-next-line
   const loadYaml = () => require('yaml').parse(swaggerDefinition);
 
   const LOADERS = {
-    '.js': loadJs,
+    '.js': loadCjs, // on purpose, to allow throwing by nodejs and .cjs suggestion
+    '.cjs': loadCjs,
     '.json': loadJson,
     '.yml': loadYaml,
     '.yaml': loadYaml,
@@ -123,7 +124,7 @@ function loadDefinition(defPath, swaggerDefinition) {
   const loader = LOADERS[extName];
 
   if (loader === undefined) {
-    throw new Error('Definition file should be .js, .json, .yml or .yaml');
+    throw new Error('Definition file should be .cjs, .json, .yml or .yaml');
   }
 
   return loader();

@@ -1,28 +1,3 @@
-# Getting started
-
-`swagger-jsdoc` returns the validated OpenAPI specification as JSON or YAML.
-
-```javascript
-const swaggerJsdoc = require('swagger-jsdoc');
-
-const options = {
-  swaggerDefinition: {
-    info: {
-      title: 'Hello World',
-      version: '1.0.0',
-    },
-  },
-  apis: ['./src/routes*.js'],
-};
-
-const swaggerSpecification = swaggerJsdoc(options);
-```
-
-- `options.definition` is also acceptable. Pass an [oasObject](https://swagger.io/specification/#oasObject)
-- `options.apis` are resolved with [node-glob](https://github.com/isaacs/node-glob). Construct these patterns carefully in order to reduce the number of possible matches speeding up files' discovery. Values are relative to the current working directory.
-
-Use any of the [swagger tools](https://swagger.io/tools/) to get the benefits of your `swaggerSpecification`.
-
 ## Specification version
 
 `swagger-jsdoc` was created in 2015. The OpenAPI as a concept did not exist, and thus the naming of the package itself.
