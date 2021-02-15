@@ -23,12 +23,12 @@ describe('CLI module', () => {
   });
 
   it('should require an info object in the definition', async () => {
-    const result = await sh(`${bin} -d test/files/v2/empty_definition.js`);
+    const result = await sh(`${bin} -d test/files/v2/empty_definition.cjs`);
     expect(result.stdout).toMatchSnapshot();
   });
 
   it('should require title and version in the info object', async () => {
-    const result = await sh(`${bin} -d test/files/v2/wrong_definition.js`);
+    const result = await sh(`${bin} -d test/files/v2/wrong_definition.cjs`);
     expect(result.stdout).toMatchSnapshot();
   });
 

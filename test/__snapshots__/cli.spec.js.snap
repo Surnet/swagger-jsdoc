@@ -68,8 +68,8 @@ Options:
 `;
 
 exports[`CLI module should require an info object in the definition 1`] = `
-"Error while loading definition file 'test/files/v2/empty_definition.js':
-ENOENT: no such file or directory, open 'test/files/v2/empty_definition.js'
+"Definition file should contain an info object!
+More at http://swagger.io/specification/#infoObject
 "
 `;
 
@@ -79,7 +79,7 @@ exports[`CLI module should require arguments with jsDoc data about an API 1`] = 
 `;
 
 exports[`CLI module should require title and version in the info object 1`] = `
-"Error while loading definition file 'test/files/v2/wrong_definition.js':
-ENOENT: no such file or directory, open 'test/files/v2/wrong_definition.js'
+"The title and version properties are required!
+More at http://swagger.io/specification/#infoObject
 "
 `;
