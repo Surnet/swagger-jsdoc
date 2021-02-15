@@ -33,13 +33,13 @@ describe('CLI module', () => {
   });
 
   it('should require arguments with jsDoc data about an API', async () => {
-    const result = await sh(`${bin} -d examples/app/swaggerDefinition.js`);
+    const result = await sh(`${bin} -d examples/app/swaggerDefinition.cjs`);
     expect(result.stdout).toMatchSnapshot();
   });
 
   it('should create swagger.json by default when the API input is good', async () => {
     const result = await sh(
-      `${bin} -d examples/app/swaggerDefinition.js examples/app/routes.js`
+      `${bin} -d examples/app/swaggerDefinition.cjs examples/app/routes.js`
     );
     expect(result.stdout).toBe('Swagger specification is ready.\n');
     const specification = fs.statSync('swagger.json');
@@ -48,7 +48,7 @@ describe('CLI module', () => {
 
   it('should create swagger.json by default when the API input is from definition file', async () => {
     const result = await sh(
-      `${bin} -d test/files/v2/api_definition.js examples/app/routes.js`
+      `${bin} -d test/files/v2/api_definition.cjs examples/app/routes.js`
     );
     expect(result.stdout).toBe('Swagger specification is ready.\n');
     const specification = fs.statSync('swagger.json');
@@ -57,7 +57,7 @@ describe('CLI module', () => {
 
   it('should accept custom configuration for output specification', async () => {
     const result = await sh(
-      `${bin} -d examples/app/swaggerDefinition.js examples/app/routes.js -o customSpec.json`
+      `${bin} -d examples/app/swaggerDefinition.cjs examples/app/routes.js -o customSpec.json`
     );
     expect(result.stdout).toBe('Swagger specification is ready.\n');
     const specification = fs.statSync('customSpec.json');
@@ -66,7 +66,7 @@ describe('CLI module', () => {
 
   it('should create a YAML swagger spec when a custom output configuration with a .yaml extension is used', async () => {
     const result = await sh(
-      `${bin} -d examples/app/swaggerDefinition.js -o customSpec.yaml examples/app/routes.js`
+      `${bin} -d examples/app/swaggerDefinition.cjs -o customSpec.yaml examples/app/routes.js`
     );
     expect(result.stdout).toBe('Swagger specification is ready.\n');
     const specification = fs.statSync('customSpec.yaml');
@@ -75,7 +75,7 @@ describe('CLI module', () => {
 
   it('should allow a JavaScript definition file', async () => {
     const result = await sh(
-      `${bin} -d test/files/v2/api_definition.js examples/app/routes.js`
+      `${bin} -d test/files/v2/api_definition.cjs examples/app/routes.js`
     );
     expect(result.stdout).toBe('Swagger specification is ready.\n');
     const specification = fs.statSync('swagger.json');
@@ -112,7 +112,7 @@ describe('CLI module', () => {
 
   it('should report YAML documents with errors', async () => {
     const result = await sh(
-      `${bin} -d examples/app/swaggerDefinition.js test/files/v2/wrong-yaml-identation.js`
+      `${bin} -d examples/app/swaggerDefinition.cjs test/files/v2/wrong-yaml-identation.js`
     );
 
     expect(result.stdout).toContain(

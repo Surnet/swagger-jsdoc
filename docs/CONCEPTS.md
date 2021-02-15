@@ -12,7 +12,7 @@ Parts of the specification can be placed in annotated JSDoc comments in non-comp
 
 Other parts of the specification can be directly written in YAML files. These are usually parts containing static definitions which are referenced from jsDoc comments parameters, components, anchors, etc. which are not so relevant to the API implementation.
 
-Given the following definition `swaggerDefinition.js`:
+Given the following definition `swaggerDefinition.cjs`:
 
 ```javascript
 module.exports = {
