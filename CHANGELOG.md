@@ -1,6 +1,6 @@
 ## Change Log
 
-### v6.0.4 (2021/02/15 15:50 +00:00)
+### v6.0.5 (2021/02/15 15:50 +00:00)
 
 - [#247](https://github.com/Surnet/swagger-jsdoc/pull/247) feat: support cjs and update docs (#247) (@kalinchernev)
 
