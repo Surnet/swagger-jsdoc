@@ -1,7 +1,16 @@
 ## Change Log
 
-### v6.0.2 (2021/01/29 11:01 +00:00)
+### v6.0.4 (2021/02/15 15:50 +00:00)
 
+- [#247](https://github.com/Surnet/swagger-jsdoc/pull/247) feat: support cjs and update docs (#247) (@kalinchernev)
+
+### v6.0.3 (2021/02/15 08:40 +00:00)
+
+- [#245](https://github.com/Surnet/swagger-jsdoc/pull/245) fix yaml formatting (#245) (@kalinchernev)
+
+### v6.0.2 (2021/01/29 11:02 +00:00)
+
+- [87e51e9](https://github.com/Surnet/swagger-jsdoc/commit/87e51e9688aa75994d38735369cf210a65813159) chore: prepare v6.0.2 (@kalinchernev)
 - [#241](https://github.com/Surnet/swagger-jsdoc/pull/241) Issue with error message when using deprecated "apis" key (#241) (@CleyFaye)
 
 ### v6.0.1 (2021/01/07 06:23 +00:00)
