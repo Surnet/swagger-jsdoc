@@ -7,29 +7,45 @@ This library reads your [JSDoc](https://jsdoc.app/)-annotated source code and ge
 
 ## Getting started
 
-`swagger-jsdoc` returns the validated OpenAPI specification as JSON or YAML.
+Imagine having API files like these:
+
+```javascript
+/**
+ * @openapi
+ * /:
+ *   get:
+ *     description: Welcome to swagger-jsdoc!
+ *     responses:
+ *       200:
+ *         description: Returns a mysterious string.
+ */
+app.get('/', (req, res) => {
+  res.send('Hello World!');
+});
+```
+
+The library will take the contents of `@openapi` (or `@swagger`) with the following configuration:
 
 ```javascript
 const swaggerJsdoc = require('swagger-jsdoc');
 
 const options = {
-  swaggerDefinition: {
+  definition: {
     openapi: '3.0.0',
     info: {
       title: 'Hello World',
       version: '1.0.0',
     },
   },
-  apis: ['./src/routes*.js'],
+  apis: ['./src/routes*.js'], // files containing annotations as above
 };
 
-const swaggerSpecification = swaggerJsdoc(options);
+const openapiSpecification = swaggerJsdoc(options);
 ```
 
-- `options.definition` is also acceptable. Pass an [oasObject](https://swagger.io/specification/#oasObject)
-- `options.apis` are resolved with [node-glob](https://github.com/isaacs/node-glob). Construct these patterns carefully in order to reduce the number of possible matches speeding up files' discovery. Values are relative to the current working directory.
+The resulting `openapiSpecification` will be a [swagger tools](https://swagger.io/tools/)-compatible (and validated) specification.
 
-Use any of the [swagger tools](https://swagger.io/tools/) to get the benefits of your `swaggerSpecification`.
+![swagger-jsdoc example screenshot](./docs/screenshot.png)
 
 ## Node.js version requirements, CommonJS and ESM
 
@@ -61,8 +77,3 @@ yarn add swagger-jsdoc
 ## Documentation
 
 Detailed documentation is available within [`/docs`](https://github.com/Surnet/swagger-jsdoc/tree/master/docs/README.md) folder.
-
-### Webpack integrations
-
-- [swagger-jsdoc-webpack-plugin](https://github.com/patsimm/swagger-jsdoc-webpack-plugin) - Rebuild the swagger definition based on a predefined list of files on each webpack build.
-- [swagger-jsdoc-sync-webpack-plugin](https://github.com/gautier-lefebvre/swagger-jsdoc-sync-webpack-plugin) - Rebuild the swagger definition based on the files imported in your app on each webpack build.
