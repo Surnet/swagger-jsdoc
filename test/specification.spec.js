@@ -239,6 +239,105 @@ describe('Specification module', () => {
         IllegalInput: { description: 'Illegal input for operation.' },
       });
     });
+
+    it('should handle "tags": case merge', () => {
+      const testSpec = JSON.parse(JSON.stringify(swaggerObject));
+      const annotations = [
+        {
+          tags: {
+            name: 'Users',
+            description: 'User management and login',
+          },
+        },
+        {
+          tags: [
+            {
+              name: 'Login',
+              description: 'Login',
+            },
+            {
+              name: 'Accounts',
+              description: 'Accounts',
+            },
+          ],
+        },
+      ];
+      organize(testSpec, annotations);
+      expect(testSpec.tags).toEqual([
+        {
+          name: 'Users',
+          description: 'User management and login',
+        },
+        {
+          name: 'Login',
+          description: 'Login',
+        },
+        {
+          name: 'Accounts',
+          description: 'Accounts',
+        },
+      ]);
+    });
+
+    it('should handle "tags": case objects', () => {
+      const testSpec = JSON.parse(JSON.stringify(swaggerObject));
+      const annotations = [
+        {
+          tags: {
+            name: 'Users',
+            description: 'User management and login',
+          },
+        },
+        {
+          tags: {
+            name: 'Users',
+            description: 'Should not be taken into account, i.e. no override',
+          },
+        },
+      ];
+      organize(testSpec, annotations);
+      expect(testSpec.tags).toEqual([
+        {
+          name: 'Users',
+          description: 'User management and login',
+        },
+      ]);
+    });
+
+    it('should handle "tags": case arrays', () => {
+      const testSpec = JSON.parse(JSON.stringify(swaggerObject));
+      const annotations = [
+        {
+          tags: {
+            name: 'Users',
+            description: 'User management and login',
+          },
+        },
+        {
+          tags: [
+            {
+              name: 'Users',
+              description: 'Should not be taken into account, i.e. no override',
+            },
+            {
+              name: 'Login',
+              description: 'Login',
+            },
+          ],
+        },
+      ];
+      organize(testSpec, annotations);
+      expect(testSpec.tags).toEqual([
+        {
+          name: 'Users',
+          description: 'User management and login',
+        },
+        {
+          name: 'Login',
+          description: 'Login',
+        },
+      ]);
+    });
   });
 
   describe('extract', () => {

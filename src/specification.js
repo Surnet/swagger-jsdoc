@@ -152,6 +152,9 @@ export function organize(swaggerObject, annotations) {
           };
         }
       } else if (property === 'tags') {
+        if (swaggerObject.tags === undefined) {
+          swaggerObject.tags = [];
+        }
         const { tags } = annotation;
 
         if (Array.isArray(tags)) {
