@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 import { promises as fs } from 'fs';
 import { pathToFileURL } from 'url';
+import { loadDefinition } from './utils.js';
 
-import { loadDefinition } from '../../src/utils.js';
 import swaggerJsdoc from '../../index.js';
 
 /**
@@ -26,6 +26,9 @@ const definitionUrl = pathToFileURL(
 
 // Because "Parsing error: Cannot use keyword 'await' outside an async function"
 (async () => {
+  /**
+   * We're using an example module loader which you can swap with your own implemenentation.
+   */
   const swaggerDefinition = await loadDefinition(definitionUrl.href);
 
   // Extract apis

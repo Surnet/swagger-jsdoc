@@ -3,7 +3,6 @@ import {
   extractYamlFromJsDoc,
   hasEmptyProperty,
   isTagPresentInTags,
-  loadDefinition,
   validateOptions,
 } from '../src/utils.js';
 
@@ -223,76 +222,6 @@ describe('Utilities module', () => {
           ]
         )
       ).toBe(false);
-    });
-  });
-
-  describe('loadDefinition', () => {
-    const example = './fixtures/swaggerDefinition/example';
-
-    it('should throw on bad input', async () => {
-      await expect(loadDefinition('bad/path/to/nowhere')).rejects.toThrow(
-        'Definition file should be any of the following: .js, .mjs, .cjs, .json, .yml, .yaml'
-      );
-    });
-
-    it('should support .json', async () => {
-      const def = resolve(__dirname, `${example}.json`);
-      const result = await loadDefinition(def);
-      expect(result).toEqual({
-        info: {
-          title: 'Hello World',
-          version: '1.0.0',
-          description: 'A sample API',
-        },
-      });
-    });
-
-    it('should support .yaml', async () => {
-      const def = resolve(__dirname, `${example}.yaml`);
-      const result = await loadDefinition(def);
-      expect(result).toEqual({
-        info: {
-          title: 'Hello World',
-          version: '1.0.0',
-          description: 'A sample API',
-        },
-      });
-    });
-
-    it('should support .js', async () => {
-      const def = resolve(__dirname, `${example}.js`);
-      const result = await loadDefinition(def);
-      expect(result).toEqual({
-        info: {
-          title: 'Hello World',
-          version: '1.0.0',
-          description: 'A sample API',
-        },
-      });
-    });
-
-    it('should support .cjs', async () => {
-      const def = resolve(__dirname, `${example}.cjs`);
-      const result = await loadDefinition(def);
-      expect(result).toEqual({
-        info: {
-          title: 'Hello World',
-          version: '1.0.0',
-          description: 'A sample API',
-        },
-      });
-    });
-
-    it('should support .mjs', async () => {
-      const def = resolve(__dirname, `${example}.mjs`);
-      const result = await loadDefinition(def);
-      expect(result).toEqual({
-        info: {
-          title: 'Hello World',
-          version: '1.0.0',
-          description: 'A sample API',
-        },
-      });
     });
   });
 
