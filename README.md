@@ -55,7 +55,7 @@ The example above follows the CommonJS format, which will work when you do not h
 
 However, if you're using ESM and have `"type": "module"`, then please change the extension to `.cjs`.
 
-Definition files in `.js` and ESM will be supported in `swagger-jsdoc` 7.x.
+If you need `swagger-jsdoc` to be fully ESM, check out the [7.x](https://github.com/Surnet/swagger-jsdoc/tree/v7) which is currently in a RC version.
 
 ## Installation
 
