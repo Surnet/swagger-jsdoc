@@ -27,7 +27,7 @@ app.get('/', (req, res) => {
 The library will take the contents of `@openapi` (or `@swagger`) with the following configuration:
 
 ```javascript
-const swaggerJsdoc = require('swagger-jsdoc');
+import swaggerJsdoc from 'swagger-jsdoc';
 
 const options = {
   definition: {
@@ -47,15 +47,9 @@ The resulting `openapiSpecification` will be a [swagger tools](https://swagger.i
 
 ![swagger-jsdoc example screenshot](./docs/screenshot.png)
 
-## Node.js version requirements, CommonJS and ESM
+## System requirements
 
-`swagger-jsdoc` 6.x requires Node.js 12.x and above. When using the CLI, the library will attempt to load the definition file in several formats: `.js`, `.cjs`, `.yaml` (or `.yml`) and `.json`.
-
-The example above follows the CommonJS format, which will work when you do not have `"type": "module"` in your `package.json`.
-
-However, if you're using ESM and have `"type": "module"`, then please change the extension to `.cjs`.
-
-Definition files in `.js` and ESM will be supported in `swagger-jsdoc` 7.x.
+Notes on CJS and ESM.
 
 ## Installation
 

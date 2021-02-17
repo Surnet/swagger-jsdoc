@@ -3,7 +3,6 @@
 Quick-start:
 
 - [First steps](./FIRST-STEPS.md)
-- [CLI](./CLI.md)
 - [Examples](../examples)
 
 Before you submit an issue:

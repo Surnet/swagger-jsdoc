@@ -7,10 +7,10 @@ The default target specification is 2.0. This provides backwards compatibility f
 In order to create a specification compatibile with 3.0 or higher, i.e. the so called OpenAPI, set this information in the `swaggerDefinition`:
 
 ```diff
-const swaggerJsdoc = require('swagger-jsdoc');
+import swaggerJsdoc from 'swagger-jsdoc';
 
 const options = {
-  swaggerDefinition: {
+  definition: {
 +   openapi: '3.0.0',
     info: {
       title: 'Hello World',
@@ -20,7 +20,7 @@ const options = {
   apis: ['./src/routes*.js'],
 };
 
-const swaggerSpecification = swaggerJsdoc(options);
+const openapiSpecification = swaggerJsdoc(options);
 ```
 
 ## Annotating source code
