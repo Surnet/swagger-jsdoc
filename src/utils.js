@@ -1,13 +1,13 @@
-const fs = require('fs');
-const path = require('path');
-const glob = require('glob');
+import { promises as fs } from 'fs';
+import { extname } from 'path';
+import glob from 'glob';
 
 /**
  * Converts an array of globs to full paths
  * @param {array} globs - Array of globs and/or normal paths
  * @return {array} Array of fully-qualified paths
  */
-function convertGlobPaths(globs) {
+export function convertGlobPaths(globs) {
   return globs
     .map((globString) => glob.sync(globString))
     .reduce((previous, current) => previous.concat(current), []);
@@ -18,7 +18,9 @@ function convertGlobPaths(globs) {
  * @param {object} obj - the object to check
  * @returns {boolean}
  */
-function hasEmptyProperty(obj) {
+export function hasEmptyProperty(obj) {
+  if (!obj) return;
+
   return Object.keys(obj)
     .map((key) => obj[key])
     .every(
@@ -33,7 +35,7 @@ function hasEmptyProperty(obj) {
  * @param {object} jsDocComment - Single item of JSDoc comments from doctrine.parse
  * @returns {array} YAML parts
  */
-function extractYamlFromJsDoc(jsDocComment) {
+export function extractYamlFromJsDoc(jsDocComment) {
   const yamlParts = [];
 
   for (const tag of jsDocComment.tags) {
@@ -49,9 +51,9 @@ function extractYamlFromJsDoc(jsDocComment) {
  * @param {string} filePath
  * @returns {{jsdoc: array, yaml: array}} JSDoc comments and Yaml files
  */
-function extractAnnotations(filePath, encoding = 'utf8') {
-  const fileContent = fs.readFileSync(filePath, { encoding });
-  const ext = path.extname(filePath);
+export async function extractAnnotations(filePath, encoding = 'utf8') {
+  const fileContent = await fs.readFile(filePath, { encoding });
+  const ext = extname(filePath);
   const jsDocRegex = /\/\*\*([\s\S]*?)\*\//gm;
   const csDocRegex = /###([\s\S]*?)###/gm;
   const yaml = [];
@@ -88,51 +90,48 @@ function extractAnnotations(filePath, encoding = 'utf8') {
 
 /**
  * @param {object} tag
+ * @param {string} tag.name
  * @param {array} tags
  * @returns {boolean}
  */
-function isTagPresentInTags(tag, tags) {
+export function isTagPresentInTags(tag, tags) {
   const match = tags.find((targetTag) => tag.name === targetTag.name);
   if (match) return true;
-
   return false;
 }
 
 /**
- * Get an object of the definition file configuration.
- * @param {string} defPath
- * @param {object} swaggerDefinition
+ * @param {object} options
+ * @returns {object} the original input if valid, throws otherwise
  */
-function loadDefinition(defPath, swaggerDefinition) {
-  const resolvedPath = path.resolve(defPath);
-  const extName = path.extname(resolvedPath);
-
-  // eslint-disable-next-line
-  const loadCjs = () => require(resolvedPath);
-  const loadJson = () => JSON.parse(swaggerDefinition);
-  // eslint-disable-next-line
-  const loadYaml = () => require('yaml').parse(swaggerDefinition);
-
-  const LOADERS = {
-    '.js': loadCjs, // on purpose, to allow throwing by nodejs and .cjs suggestion
-    '.cjs': loadCjs,
-    '.json': loadJson,
-    '.yml': loadYaml,
-    '.yaml': loadYaml,
-  };
-
-  const loader = LOADERS[extName];
-
-  if (loader === undefined) {
-    throw new Error('Definition file should be .cjs, .json, .yml or .yaml');
+export function validateOptions(options) {
+  if (!options) {
+    throw new Error(`'options' parameter is required!`);
   }
 
-  return loader();
-}
+  if (!options.swaggerDefinition && !options.definition) {
+    throw new Error(
+      `'options.swaggerDefinition' or 'options.definition' is required!`
+    );
+  }
 
-module.exports.convertGlobPaths = convertGlobPaths;
-module.exports.hasEmptyProperty = hasEmptyProperty;
-module.exports.extractYamlFromJsDoc = extractYamlFromJsDoc;
-module.exports.extractAnnotations = extractAnnotations;
-module.exports.isTagPresentInTags = isTagPresentInTags;
-module.exports.loadDefinition = loadDefinition;
+  const def = options.swaggerDefinition || options.definition;
+
+  if (!def.info) {
+    throw new Error(
+      `Swagger definition ('options.swaggerDefinition') should contain an info object!`
+    );
+  }
+
+  if (!('title' in def.info) || !('version' in def.info)) {
+    throw new Error(
+      `Swagger definition info object ('options.swaggerDefinition.info') requires title and version properties!`
+    );
+  }
+
+  if (!options.apis || !Array.isArray(options.apis)) {
+    throw new Error(`'options.apis' is required and it should be an array!`);
+  }
+
+  return options;
+}

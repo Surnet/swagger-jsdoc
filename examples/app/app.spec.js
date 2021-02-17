@@ -1,5 +1,8 @@
-const request = require('supertest');
-const { app, server } = require('./app');
+import { createRequire } from 'module';
+import request from 'supertest';
+import { app, server } from './app.js';
+
+const require = createRequire(import.meta.url);
 const swaggerSpec = require('./swagger-spec.json');
 
 describe('Example application written in swagger specification (v2)', () => {

@@ -18,6 +18,23 @@
           }
         }
       }
+    },
+    "/richie-rich": {
+      "get": {
+        "summary": "another route",
+        "description": "contains a reference in the same file",
+        "security": [],
+        "responses": { "200": { "description": "OK" } },
+        "x-amazon-another-integration": {
+          "type": "object",
+          "x-amazon-another-example": {
+            "httpMethod": "POST",
+            "passthroughBehavior": "when_no_match",
+            "type": "aws_proxy",
+            "uri": "irrelevant"
+          }
+        }
+      }
     }
   },
   "definitions": {},

@@ -8,5 +8,5 @@ module.exports = (app) => {
    *        - foo
    *   bar
    */
-  app.get('/invalid_yaml', () => {});
+  app.get('/invalid', () => {});
 };

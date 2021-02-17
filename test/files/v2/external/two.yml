@@ -1,5 +1,0 @@
-responses:
-  api:
-    bar:
-      200:
-        description: OK

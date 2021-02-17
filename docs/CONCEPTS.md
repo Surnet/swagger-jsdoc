@@ -12,10 +12,10 @@ Parts of the specification can be placed in annotated JSDoc comments in non-comp
 
 Other parts of the specification can be directly written in YAML files. These are usually parts containing static definitions which are referenced from jsDoc comments parameters, components, anchors, etc. which are not so relevant to the API implementation.
 
-Given the following definition `swaggerDefinition.cjs`:
+Given the following definition `definition.js`:
 
 ```javascript
-module.exports = {
+export default {
   info: {
     title: 'Hello World',
     version: '1.0.0',
@@ -24,19 +24,21 @@ module.exports = {
 };
 ```
 
-The end `swaggerSpecification` will be a result of following:
+The end `openapiSpecification` will be a result of following:
 
 ```javascript
-const swaggerJsdoc = require('swagger-jsdoc');
-const swaggerDefinition = require('./swaggerDefinition');
+import swaggerJsdoc from 'swagger-jsdoc';
+import definition from './definition.js';
 
 const options = {
-  swaggerDefinition,
+  definition,
   apis: ['./src/routes*.js'],
 };
 
 const swaggerSpecification = swaggerJsdoc(options);
 ```
+
+Please note that it's also possible to use CommonJS syntax with `require` and `module.exports` for the example above.
 
 ## File selection patterns
 

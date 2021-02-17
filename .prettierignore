@@ -1,2 +1,3 @@
-test/files/v2/wrong_syntax.json
-test/files/v2/wrong_syntax.yaml
+test/fixtures/wrong/example.js
+test/fixtures/wrong/example.json
+test/fixtures/wrong/example.yaml

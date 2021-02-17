@@ -1,7 +1,7 @@
 /* istanbul ignore file */
 
 // Sets up the routes.
-module.exports.setup = (app) => {
+export const setup = (app) => {
   /**
    * @swagger
    * /:

@@ -1,24 +1,24 @@
-const doctrine = require('doctrine');
-const parser = require('swagger-parser');
-const YAML = require('yaml');
+import doctrine from 'doctrine';
+import parser from 'swagger-parser';
+import YAML from 'yaml';
 
-const {
+import {
   hasEmptyProperty,
   convertGlobPaths,
   extractAnnotations,
   extractYamlFromJsDoc,
   isTagPresentInTags,
-} = require('./utils');
+} from './utils.js';
 
 /**
  * Prepare the swagger/openapi specification object.
  * @see https://github.com/OAI/OpenAPI-Specification/tree/master/versions
- * @param {object} definition - The `definition` or `swaggerDefinition` from options.
+ * @param {object} options The library input options.
  * @returns {object} swaggerObject
  */
-function prepare(definition) {
+export function prepare(options) {
   let version;
-  const swaggerObject = JSON.parse(JSON.stringify(definition));
+  const swaggerObject = options.swaggerDefinition || options.definition;
   const specificationTemplate = {
     v2: [
       'paths',
@@ -59,7 +59,7 @@ function prepare(definition) {
  * @param {object} obj
  * @param {string} ext
  */
-function format(swaggerObject, ext) {
+export function format(swaggerObject, ext) {
   if (ext === '.yml' || ext === '.yaml') {
     return YAML.stringify(swaggerObject);
   }
@@ -72,7 +72,7 @@ function format(swaggerObject, ext) {
  * @param {object} swaggerObject
  * @returns {object} swaggerObject
  */
-function clean(swaggerObject) {
+export function clean(swaggerObject) {
   for (const prop of [
     'definitions',
     'responses',
@@ -93,7 +93,7 @@ function clean(swaggerObject) {
  * @param {object} swaggerObject - Swagger object from parsing the api files.
  * @returns {object} The specification.
  */
-function finalize(swaggerObject, options) {
+export function finalize(swaggerObject, options) {
   let specification = swaggerObject;
 
   parser.parse(swaggerObject, (err, api) => {
@@ -106,76 +106,97 @@ function finalize(swaggerObject, options) {
     specification = clean(specification);
   }
 
-  return format(specification, options.format);
+  if (options && options.format) {
+    specification = format(specification, options.format);
+  }
+
+  return specification;
 }
 
 /**
  * @param {object} swaggerObject
- * @param {object} annotation
- * @param {string} property
+ * @param {Array<object>} annotations
+ * @returns {object} swaggerObject
  */
-function organize(swaggerObject, annotation, property) {
-  // Root property on purpose.
-  // @see https://github.com/OAI/OpenAPI-Specification/blob/master/proposals/002_Webhooks.md#proposed-solution
-  if (property === 'x-webhooks') {
-    swaggerObject[property] = annotation[property];
-  }
-
-  // Other extensions can be in varying places depending on different vendors and opinions.
-  // The following return makes it so that they are not put in `paths` in the last case.
-  // New specific extensions will need to be handled on case-by-case if to be included in `paths`.
-  if (property.startsWith('x-')) return;
-
-  const commonProperties = [
-    'components',
-    'consumes',
-    'produces',
-    'paths',
-    'schemas',
-    'securityDefinitions',
-    'responses',
-    'parameters',
-    'definitions',
-  ];
-
-  if (commonProperties.includes(property)) {
-    for (const definition of Object.keys(annotation[property])) {
-      swaggerObject[property][definition] = {
-        ...swaggerObject[property][definition],
-        ...annotation[property][definition],
-      };
-    }
-  } else if (property === 'tags') {
-    const { tags } = annotation;
-
-    if (Array.isArray(tags)) {
-      for (const tag of tags) {
-        if (!isTagPresentInTags(tag, swaggerObject.tags)) {
-          swaggerObject.tags.push(tag);
-        }
+export function organize(swaggerObject, annotations) {
+  for (const annotation of annotations) {
+    for (const property in annotation) {
+      // Root property on purpose.
+      // @see https://github.com/OAI/OpenAPI-Specification/blob/master/proposals/002_Webhooks.md#proposed-solution
+      if (property === 'x-webhooks') {
+        swaggerObject[property] = annotation[property];
       }
-    } else if (!isTagPresentInTags(tags, swaggerObject.tags)) {
-      swaggerObject.tags.push(tags);
+
+      // Other extensions can be in varying places depending on different vendors and opinions.
+      // The following return makes it so that they are not put in `paths` in the last case.
+      // New specific extensions will need to be handled on case-by-case if to be included in `paths`.
+      if (property.startsWith('x-')) continue;
+
+      const commonProperties = [
+        'components',
+        'consumes',
+        'produces',
+        'paths',
+        'schemas',
+        'securityDefinitions',
+        'responses',
+        'parameters',
+        'definitions',
+      ];
+
+      if (commonProperties.includes(property)) {
+        for (const definition of Object.keys(annotation[property])) {
+          swaggerObject[property][definition] = {
+            ...swaggerObject[property][definition],
+            ...annotation[property][definition],
+          };
+        }
+      } else if (property === 'tags') {
+        if (swaggerObject.tags === undefined) {
+          swaggerObject.tags = [];
+        }
+        const { tags } = annotation;
+
+        if (Array.isArray(tags)) {
+          for (const tag of tags) {
+            if (!isTagPresentInTags(tag, swaggerObject.tags)) {
+              swaggerObject.tags.push(tag);
+            }
+          }
+        } else if (!isTagPresentInTags(tags, swaggerObject.tags)) {
+          swaggerObject.tags.push(tags);
+        }
+      } else {
+        // Paths which are not defined as "paths" property, starting with a slash "/"
+        swaggerObject.paths[property] = {
+          ...swaggerObject.paths[property],
+          ...annotation[property],
+        };
+      }
     }
-  } else {
-    // Paths which are not defined as "paths" property, starting with a slash "/"
-    swaggerObject.paths[property] = {
-      ...swaggerObject.paths[property],
-      ...annotation[property],
-    };
   }
+
+  return swaggerObject;
 }
 
 /**
  * @param {object} options
  * @returns {object} swaggerObject
  */
-function build(options) {
+export async function extract(options) {
+  if (
+    !options ||
+    !options.apis ||
+    options.apis.length === 0 ||
+    Array.isArray(options.apis) === false
+  ) {
+    throw new Error(
+      'Bad input parameter: options is required, as well as options.apis[]'
+    );
+  }
+
   YAML.defaultOptions.keepCstNodes = true;
 
-  // Get input definition and prepare the specification's skeleton
-  const definition = options.swaggerDefinition || options.definition;
-  const specification = prepare(definition);
   const yamlDocsAnchors = new Map();
   const yamlDocsErrors = [];
   const yamlDocsReady = [];
@@ -184,7 +205,7 @@ function build(options) {
     const {
       yaml: yamlAnnotations,
       jsdoc: jsdocAnnotations,
-    } = extractAnnotations(filePath, options.encoding);
+    } = await extractAnnotations(filePath, options.encoding);
 
     if (yamlAnnotations.length) {
       for (const annotation of yamlAnnotations) {
@@ -269,14 +290,5 @@ function build(options) {
     }
   }
 
-  for (const document of yamlDocsReady) {
-    const parsedDoc = document.toJSON();
-    for (const property in parsedDoc) {
-      organize(specification, parsedDoc, property);
-    }
-  }
-
-  return finalize(specification, options);
+  return yamlDocsReady.map((doc) => doc.toJSON());
 }
-
-module.exports = { prepare, build, organize, finalize, format };
