@@ -35,7 +35,7 @@ const options = {
   apis: ['./src/routes*.js'],
 };
 
-const swaggerSpecification = swaggerJsdoc(options);
+const swaggerSpecification = await swaggerJsdoc(options);
 ```
 
 Please note that it's also possible to use CommonJS syntax with `require` and `module.exports` for the example above.

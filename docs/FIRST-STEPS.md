@@ -20,7 +20,7 @@ const options = {
   apis: ['./src/routes*.js'],
 };
 
-const openapiSpecification = swaggerJsdoc(options);
+const openapiSpecification = await swaggerJsdoc(options);
 ```
 
 ## Annotating source code

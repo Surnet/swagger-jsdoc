@@ -40,7 +40,7 @@ const options = {
   apis: ['./src/routes*.js'], // files containing annotations as above
 };
 
-const openapiSpecification = swaggerJsdoc(options);
+const openapiSpecification = await swaggerJsdoc(options);
 ```
 
 The resulting `openapiSpecification` will be a [swagger tools](https://swagger.io/tools/)-compatible (and validated) specification.
