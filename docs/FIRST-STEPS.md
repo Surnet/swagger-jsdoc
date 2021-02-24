@@ -94,6 +94,7 @@ Additional materials to inspire you:
 - [Swaggerize your API Documentation](http://imaginativethinking.ca/swaggerize-your-api-documentation/) - 01/06/2018
 - [Swagger and NodeJS](https://mherman.org/blog/swagger-and-nodejs/) 20/11/2017
 - [Agile documentation for your API-driven project](https://kalinchernev.github.io/agile-documentation-api-driven-project) - 21/01/2017
+- [How to implement and use Swagger in Node.js](https://js.plainenglish.io/how-to-implement-and-use-swagger-in-nodejs-d0b95e765245) - 24/02/2021
 
 Suggestions for extending this helpful list are welcome! [Submit your article](https://github.com/Surnet/swagger-jsdoc/issues/new)
 
