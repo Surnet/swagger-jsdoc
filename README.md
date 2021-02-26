@@ -49,7 +49,9 @@ The resulting `openapiSpecification` will be a [swagger tools](https://swagger.i
 
 ## System requirements
 
-Notes on CJS and ESM.
+- Node.js 12.x or higher
+
+You are viewing `swagger-jsdoc` v7 which is published in ESM module system.
 
 ## Installation
 
@@ -70,4 +72,8 @@ yarn add swagger-jsdoc
 
 ## Documentation
 
-Detailed documentation is available within [`/docs`](https://github.com/Surnet/swagger-jsdoc/tree/master/docs/README.md) folder.
+Click on the version you are using for further details:
+
+- [7.x](https://github.com/Surnet/swagger-jsdoc/tree/v7/docs)
+- [6.x](https://github.com/Surnet/swagger-jsdoc/tree/v6/docs)
+- [5.x](https://github.com/Surnet/swagger-jsdoc/tree/v5)
