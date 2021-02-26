@@ -1,7 +1,20 @@
 ## Change Log
 
-### v6.0.5 (2021/02/15 15:50 +00:00)
+### v6.0.7 (2021/02/26 14:32 +00:00)
 
+- [#250](https://github.com/Surnet/swagger-jsdoc/pull/250) Update FIRST-STEPS.md (#250) (@azizkale)
+- [da152ea](https://github.com/Surnet/swagger-jsdoc/commit/da152eaf81656b77f49628005225ef7e0f647c9e) Update docs (@kalinchernev)
+
+### v6.0.6 (2021/02/16 09:01 +00:00)
+
+- [32540d1](https://github.com/Surnet/swagger-jsdoc/commit/32540d1f36fc286c72d260f4690465744ba08ca0) docs version bump (@kalinchernev)
+- [12a4e6d](https://github.com/Surnet/swagger-jsdoc/commit/12a4e6d9cdcbd2c9d7497413425ac9dedffcdbcc) Update landing page readme (@kalinchernev)
+- [c65d659](https://github.com/Surnet/swagger-jsdoc/commit/c65d659b6df554b1e0cc2552d4340cdfdc27f4c3) Update issue templates (@kalinchernev)
+
+### v6.0.5 (2021/02/15 15:52 +00:00)
+
+- [05bc5a9](https://github.com/Surnet/swagger-jsdoc/commit/05bc5a91b8dc008243c74109ffd557ef5ed9d8a8) bump (@kalinchernev)
+- [a56522f](https://github.com/Surnet/swagger-jsdoc/commit/a56522f11560727fc7327f7c0e9c083d8517dd2e) changelog (@kalinchernev)
 - [#247](https://github.com/Surnet/swagger-jsdoc/pull/247) feat: support cjs and update docs (#247) (@kalinchernev)
 
 ### v6.0.3 (2021/02/15 08:40 +00:00)
@@ -59,7 +72,7 @@
 
 ### v5.0.1 (2020/11/08 08:22 +00:00)
 
-- [#224](https://github.com/Surnet/swagger-jsdoc/pull/224) Update README.md (#224) (@zeevosec)
+- [#224](https://github.com/Surnet/swagger-jsdoc/pull/224) Update README.md (#224) (@zeevo)
 
 ### v5.0.0 (2020/10/28 15:36 +00:00)
 
@@ -498,8 +511,8 @@
 - [e38c3b9](https://github.com/Surnet/swagger-jsdoc/commit/e38c3b947071c85ee73c16113035ab164dd065a6) update version (@fliptoo)
 - [14ccf0b](https://github.com/Surnet/swagger-jsdoc/commit/14ccf0b7effc2379f1b7adbe440b70c858f23aee) fixed swagger option (@fliptoo)
 - [#6](https://github.com/Surnet/swagger-jsdoc/pull/6) Merge pull request #6 from slajax/master (@slajax)
-- [9623f70](https://github.com/Surnet/swagger-jsdoc/commit/9623f704aa0a76824357314de81c2c02c5889549) added basePath to readme (@slajax)
-- [1b4f3d6](https://github.com/Surnet/swagger-jsdoc/commit/1b4f3d6dfb2ba93e9d5e673083db2dbe9e186bad) basePath should still be able to be set so it can be passed to swagger.js (@slajax)
+- [9623f70](https://github.com/Surnet/swagger-jsdoc/commit/9623f704aa0a76824357314de81c2c02c5889549) added basePath to readme (@kc-dot-io)
+- [1b4f3d6](https://github.com/Surnet/swagger-jsdoc/commit/1b4f3d6dfb2ba93e9d5e673083db2dbe9e186bad) basePath should still be able to be set so it can be passed to swagger.js (@kc-dot-io)
 - [e97684d](https://github.com/Surnet/swagger-jsdoc/commit/e97684da334d7fd7414e87505de39c6e8336553f) Fixes #4 (@fliptoo)
 - [9e89f97](https://github.com/Surnet/swagger-jsdoc/commit/9e89f977d831650ae5392a3a89277d4e43a5ecae) Update Example (@fliptoo)
 - [4581d7a](https://github.com/Surnet/swagger-jsdoc/commit/4581d7a8f0fe05c10a1b7323f586b9091cade748) Fixes #4 (@fliptoo)

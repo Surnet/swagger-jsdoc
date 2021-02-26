@@ -47,15 +47,11 @@ The resulting `openapiSpecification` will be a [swagger tools](https://swagger.i
 
 ![swagger-jsdoc example screenshot](./docs/screenshot.png)
 
-## Node.js version requirements, CommonJS and ESM
+## System requirements
 
-`swagger-jsdoc` 6.x requires Node.js 12.x and above. When using the CLI, the library will attempt to load the definition file in several formats: `.js`, `.cjs`, `.yaml` (or `.yml`) and `.json`.
+- Node.js 12.x or higher
 
-The example above follows the CommonJS format, which will work when you do not have `"type": "module"` in your `package.json`.
-
-However, if you're using ESM and have `"type": "module"`, then please change the extension to `.cjs`.
-
-If you need `swagger-jsdoc` to be fully ESM, check out the [7.x](https://github.com/Surnet/swagger-jsdoc/tree/v7) which is currently in a RC version.
+You are viewing `swagger-jsdoc` v6 which is published in CommonJS module system.
 
 ## Installation
 
@@ -76,4 +72,8 @@ yarn add swagger-jsdoc
 
 ## Documentation
 
-Detailed documentation is available within [`/docs`](https://github.com/Surnet/swagger-jsdoc/tree/master/docs/README.md) folder.
+Click on the version you are using for further details:
+
+- [7.x](https://github.com/Surnet/swagger-jsdoc/tree/v7/docs)
+- [6.x](https://github.com/Surnet/swagger-jsdoc/tree/v6/docs)
+- [5.x](https://github.com/Surnet/swagger-jsdoc/tree/v5)
