@@ -3,7 +3,7 @@ import { promises as fs } from 'fs';
 import { pathToFileURL } from 'url';
 import { loadDefinition } from './utils.js';
 
-import swaggerJsdoc from '../../index.js';
+import swaggerJsdoc from 'swagger-jsdoc';
 
 /**
  * Handle CLI arguments in your preferred way.
