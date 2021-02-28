@@ -13,7 +13,7 @@
     "test:example:cli": "cd examples/cli && yarn run test",
     "test:example:extensions": "cd examples/extensions && yarn run test",
     "test:example:yaml": "cd examples/yaml-anchors-aliases && yarn run test",
-    "test": "run-p test:* test:example:* -cn"
+    "test": "run-p test:* test:example:*"
   },
   "type": "module",
   "exports": "./index.js",
