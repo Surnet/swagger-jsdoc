@@ -1,5 +1,5 @@
 import { createRequire } from 'module';
-import swaggerJsdoc from '../../index.js';
+import swaggerJsdoc from 'swagger-jsdoc';
 
 const require = createRequire(import.meta.url);
 const referenceSpecification = require('./reference-specification.json');
@@ -13,7 +13,7 @@ describe('Example for using extensions', () => {
           version: '0.0.1',
         },
       },
-      apis: ['./examples/extensions/example.js'],
+      apis: ['./example.js'],
     });
     expect(result).toEqual(referenceSpecification);
   });
