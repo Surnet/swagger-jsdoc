@@ -1,7 +1,12 @@
 ## Change Log
 
-### v6.0.7 (2021/02/26 14:32 +00:00)
+### v6.0.7 (2021/03/01 15:19 +00:00)
 
+- [#253](https://github.com/Surnet/swagger-jsdoc/pull/253) fix(specification): apply fix for multiple anchors (#253) (@goldsziggy)
+
+### v7.0.0-rc.3 (2021/02/26 14:33 +00:00)
+
+- [8873370](https://github.com/Surnet/swagger-jsdoc/commit/887337050ec3b2d246d2fa9a9bd3570b3746d379) Update docs (@kalinchernev)
 - [#250](https://github.com/Surnet/swagger-jsdoc/pull/250) Update FIRST-STEPS.md (#250) (@azizkale)
 - [da152ea](https://github.com/Surnet/swagger-jsdoc/commit/da152eaf81656b77f49628005225ef7e0f647c9e) Update docs (@kalinchernev)
 
