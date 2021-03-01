@@ -247,12 +247,14 @@ function build(options) {
           yamlDocsReady.push(readyDocument);
           errsToDelete.push(index);
         }
-
-        // Cleanup solved errors in order to allow for parser to pass through.
-        for (const errIndex of errsToDelete) {
-          docWithErr.errors.splice(errIndex, 1);
-        }
       });
+      // reverse sort the deletion array so we always delete from the end
+      errsToDelete.sort((a, b) => b - a);
+
+      // Cleanup solved errors in order to allow for parser to pass through.
+      for (const errIndex of errsToDelete) {
+        docWithErr.errors.splice(errIndex, 1);
+      }
     }
 
     const errReport = yamlDocsErrors
