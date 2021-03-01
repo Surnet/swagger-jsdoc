@@ -248,6 +248,7 @@ export async function extract(options) {
   if (yamlDocsErrors.length) {
     for (const docWithErr of yamlDocsErrors) {
       const errsToDelete = [];
+
       docWithErr.errors.forEach((error, index) => {
         if (error.name === 'YAMLReferenceError') {
           // This should either be a smart regex or ideally a YAML library method using the error.range.
@@ -268,12 +269,14 @@ export async function extract(options) {
           yamlDocsReady.push(readyDocument);
           errsToDelete.push(index);
         }
-
-        // Cleanup solved errors in order to allow for parser to pass through.
-        for (const errIndex of errsToDelete) {
-          docWithErr.errors.splice(errIndex, 1);
-        }
       });
+      // reverse sort the deletion array so we always delete from the end
+      errsToDelete.sort((a, b) => b - a);
+
+      // Cleanup solved errors in order to allow for parser to pass through.
+      for (const errIndex of errsToDelete) {
+        docWithErr.errors.splice(errIndex, 1);
+      }
     }
 
     const errReport = yamlDocsErrors

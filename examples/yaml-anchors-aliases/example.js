@@ -12,6 +12,7 @@ module.exports = (app) => {
    *       200:
    *         description: OK
    *     x-amazon-apigateway-integration: *default-integration
+   *     x-second-integration: *second-integration
    */
   app.get('/aws', () => {});
 
