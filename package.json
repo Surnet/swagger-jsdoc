@@ -21,6 +21,7 @@
     "doctrine": "3.0.0",
     "github-changes": "^2.0.2",
     "glob": "7.1.6",
+    "lodash.mergewith": "^4.6.2",
     "swagger-parser": "10.0.2",
     "yaml": "2.0.0-1"
   },

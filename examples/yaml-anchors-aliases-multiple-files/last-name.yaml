@@ -1,0 +1,5 @@
+x-template:
+  lastName: &lastName
+    type: string
+    minimum: 1
+    maximum: 20
