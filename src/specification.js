@@ -139,7 +139,6 @@ function organize(swaggerObject, annotation, property) {
   ];
   if (commonProperties.includes(property)) {
     for (const definition of Object.keys(annotation[property])) {
-      // swaggerObject[property][definition] = mergeDeep(annotation[property][definition], swaggerObject[property][definition])
       swaggerObject[property][definition] = mergeDeep(
         swaggerObject[property][definition],
         annotation[property][definition]
@@ -163,10 +162,6 @@ function organize(swaggerObject, annotation, property) {
       swaggerObject.paths[property],
       annotation[property]
     );
-    // swaggerObject.paths[property] = {
-    //   ...swaggerObject.paths[property],
-    //   ...annotation[property],
-    // };
   }
 }
 
