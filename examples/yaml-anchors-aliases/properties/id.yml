@@ -1,0 +1,4 @@
+x-template:
+  id: &id
+    type: integer
+    description: The user ID.

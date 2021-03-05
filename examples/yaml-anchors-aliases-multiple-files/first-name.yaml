@@ -1,5 +1,0 @@
-x-template:
-  firstName: &firstName
-    type: string
-    minimum: 1
-    maximum: 20

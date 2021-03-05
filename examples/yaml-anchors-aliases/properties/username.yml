@@ -1,0 +1,6 @@
+x-template:
+  username: &username
+    type: string
+    description: The user name.
+    minimum: 1
+    maximum: 30
