@@ -1,7 +1,16 @@
 ## Change Log
 
-### v6.0.7 (2021/03/01 15:19 +00:00)
+### v6.0.9 (2021/03/07 10:34 +00:00)
 
+- [#256](https://github.com/Surnet/swagger-jsdoc/pull/256) fix(anchors): applied a fix for anchors living in seperate files with… (#256) (@goldsziggy)
+
+### v7.0.0-rc.4 (2021/03/01 16:00 +00:00)
+
+- [15bce04](https://github.com/Surnet/swagger-jsdoc/commit/15bce0415b4dfff7ca21d8931b5498e71a9013ff) correction: v6.0.8 (@kalinchernev)
+
+### v6.0.8 (2021/03/01 15:20 +00:00)
+
+- [fc3d62c](https://github.com/Surnet/swagger-jsdoc/commit/fc3d62c61a266b879fd8ab1531f77634645f0247) v6.0.7 (@kalinchernev)
 - [#253](https://github.com/Surnet/swagger-jsdoc/pull/253) fix(specification): apply fix for multiple anchors (#253) (@goldsziggy)
 
 ### v7.0.0-rc.3 (2021/02/26 14:33 +00:00)
