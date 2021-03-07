@@ -1,6 +1,7 @@
 import { promises as fs } from 'fs';
 import { extname } from 'path';
 import glob from 'glob';
+import mergeWith from 'lodash.mergewith';
 
 /**
  * Converts an array of globs to full paths
@@ -134,4 +135,14 @@ export function validateOptions(options) {
   }
 
   return options;
+}
+
+/**
+ * A recursive deep-merge that ignores null values when merging.
+ * This returns the merged object and does not mutate.
+ * @param {object} first the first object to get merged
+ * @param {object} second the second object to get merged
+ */
+export function mergeDeep(first, second) {
+  return mergeWith({}, first, second, (a, b) => (b === null ? a : undefined));
 }

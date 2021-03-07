@@ -1,3 +1,4 @@
+import fs from 'fs';
 import { createRequire } from 'module';
 import swaggerJsdoc from 'swagger-jsdoc';
 
@@ -13,8 +14,15 @@ describe('Example for using anchors and aliases in YAML documents', () => {
           version: '0.0.1',
         },
       },
-      apis: ['./x-amazon-apigateway-integrations.yaml', './example.js'],
+      apis: [
+        './x-amazon-apigateway-integrations.yaml',
+        './properties/*.yml',
+        './example.js',
+      ],
     });
+
+    fs.writeFileSync('swagger.json', JSON.stringify(result, 2, 0));
+
     expect(result).toEqual(referenceSpecification);
   });
 });

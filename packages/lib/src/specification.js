@@ -3,11 +3,12 @@ import parser from 'swagger-parser';
 import YAML from 'yaml';
 
 import {
-  hasEmptyProperty,
   convertGlobPaths,
   extractAnnotations,
   extractYamlFromJsDoc,
+  hasEmptyProperty,
   isTagPresentInTags,
+  mergeDeep,
 } from './utils.js';
 
 /**
@@ -146,10 +147,10 @@ export function organize(swaggerObject, annotations) {
 
       if (commonProperties.includes(property)) {
         for (const definition of Object.keys(annotation[property])) {
-          swaggerObject[property][definition] = {
-            ...swaggerObject[property][definition],
-            ...annotation[property][definition],
-          };
+          swaggerObject[property][definition] = mergeDeep(
+            swaggerObject[property][definition],
+            annotation[property][definition]
+          );
         }
       } else if (property === 'tags') {
         if (swaggerObject.tags === undefined) {
@@ -168,10 +169,10 @@ export function organize(swaggerObject, annotations) {
         }
       } else {
         // Paths which are not defined as "paths" property, starting with a slash "/"
-        swaggerObject.paths[property] = {
-          ...swaggerObject.paths[property],
-          ...annotation[property],
-        };
+        swaggerObject.paths[property] = mergeDeep(
+          swaggerObject.paths[property],
+          annotation[property]
+        );
       }
     }
   }

@@ -5,16 +5,32 @@
     "/aws": {
       "get": {
         "summary": "sample aws-specific route",
-        "description": "contains a reference outside this file",
+        "description": "contains a reference outside this file, and pulls response params from multiple files.",
         "security": [],
-        "responses": { "200": { "description": "OK" } },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "integer", "description": "The user ID." },
+                "username": {
+                  "type": "string",
+                  "description": "The user name.",
+                  "minimum": 1,
+                  "maximum": 30
+                }
+              }
+            }
+          }
+        },
         "x-amazon-apigateway-integration": {
           "type": "object",
           "x-amazon-apigateway-integration": {
             "httpMethod": "POST",
             "passthroughBehavior": "when_no_match",
             "type": "aws_proxy",
-            "uri": "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:123456789:function:helloworldlambda/invocations"
+            "uri": "arn:aws:apigateway:us-east-1:default-example"
           }
         },
         "x-second-integration": {
@@ -23,7 +39,51 @@
             "httpMethod": "GET",
             "passthroughBehavior": "when_no_match",
             "type": "aws_proxy",
-            "uri": "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:123456789:function:helloworldlambda/invocations"
+            "uri": "arn:aws:apigateway:us-east-1:second-example"
+          }
+        }
+      },
+      "post": {
+        "summary": "sample aws-specific route",
+        "description": "contains a reference outside this file, and pulls response params from multiple files.",
+        "security": [],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "user",
+            "description": "the request body for a fictional request that re-uses anchors referenced else where",
+            "schema": {
+              "type": "object",
+              "required": ["username", "id"],
+              "properties": {
+                "username": {
+                  "type": "string",
+                  "description": "The user name.",
+                  "minimum": 1,
+                  "maximum": 30
+                },
+                "id": { "type": "integer", "description": "The user ID." }
+              }
+            }
+          }
+        ],
+        "responses": { "200": { "description": "OK" } },
+        "x-amazon-apigateway-integration": {
+          "type": "object",
+          "x-amazon-apigateway-integration": {
+            "httpMethod": "POST",
+            "passthroughBehavior": "when_no_match",
+            "type": "aws_proxy",
+            "uri": "arn:aws:apigateway:us-east-1:default-example"
+          }
+        },
+        "x-second-integration": {
+          "type": "object",
+          "x-amazon-apigateway-integration": {
+            "httpMethod": "GET",
+            "passthroughBehavior": "when_no_match",
+            "type": "aws_proxy",
+            "uri": "arn:aws:apigateway:us-east-1:second-example"
           }
         }
       }
@@ -34,9 +94,9 @@
         "description": "contains a reference in the same file",
         "security": [],
         "responses": { "200": { "description": "OK" } },
-        "x-amazon-another-integration": {
+        "x-amazon-inline-integration": {
           "type": "object",
-          "x-amazon-another-example": {
+          "x-amazon-inline-example": {
             "httpMethod": "POST",
             "passthroughBehavior": "when_no_match",
             "type": "aws_proxy",

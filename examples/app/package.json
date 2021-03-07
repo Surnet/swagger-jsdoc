@@ -18,7 +18,7 @@
     "transform": {}
   },
   "dependencies": {
-    "swagger-jsdoc": "7.0.0-rc.3"
+    "swagger-jsdoc": "^7.0.0-rc.1"
   },
   "devDependencies": {
     "body-parser": "1.19.0",

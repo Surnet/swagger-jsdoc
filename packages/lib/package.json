@@ -1,23 +1,22 @@
 {
-  "private": true,
-  "description": "Monorepo for swagger-jsdoc toolchain",
+  "name": "swagger-jsdoc",
+  "description": "Generates swagger doc based on JSDoc",
+  "version": "7.0.0-rc.5",
   "engines": {
     "node": ">=12.0.0"
   },
   "scripts": {
-    "lint": "eslint .",
-    "test:lint": "eslint .",
-    "test:library": "NODE_OPTIONS=--experimental-vm-modules jest --no-cache",
-    "test:example:app": "cd examples/app && yarn run test",
-    "test:example:cli": "cd examples/cli && yarn run test",
-    "test:example:extensions": "cd examples/extensions && yarn run test",
-    "test:example:yaml": "cd examples/yaml-anchors-aliases && yarn run test",
-    "test": "run-p test:* test:example:*"
+    "lint": "eslint ."
   },
-  "workspaces": [
-    "packages/*",
-    "examples/**"
-  ],
+  "type": "module",
+  "exports": "./index.js",
+  "dependencies": {
+    "doctrine": "3.0.0",
+    "glob": "7.1.6",
+    "lodash.mergewith": "4.6.2",
+    "swagger-parser": "10.0.2",
+    "yaml": "2.0.0-1"
+  },
   "devDependencies": {
     "eslint": "7.19.0",
     "eslint-config-prettier": "7.2.0",
