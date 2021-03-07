@@ -91,7 +91,7 @@ describe('Utilities module', () => {
     it('should extract jsdoc comments by default', async () => {
       expect.assertions(1);
       const result = await extractAnnotations(
-        resolve(__dirname, '../examples/app/routes2.js')
+        resolve(__dirname, '../../../examples/app/routes2.js')
       );
       expect(result).toEqual({
         yaml: [],
@@ -103,7 +103,7 @@ describe('Utilities module', () => {
 
     it('should extract data from YAML files', async () => {
       let result = await extractAnnotations(
-        resolve(__dirname, '../examples/app/parameters.yaml')
+        resolve(__dirname, '../../../examples/app/parameters.yaml')
       );
       expect(result).toEqual({
         yaml: [
@@ -113,7 +113,7 @@ describe('Utilities module', () => {
       });
 
       result = await extractAnnotations(
-        resolve(__dirname, '../examples/app/parameters.yml')
+        resolve(__dirname, '../../../examples/app/parameters.yml')
       );
       expect(result).toEqual({
         yaml: [
@@ -125,7 +125,7 @@ describe('Utilities module', () => {
 
     it('should extract jsdoc comments from coffeescript files/syntax', async () => {
       const result = await extractAnnotations(
-        resolve(__dirname, '../examples/app/route.coffee')
+        resolve(__dirname, '../../../examples/app/route.coffee')
       );
       expect(result).toEqual({
         yaml: [],

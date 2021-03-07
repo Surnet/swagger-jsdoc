@@ -1,3 +1,5 @@
+import { fileURLToPath } from 'url';
+import { dirname, resolve } from 'path';
 import jest from 'jest-mock';
 import {
   prepare,
@@ -7,6 +9,8 @@ import {
   finalize,
   extract,
 } from '../src/specification.js';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const swaggerObject = {
   info: {
@@ -360,7 +364,9 @@ describe('Specification module', () => {
     });
 
     it('should extract annotations', async () => {
-      const annotations = await extract({ apis: ['./examples/app/routes.js'] });
+      const annotations = await extract({
+        apis: [resolve(__dirname, '../../../examples/app/routes.js')],
+      });
       expect(annotations.length).toBe(7);
     });
 
@@ -368,7 +374,7 @@ describe('Specification module', () => {
       const consoleInfo = jest.spyOn(console, 'info');
       const consoleErr = jest.spyOn(console, 'error');
       const annotations = await extract({
-        apis: ['./test/fixtures/wrong/example.js'],
+        apis: [`${__dirname}/fixtures/wrong/example.js`],
       });
       expect(annotations.length).toBe(0);
       expect(consoleInfo).toHaveBeenCalledWith(
@@ -399,7 +405,7 @@ describe('Specification module', () => {
       const consoleInfo = jest.spyOn(console, 'info');
       const consoleErr = jest.spyOn(console, 'error');
       const annotations = await extract({
-        apis: ['./test/fixtures/wrong/example.yaml'],
+        apis: [`${__dirname}/fixtures/wrong/example.yaml`],
       });
       expect(annotations.length).toBe(0);
       expect(consoleInfo).toHaveBeenCalledWith(

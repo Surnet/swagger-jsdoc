@@ -13,10 +13,10 @@ describe('Example command line application', () => {
   it('should produce results matching reference specification', () => {
     const { stderr, stdout } = spawnSync(cli, [
       '--definition',
-      '../swaggerDefinition/example.js',
+      resolve(__dirname, '../swaggerDefinition/example.js'),
       '--apis',
-      '../app/parameters.*',
-      '../app/route*',
+      resolve(__dirname, '../app/parameters.*'),
+      resolve(__dirname, '../app/route*'),
     ]);
     expect(stderr.toString()).toBe('');
     expect(stdout.toString()).toBe(
