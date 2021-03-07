@@ -6,6 +6,7 @@ const {
   hasEmptyProperty,
   convertGlobPaths,
   extractAnnotations,
+  mergeDeep,
   extractYamlFromJsDoc,
   isTagPresentInTags,
 } = require('./utils');
@@ -95,7 +96,6 @@ function clean(swaggerObject) {
  */
 function finalize(swaggerObject, options) {
   let specification = swaggerObject;
-
   parser.parse(swaggerObject, (err, api) => {
     if (!err) {
       specification = api;
@@ -137,13 +137,12 @@ function organize(swaggerObject, annotation, property) {
     'parameters',
     'definitions',
   ];
-
   if (commonProperties.includes(property)) {
     for (const definition of Object.keys(annotation[property])) {
-      swaggerObject[property][definition] = {
-        ...swaggerObject[property][definition],
-        ...annotation[property][definition],
-      };
+      swaggerObject[property][definition] = mergeDeep(
+        swaggerObject[property][definition],
+        annotation[property][definition]
+      );
     }
   } else if (property === 'tags') {
     const { tags } = annotation;
@@ -159,10 +158,10 @@ function organize(swaggerObject, annotation, property) {
     }
   } else {
     // Paths which are not defined as "paths" property, starting with a slash "/"
-    swaggerObject.paths[property] = {
-      ...swaggerObject.paths[property],
-      ...annotation[property],
-    };
+    swaggerObject.paths[property] = mergeDeep(
+      swaggerObject.paths[property],
+      annotation[property]
+    );
   }
 }
 
@@ -236,7 +235,6 @@ function build(options) {
             .filter((a) => a)
             .join('')
             .split(' at line')[0];
-
           const anchor = yamlDocsAnchors.get(refErr);
           const anchorString = anchor.cstNode.toString();
           const originalString = docWithErr.cstNode.toString();

@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const glob = require('glob');
+const mergeWith = require('lodash.mergewith');
 
 /**
  * Converts an array of globs to full paths
@@ -130,6 +131,17 @@ function loadDefinition(defPath, swaggerDefinition) {
   return loader();
 }
 
+/**
+ * A recursive deep-merge that ignores null values when merging.
+ * This returns the merged object and does not mutate.
+ * @param {object} first the first object to get merged
+ * @param {object} second the second object to get merged
+ */
+function mergeDeep(first, second) {
+  return mergeWith({}, first, second, (a, b) => (b === null ? a : undefined));
+}
+
+module.exports.mergeDeep = mergeDeep;
 module.exports.convertGlobPaths = convertGlobPaths;
 module.exports.hasEmptyProperty = hasEmptyProperty;
 module.exports.extractYamlFromJsDoc = extractYamlFromJsDoc;
