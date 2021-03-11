@@ -260,6 +260,9 @@ function build(options) {
       .filter((error) => !!error);
 
     if (errReport.length) {
+      if (options.failOnErrors) {
+        throw new Error(errReport);
+      }
       // Place to provide feedback for errors. Previously throwing, now reporting only.
       console.info(
         'Not all input has been taken into account at your final specification.'

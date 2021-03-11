@@ -44,6 +44,30 @@ describe('Main lib module', () => {
         tags: [],
       });
     });
+
+    it('should support a flag for throw errors', () => {
+      expect(() => {
+        swaggerJsdoc({
+          swaggerDefinition: {
+            info: {
+              title: 'Example weird characters',
+              version: '1.0.0',
+            },
+          },
+          apis: [path.resolve(__dirname, './files/v2/wrong_syntax.yaml')],
+          failOnErrors: true,
+        });
+      })
+        .toThrow(`YAMLSemanticError: The !!! tag handle is non-default and was not declared. at line 2, column 3:
+
+  !!!title: Hello World
+  ^^^^^^^^^^^^^^^^^^^^^…
+
+YAMLSemanticError: Implicit map keys need to be on a single line at line 2, column 3:
+
+  !!!title: Hello World
+  ^^^^^^^^^^^^^^^^^^^^^…`);
+    });
   });
 
   describe('Error handling', () => {

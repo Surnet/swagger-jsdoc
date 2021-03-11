@@ -4,6 +4,7 @@ const { build } = require('./specification');
  * Generates the specification.
  * @param {object} options - Configuration options
  * @param {string} options.encoding Optional, passed to readFileSync options. Defaults to 'utf8'.
+ * @param {boolean} options.failOnErrors Whether or not to throw when parsing errors. Defaults to false.
  * @param {string} options.format Optional, defaults to '.json' - target file format '.yml' or '.yaml'.
  * @param {object} options.swaggerDefinition
  * @param {object} options.definition
