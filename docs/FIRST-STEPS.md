@@ -87,6 +87,7 @@ The following is an acceptable reference to information from `x-amazon-apigatewa
 
 Additional materials to inspire you:
 
+- [De-duping the Duplication in Services Featuring: Swagger/OpenAPI and AJV](https://medium.com/geekculture/de-duping-the-duplication-in-services-featuring-swagger-openapi-and-ajv-abd22c8c764e) - 09/03/2021
 - [How to implement and use Swagger in Node.js](https://js.plainenglish.io/how-to-implement-and-use-swagger-in-nodejs-d0b95e765245) - 24/02/2021
 - [Document your Javascript code with JSDoc](https://dev.to/paulasantamaria/document-your-javascript-code-with-jsdoc-2fbf) - 20/08/2019
 - [Swagger: Time to document that Express API you built!](https://levelup.gitconnected.com/swagger-time-to-document-that-express-api-you-built-9b8faaeae563) - 25/05/2019
