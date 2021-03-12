@@ -431,5 +431,31 @@ describe('Specification module', () => {
       consoleInfo.mockClear();
       consoleErr.mockClear();
     });
+
+    it('should throw when failOnErrors is truthy', async () => {
+      const consoleInfo = jest.spyOn(console, 'info');
+      const consoleErr = jest.spyOn(console, 'error');
+
+      await expect(
+        extract({
+          apis: [`${__dirname}/fixtures/wrong/example.yaml`],
+          failOnErrors: true,
+        })
+      ).rejects
+        .toThrow(`YAMLSemanticError: The !!! tag handle is non-default and was not declared. at line 2, column 3:
+
+  !!!title: Hello World
+  ^^^^^^^^^^^^^^^^^^^^^…
+
+YAMLSemanticError: Implicit map keys need to be on a single line at line 2, column 3:
+
+  !!!title: Hello World
+  ^^^^^^^^^^^^^^^^^^^^^…
+`);
+      expect(consoleInfo).not.toHaveBeenCalled();
+      expect(consoleInfo).not.toHaveBeenCalled();
+      consoleInfo.mockClear();
+      consoleErr.mockClear();
+    });
   });
 });

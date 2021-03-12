@@ -1,6 +1,7 @@
 import doctrine from 'doctrine';
 import parser from 'swagger-parser';
 import YAML from 'yaml';
+import fs from 'fs';
 
 import {
   convertGlobPaths,
@@ -285,7 +286,10 @@ export async function extract(options) {
       .filter((error) => !!error);
 
     if (errReport.length) {
-      // Place to provide feedback for errors. Previously throwing, now reporting only.
+      if (options.failOnErrors) {
+        fs.writeFileSync('bump.txt', errReport);
+        throw new Error(errReport);
+      }
       console.info(
         'Not all input has been taken into account at your final specification.'
       );

@@ -1,6 +1,28 @@
 ## Change Log
 
-### v6.0.7 (2021/02/26 14:33 +00:00)
+### upcoming (2021/03/12 08:24 +00:00)
+
+- [#258](https://github.com/Surnet/swagger-jsdoc/pull/258) doc: Add article to materials to inspire you (#258) (@goldsziggy)
+
+### v6.1.0 (2021/03/11 07:53 +00:00)
+
+- [e85a78d](https://github.com/Surnet/swagger-jsdoc/commit/e85a78d836105ffc24a9db773a44639f8a544186) Provide an option to allow throwing on parsing errors (@kalinchernev)
+
+### v6.0.9 (2021/03/07 10:34 +00:00)
+
+- [ff80f64](https://github.com/Surnet/swagger-jsdoc/commit/ff80f642bd7f30ce861049d2a0b8701b1ea98ba6) Release 6.0.9 (@kalinchernev)
+- [#256](https://github.com/Surnet/swagger-jsdoc/pull/256) fix(anchors): applied a fix for anchors living in seperate files with… (#256) (@goldsziggy)
+
+### v7.0.0-rc.4 (2021/03/01 16:00 +00:00)
+
+- [15bce04](https://github.com/Surnet/swagger-jsdoc/commit/15bce0415b4dfff7ca21d8931b5498e71a9013ff) correction: v6.0.8 (@kalinchernev)
+
+### v6.0.8 (2021/03/01 15:20 +00:00)
+
+- [fc3d62c](https://github.com/Surnet/swagger-jsdoc/commit/fc3d62c61a266b879fd8ab1531f77634645f0247) v6.0.7 (@kalinchernev)
+- [#253](https://github.com/Surnet/swagger-jsdoc/pull/253) fix(specification): apply fix for multiple anchors (#253) (@goldsziggy)
+
+### v7.0.0-rc.3 (2021/02/26 14:33 +00:00)
 
 - [8873370](https://github.com/Surnet/swagger-jsdoc/commit/887337050ec3b2d246d2fa9a9bd3570b3746d379) Update docs (@kalinchernev)
 - [#250](https://github.com/Surnet/swagger-jsdoc/pull/250) Update FIRST-STEPS.md (#250) (@azizkale)
