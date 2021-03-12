@@ -1,7 +1,6 @@
 import doctrine from 'doctrine';
 import parser from 'swagger-parser';
 import YAML from 'yaml';
-import fs from 'fs';
 
 import {
   convertGlobPaths,
@@ -287,7 +286,6 @@ export async function extract(options) {
 
     if (errReport.length) {
       if (options.failOnErrors) {
-        fs.writeFileSync('bump.txt', errReport);
         throw new Error(errReport);
       }
       console.info(

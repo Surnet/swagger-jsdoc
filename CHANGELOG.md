@@ -1,6 +1,6 @@
 ## Change Log
 
-### upcoming (2021/03/12 08:24 +00:00)
+### v7.0.0-rc.6 (2021/03/12 08:25 +00:00)
 
 - [#258](https://github.com/Surnet/swagger-jsdoc/pull/258) doc: Add article to materials to inspire you (#258) (@goldsziggy)
 
