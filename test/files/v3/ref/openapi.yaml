@@ -1,0 +1,14 @@
+openapi: 3.0.1
+
+paths: {}
+
+info:
+  version: '1.0.0'
+  title: 'local'
+
+components:
+  schemas:
+    ObjectId:
+      $ref: test/files/v3/ref/external.openapi.yaml#/components/schemas/ObjectId
+    x:
+      type: string

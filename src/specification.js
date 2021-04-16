@@ -92,15 +92,16 @@ function clean(swaggerObject) {
  * Parse the swagger object and remove useless properties if necessary.
  *
  * @param {object} swaggerObject - Swagger object from parsing the api files.
- * @returns {object} The specification.
+ * @returns {Promise<object>} The specification.
  */
-function finalize(swaggerObject, options) {
-  let specification = swaggerObject;
-  parser.parse(swaggerObject, (err, api) => {
-    if (!err) {
-      specification = api;
-    }
-  });
+async function finalize(swaggerObject, options) {
+  let specification;
+
+  if (options.dereference) {
+    specification = await parser.dereference(swaggerObject);
+  } else {
+    specification = await parser.parse(swaggerObject);
+  }
 
   if (specification.openapi) {
     specification = clean(specification);
@@ -144,7 +145,8 @@ function organize(swaggerObject, annotation, property) {
         annotation[property][definition]
       );
     }
-  } else if (property === 'tags') {
+  }
+  if (property === 'tags') {
     const { tags } = annotation;
 
     if (Array.isArray(tags)) {
@@ -156,7 +158,7 @@ function organize(swaggerObject, annotation, property) {
     } else if (!isTagPresentInTags(tags, swaggerObject.tags)) {
       swaggerObject.tags.push(tags);
     }
-  } else {
+  } else if (property.startsWith('/')) {
     // Paths which are not defined as "paths" property, starting with a slash "/"
     swaggerObject.paths[property] = mergeDeep(
       swaggerObject.paths[property],
@@ -167,9 +169,9 @@ function organize(swaggerObject, annotation, property) {
 
 /**
  * @param {object} options
- * @returns {object} swaggerObject
+ * @returns {Promise<object>} swaggerObject
  */
-function build(options) {
+async function build(options) {
   YAML.defaultOptions.keepCstNodes = true;
 
   // Get input definition and prepare the specification's skeleton

@@ -40,7 +40,7 @@ const options = {
   apis: ['./src/routes*.js'], // files containing annotations as above
 };
 
-const openapiSpecification = swaggerJsdoc(options);
+const openapiSpecification = await swaggerJsdoc(options);
 ```
 
 The resulting `openapiSpecification` will be a [swagger tools](https://swagger.io/tools/)-compatible (and validated) specification.
@@ -69,6 +69,22 @@ yarn add swagger-jsdoc
 
 - OpenAPI 3.x
 - Swagger 2
+
+## $ref dereference
+
+If you want to dereference all refs in specification set `dereference` flag in options.
+
+```javascript
+const options = {
+  dereference: true,
+};
+```
+
+## Breaking changes
+
+## 7.x
+
+- Result of `swaggerJsdoc()` is async
 
 ## Documentation
 

@@ -4,12 +4,8 @@ const swaggerJsdoc = require('../src/lib');
 
 describe('Main lib module', () => {
   describe('General', () => {
-    it('should be a function', () => {
-      expect(typeof swaggerJsdoc).toBe('function');
-    });
-
-    it('should support custom encoding', () => {
-      const result = swaggerJsdoc({
+    it('should support custom encoding', async () => {
+      const result = await swaggerJsdoc({
         swaggerDefinition: {
           info: {
             title: 'Example weird characters',
@@ -46,8 +42,8 @@ describe('Main lib module', () => {
     });
 
     it('should support a flag for throw errors', () => {
-      expect(() => {
-        swaggerJsdoc({
+      return expect(() => {
+        return swaggerJsdoc({
           swaggerDefinition: {
             info: {
               title: 'Example weird characters',
@@ -57,7 +53,7 @@ describe('Main lib module', () => {
           apis: [path.resolve(__dirname, './files/v2/wrong_syntax.yaml')],
           failOnErrors: true,
         });
-      })
+      }).rejects
         .toThrow(`YAMLSemanticError: The !!! tag handle is non-default and was not declared. at line 2, column 3:
 
   !!!title: Hello World
@@ -76,46 +72,51 @@ YAMLSemanticError: Implicit map keys need to be on a single line at line 2, colu
     });
 
     it('should require options input', () => {
-      expect(() => {
-        swaggerJsdoc();
-      }).toThrow(`Missing or invalid input: 'options' is required`);
+      return expect(() => {
+        return swaggerJsdoc();
+      }).rejects.toThrow(`Missing or invalid input: 'options' is required`);
     });
 
     it('should require a definition input', () => {
-      expect(() => {
-        swaggerJsdoc({});
-      }).toThrow(
+      return expect(() => {
+        return swaggerJsdoc({});
+      }).rejects.toThrow(
         `Missing or invalid input: 'options.swaggerDefinition' or 'options.definition' is required`
       );
     });
 
-    it('should require an api files input', () => {
-      expect(() => {
-        swaggerJsdoc({ definition: {} });
-      }).toThrow(
+    it('should require an api files input', async () => {
+      await expect(() => {
+        return swaggerJsdoc({ definition: {} });
+      }).rejects.toThrow(
         `Missing or invalid input: 'options.apis' is required and it should be an array.`
       );
 
-      expect(() => {
-        swaggerJsdoc({ definition: {}, apis: {} });
-      }).toThrow(
+      return expect(() => {
+        return swaggerJsdoc({ definition: {}, apis: {} });
+      }).rejects.toThrow(
         `Missing or invalid input: 'options.apis' is required and it should be an array.`
       );
     });
   });
 
   describe('Specification v2: Swagger', () => {
-    it('should support multiple paths', () => {
+    it('should support multiple paths', async () => {
       let testObject = {
-        swaggerDefinition: {},
+        swaggerDefinition: {
+          info: {},
+          paths: {},
+          swagger: '2.0',
+        },
         apis: ['./**/*/external/*.yml'],
       };
 
-      testObject = swaggerJsdoc(testObject);
+      testObject = await swaggerJsdoc(testObject);
       expect(testObject).toEqual({
         swagger: '2.0',
         paths: {},
         definitions: {},
+        info: {},
         responses: {
           api: {
             foo: { 200: { description: 'OK' } },
@@ -132,7 +133,7 @@ YAMLSemanticError: Implicit map keys need to be on a single line at line 2, colu
   describe('Specification v3: OpenAPI', () => {
     const officialExamples = ['callback', 'links', 'petstore'];
 
-    it('should respect default properties', () => {
+    it('should respect default properties', async () => {
       const definition = {
         openapi: '3.0.0',
         servers: [
@@ -166,7 +167,7 @@ YAMLSemanticError: Implicit map keys need to be on a single line at line 2, colu
         apis: [],
       };
 
-      expect(swaggerJsdoc(options)).toEqual({
+      expect(await swaggerJsdoc(options)).toEqual({
         openapi: '3.0.0',
         servers: [
           {
@@ -199,7 +200,7 @@ YAMLSemanticError: Implicit map keys need to be on a single line at line 2, colu
     });
 
     officialExamples.forEach((example) => {
-      it(`Example: ${example}`, () => {
+      it(`Example: ${example}`, async () => {
         const title = `Sample specification testing ${example}`;
         const examplePath = `${__dirname}/files/v3/${example}`;
 
@@ -221,7 +222,7 @@ YAMLSemanticError: Implicit map keys need to be on a single line at line 2, colu
           apis: [`${examplePath}/api.js`],
         };
 
-        const specification = swaggerJsdoc(options);
+        const specification = await swaggerJsdoc(options);
         expect(specification).toEqual(referenceSpecification);
       });
     });
