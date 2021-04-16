@@ -1,6 +1,7 @@
 const doctrine = require('doctrine');
 const parser = require('swagger-parser');
 const YAML = require('yaml');
+const { dirname } = require('path');
 
 const {
   hasEmptyProperty,
@@ -95,13 +96,7 @@ function clean(swaggerObject) {
  * @returns {Promise<object>} The specification.
  */
 async function finalize(swaggerObject, options) {
-  let specification;
-
-  if (options.dereference) {
-    specification = await parser.dereference(swaggerObject);
-  } else {
-    specification = await parser.parse(swaggerObject);
-  }
+  let specification = await parser.parse(swaggerObject);
 
   if (specification.openapi) {
     specification = clean(specification);
@@ -198,12 +193,17 @@ async function build(options) {
           }
         } else if (parsed.errors && parsed.errors.length) {
           yamlDocsErrors.push(parsed);
+        } else if (options.dereference) {
+          const oldpath = process.cwd();
+          process.chdir(dirname(filePath)); // for $ref
+          // eslint-disable-next-line no-await-in-loop
+          yamlDocsReady.push(await parser.dereference(parsed.toJSON()));
+          process.chdir(oldpath);
         } else {
           yamlDocsReady.push(parsed);
         }
       }
     }
-
     if (jsdocAnnotations.length) {
       for (const annotation of jsdocAnnotations) {
         const jsDocComment = doctrine.parse(annotation, { unwrap: true });
@@ -275,7 +275,7 @@ async function build(options) {
   }
 
   for (const document of yamlDocsReady) {
-    const parsedDoc = document.toJSON();
+    const parsedDoc = options.dereference ? document : document.toJSON();
     for (const property in parsedDoc) {
       organize(specification, parsedDoc, property);
     }
