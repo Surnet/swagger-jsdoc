@@ -117,6 +117,19 @@ function organize(swaggerObject, annotation, property) {
     swaggerObject[property] = annotation[property];
   }
 
+  if (['openapi'].includes(property) && annotation[property]) {
+    swaggerObject[property] = annotation[property];
+  }
+
+  if (
+    ['info'].includes(property) &&
+    annotation[property] &&
+    annotation[property].title &&
+    annotation[property].version
+  ) {
+    swaggerObject[property] = annotation[property];
+  }
+
   // Other extensions can be in varying places depending on different vendors and opinions.
   // The following return makes it so that they are not put in `paths` in the last case.
   // New specific extensions will need to be handled on case-by-case if to be included in `paths`.
@@ -140,6 +153,13 @@ function organize(swaggerObject, annotation, property) {
         annotation[property][definition]
       );
     }
+  }
+  if (property === 'security') {
+    const [one = [], two = []] = [
+      swaggerObject[property],
+      annotation[property],
+    ];
+    swaggerObject[property] = [...new Set([...one, ...two])];
   }
   if (property === 'tags') {
     const { tags } = annotation;
