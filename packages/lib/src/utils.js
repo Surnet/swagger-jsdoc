@@ -64,6 +64,7 @@ export async function extractAnnotations(filePath, encoding = 'utf8') {
   switch (ext) {
     case '.yml':
     case '.yaml':
+    case '.json':
       yaml.push(fileContent);
       break;
 
