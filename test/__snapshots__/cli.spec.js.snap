@@ -22,6 +22,16 @@ Options:
 "
 `;
 
+exports[`CLI module should generate json final file from separated files 1`] = `
+"Swagger specification is ready.
+"
+`;
+
+exports[`CLI module should generate yml final file from separated files 1`] = `
+"Swagger specification is ready.
+"
+`;
+
 exports[`CLI module should reject definition file with invalid JSON syntax 1`] = `
 "Error while loading definition file 'test/files/v2/wrong_syntax.json':
 Unexpected token t in JSON at position 18

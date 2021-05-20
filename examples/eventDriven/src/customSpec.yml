@@ -1,0 +1,32 @@
+info:
+  title: User Event API
+  version: 1.0.0
+description: 'User Event API Specification'
+openapi: 3.0.0
+paths: {}
+components:
+  messages:
+    UserSignedIn:
+      payload:
+        type: object
+        properties:
+          id:
+            type: string
+            description: Id of the user
+    UserSignedUp:
+      payload:
+        type: object
+        properties:
+          id:
+            type: string
+            description: Id of the user
+channels:
+  user/signedin:
+    subscribe:
+      message:
+        $ref: '#/components/messages/UserSignedIn'
+  user/signedup:
+    subscribe:
+      message:
+        $ref: '#/components/messages/UserSignedUp'
+tags: []
