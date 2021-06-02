@@ -96,6 +96,34 @@ describe('Specification module', () => {
     });
   });
 
+  describe('build', () => {
+    it('should support yaml external anchors', async () => {
+      expect(
+        (
+          await specModule.build({
+            dereference: true,
+            definition: {
+              openapi: '3.0.1',
+              info: {
+                version: '1.0.0',
+              },
+            },
+            apis: ['./test/files/v3/ref/openapi.yaml'],
+          })
+        ).components.schemas
+      ).toEqual({
+        ObjectId: {
+          description: 'object id',
+          type: 'string',
+          pattern: '^[a-f0-9]{24}$',
+        },
+        x: {
+          type: 'string',
+        },
+      });
+    });
+  });
+
   describe('format', () => {
     it('should not modify input object when no format specified', () => {
       expect(specModule.format({ foo: 'bar' })).toEqual({ foo: 'bar' });

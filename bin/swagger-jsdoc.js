@@ -71,16 +71,16 @@ if (!program.args.length) {
 
 const format = path.extname(output);
 
-const result = swaggerJsdoc({
+swaggerJsdoc({
   swaggerDefinition,
   apis: program.args,
   format,
+}).then((result) => {
+  if (format === '.json') {
+    fs.writeFileSync(output, JSON.stringify(result, null, 2));
+  } else {
+    fs.writeFileSync(output, result);
+  }
+
+  console.log('Swagger specification is ready.');
 });
-
-if (format === '.json') {
-  fs.writeFileSync(output, JSON.stringify(result, null, 2));
-} else {
-  fs.writeFileSync(output, result);
-}
-
-console.log('Swagger specification is ready.');

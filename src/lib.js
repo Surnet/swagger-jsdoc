@@ -9,9 +9,9 @@ const { build } = require('./specification');
  * @param {object} options.swaggerDefinition
  * @param {object} options.definition
  * @param {array} options.apis
- * @returns {object} Output specification
+ * @returns {Promise<object>} Output specification
  */
-module.exports = (options) => {
+module.exports = async (options) => {
   if (!options) {
     throw new Error(`Missing or invalid input: 'options' is required`);
   }
