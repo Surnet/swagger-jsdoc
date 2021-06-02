@@ -214,11 +214,14 @@ async function build(options) {
         } else if (parsed.errors && parsed.errors.length) {
           yamlDocsErrors.push(parsed);
         } else if (options.dereference) {
-          const oldpath = process.cwd();
-          process.chdir(dirname(filePath)); // for $ref
-          // eslint-disable-next-line no-await-in-loop
-          yamlDocsReady.push(await parser.dereference(parsed.toJSON()));
-          process.chdir(oldpath);
+          yamlDocsReady.push(
+            // eslint-disable-next-line no-await-in-loop
+            await parser.dereference(
+              `${dirname(filePath)}/`,
+              parsed.toJSON(),
+              {}
+            )
+          );
         } else {
           yamlDocsReady.push(parsed);
         }
