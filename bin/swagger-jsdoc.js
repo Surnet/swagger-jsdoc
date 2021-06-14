@@ -64,7 +64,7 @@ if (
 }
 
 // Continue only if arguments provided.
-if (!program.args.length) {
+if (!program.args.length && !('apis' in swaggerDefinition)) {
   console.log('You must provide sources for reading API files.');
   process.exit();
 }
@@ -73,7 +73,7 @@ const format = path.extname(output);
 
 const result = swaggerJsdoc({
   swaggerDefinition,
-  apis: program.args,
+  apis: swaggerDefinition.apis || program.args,
   format,
 });
 
