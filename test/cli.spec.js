@@ -121,6 +121,22 @@ describe('CLI module', () => {
     expect(result.stderr).toMatchSnapshot();
   });
 
+  it('should generate json final file from separated files', async () => {
+    const result = await sh(
+      `${bin} -d examples/eventDriven/openapiConfig.js examples/eventDriven/src/modules/**/*.yml -o examples/eventDriven/src/customSpec.json`
+    );
+
+    expect(result.stdout).toMatchSnapshot();
+  });
+
+  it('should generate yml final file from separated files', async () => {
+    const result = await sh(
+      `${bin} -d examples/eventDriven/openapiConfig.js examples/eventDriven/src/modules/**/*.yml -o examples/eventDriven/src/customSpec.yml`
+    );
+
+    expect(result.stdout).toMatchSnapshot();
+  });
+
   afterAll(() => {
     fs.unlinkSync(`${dir}/swagger.json`);
     fs.unlinkSync(`${dir}/customSpec.json`);

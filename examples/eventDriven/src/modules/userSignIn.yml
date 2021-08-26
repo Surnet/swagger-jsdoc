@@ -1,0 +1,14 @@
+channels:
+  user/signedin:
+    subscribe:
+      message:
+        $ref: '#/components/messages/UserSignedIn'
+components:
+  messages:
+    UserSignedIn:
+      payload:
+        type: object
+        properties:
+          id:
+            type: string
+            description: Id of the user

@@ -35,6 +35,7 @@ function prepare(definition) {
       'parameters',
       'securityDefinitions',
       'components',
+      'channels',
     ],
   };
 
@@ -136,6 +137,7 @@ function organize(swaggerObject, annotation, property) {
     'responses',
     'parameters',
     'definitions',
+    'channels',
   ];
   if (commonProperties.includes(property)) {
     for (const definition of Object.keys(annotation[property])) {
