@@ -1,0 +1,10 @@
+version: 2
+
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    commit-message:
+      prefix: "fix: "
+      prefix-development: "fix(dev-deps): "
