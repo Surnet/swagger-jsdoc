@@ -1,7 +1,76 @@
 const specModule = require('../src/specification');
 const swaggerObject = require('./files/v2/swaggerObject.json');
+const path = require('path');
 
 describe('Specification module', () => {
+  describe('build', () => {
+    it('should be a function', () => {
+      expect(typeof specModule.build).toBe('function');
+    });
+
+    it('should return right object', () => {
+      expect(
+        specModule.build({
+          swaggerDefinition: {},
+          apis: ['./**/*/external/*.yml'],
+        })
+      ).toEqual({
+        swagger: '2.0',
+        paths: {},
+        definitions: {},
+        responses: {
+          api: {
+            foo: { 200: { description: 'OK' } },
+            bar: { 200: { description: 'OK' } },
+          },
+        },
+        parameters: {},
+        securityDefinitions: {},
+        tags: [],
+      });
+    });
+
+    it('should have filepath in error (yaml)', () => {
+      expect(() => {
+        specModule.build({
+          swaggerDefinition: {},
+          apis: [path.resolve(__dirname, './files/v2/wrong_syntax.yaml')],
+          failOnErrors: true,
+        });
+      })
+        .toThrow(`wrong_syntax.yaml: YAMLSemanticError: The !!! tag handle is non-default and was not declared. at line 2, column 3:
+
+  !!!title: Hello World
+  ^^^^^^^^^^^^^^^^^^^^^…
+
+YAMLSemanticError: Implicit map keys need to be on a single line at line 2, column 3:
+
+  !!!title: Hello World
+  ^^^^^^^^^^^^^^^^^^^^^…`);
+    });
+
+    it('should have filepath in error (jsdoc)', () => {
+      expect(() => {
+        specModule.build({
+          swaggerDefinition: {},
+          apis: [
+            path.resolve(__dirname, './files/v2/wrong-yaml-identation.js'),
+          ],
+          failOnErrors: true,
+        });
+      })
+        .toThrow(`wrong-yaml-identation.js: YAMLSyntaxError: All collection items must start at the same column at line 1, column 1:
+
+/invalid_yaml:
+^^^^^^^^^^^^^^…
+
+YAMLSemanticError: Implicit map keys need to be followed by map values at line 3, column 3:
+
+  bar
+  ^^^`);
+    });
+  });
+
   describe('organize', () => {
     it('should be a function', () => {
       expect(typeof specModule.organize).toBe('function');
