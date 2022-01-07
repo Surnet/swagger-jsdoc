@@ -194,6 +194,7 @@ YAMLSemanticError: Implicit map keys need to be on a single line at line 2, colu
         },
         paths: {},
         components: {},
+        channels: {},
         tags: [],
       });
     });
