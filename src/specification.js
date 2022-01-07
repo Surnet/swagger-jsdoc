@@ -189,7 +189,9 @@ function build(options) {
 
     if (yamlAnnotations.length) {
       for (const annotation of yamlAnnotations) {
-        const parsed = YAML.parseDocument(annotation);
+        const parsed = Object.assign(YAML.parseDocument(annotation), {
+          filePath,
+        });
 
         const anchors = parsed.anchors.getNames();
         if (anchors.length) {
@@ -208,7 +210,7 @@ function build(options) {
       for (const annotation of jsdocAnnotations) {
         const jsDocComment = doctrine.parse(annotation, { unwrap: true });
         for (const doc of extractYamlFromJsDoc(jsDocComment)) {
-          const parsed = YAML.parseDocument(doc);
+          const parsed = Object.assign(YAML.parseDocument(doc), { filePath });
 
           const anchors = parsed.anchors.getNames();
           if (anchors.length) {
@@ -258,7 +260,7 @@ function build(options) {
     }
 
     const errReport = yamlDocsErrors
-      .map(({ errors }) => errors.join('\n'))
+      .map(({ errors, filePath }) => `${filePath}: ${errors.join('\n')}`)
       .filter((error) => !!error);
 
     if (errReport.length) {
