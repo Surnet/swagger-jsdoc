@@ -189,7 +189,9 @@ function build(options) {
 
     if (yamlAnnotations.length) {
       for (const annotation of yamlAnnotations) {
-        const parsed = Object.assign(YAML.parseDocument(annotation), { filePath });
+        const parsed = Object.assign(YAML.parseDocument(annotation), {
+          filePath,
+        });
 
         const anchors = parsed.anchors.getNames();
         if (anchors.length) {
