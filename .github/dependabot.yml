@@ -4,7 +4,7 @@ updates:
   - package-ecosystem: "yarn"
     directory: "/"
     schedule:
-      interval: "monthly"
+      interval: "daily"
     commit-message:
       prefix: "fix: "
       prefix-development: "fix(dev-deps): "
