@@ -52,7 +52,7 @@ exports[`CLI module should report YAML documents with errors 1`] = `
 "Here's the report: 
 
 
- YAMLSyntaxError: All collection items must start at the same column at line 1, column 1:
+ test/files/v2/wrong-yaml-identation.js: YAMLSyntaxError: All collection items must start at the same column at line 1, column 1:
 
 /invalid_yaml:
 ^^^^^^^^^^^^^^…
