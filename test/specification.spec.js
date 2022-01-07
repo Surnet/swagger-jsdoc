@@ -1,6 +1,6 @@
+const path = require('path');
 const specModule = require('../src/specification');
 const swaggerObject = require('./files/v2/swaggerObject.json');
-const path = require('path');
 
 describe('Specification module', () => {
   describe('build', () => {
