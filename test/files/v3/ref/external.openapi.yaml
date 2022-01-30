@@ -1,0 +1,14 @@
+openapi: 3.0.1
+
+paths: {}
+
+info:
+  version: '1.0.0'
+  title: 'external'
+
+components:
+  schemas:
+    ObjectId:
+      description: object id
+      type: string
+      pattern: ^[a-f0-9]{24}$

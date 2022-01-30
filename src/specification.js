@@ -1,6 +1,7 @@
 const doctrine = require('doctrine');
 const parser = require('swagger-parser');
 const YAML = require('yaml');
+const { dirname } = require('path');
 
 const {
   hasEmptyProperty,
@@ -93,15 +94,10 @@ function clean(swaggerObject) {
  * Parse the swagger object and remove useless properties if necessary.
  *
  * @param {object} swaggerObject - Swagger object from parsing the api files.
- * @returns {object} The specification.
+ * @returns {Promise<object>} The specification.
  */
-function finalize(swaggerObject, options) {
-  let specification = swaggerObject;
-  parser.parse(swaggerObject, (err, api) => {
-    if (!err) {
-      specification = api;
-    }
-  });
+async function finalize(swaggerObject, options) {
+  let specification = await parser.parse(swaggerObject);
 
   if (specification.openapi) {
     specification = clean(specification);
@@ -119,6 +115,19 @@ function organize(swaggerObject, annotation, property) {
   // Root property on purpose.
   // @see https://github.com/OAI/OpenAPI-Specification/blob/master/proposals/002_Webhooks.md#proposed-solution
   if (property === 'x-webhooks') {
+    swaggerObject[property] = annotation[property];
+  }
+
+  if (['openapi'].includes(property) && annotation[property]) {
+    swaggerObject[property] = annotation[property];
+  }
+
+  if (
+    ['info'].includes(property) &&
+    annotation[property] &&
+    annotation[property].title &&
+    annotation[property].version
+  ) {
     swaggerObject[property] = annotation[property];
   }
 
@@ -146,7 +155,15 @@ function organize(swaggerObject, annotation, property) {
         annotation[property][definition]
       );
     }
-  } else if (property === 'tags') {
+  }
+  if (property === 'security') {
+    const [one = [], two = []] = [
+      swaggerObject[property],
+      annotation[property],
+    ];
+    swaggerObject[property] = [...new Set([...one, ...two])];
+  }
+  if (property === 'tags') {
     const { tags } = annotation;
 
     if (Array.isArray(tags)) {
@@ -158,7 +175,7 @@ function organize(swaggerObject, annotation, property) {
     } else if (!isTagPresentInTags(tags, swaggerObject.tags)) {
       swaggerObject.tags.push(tags);
     }
-  } else {
+  } else if (property.startsWith('/')) {
     // Paths which are not defined as "paths" property, starting with a slash "/"
     swaggerObject.paths[property] = mergeDeep(
       swaggerObject.paths[property],
@@ -169,9 +186,9 @@ function organize(swaggerObject, annotation, property) {
 
 /**
  * @param {object} options
- * @returns {object} swaggerObject
+ * @returns {Promise<object>} swaggerObject
  */
-function build(options) {
+async function build(options) {
   YAML.defaultOptions.keepCstNodes = true;
 
   // Get input definition and prepare the specification's skeleton
@@ -200,12 +217,20 @@ function build(options) {
           }
         } else if (parsed.errors && parsed.errors.length) {
           yamlDocsErrors.push(parsed);
+        } else if (options.dereference) {
+          yamlDocsReady.push(
+            // eslint-disable-next-line no-await-in-loop
+            await parser.dereference(
+              `${dirname(filePath)}/`,
+              parsed.toJSON(),
+              {}
+            )
+          );
         } else {
           yamlDocsReady.push(parsed);
         }
       }
     }
-
     if (jsdocAnnotations.length) {
       for (const annotation of jsdocAnnotations) {
         const jsDocComment = doctrine.parse(annotation, { unwrap: true });
@@ -277,7 +302,7 @@ function build(options) {
   }
 
   for (const document of yamlDocsReady) {
-    const parsedDoc = document.toJSON();
+    const parsedDoc = options.dereference ? document : document.toJSON();
     for (const property in parsedDoc) {
       organize(specification, parsedDoc, property);
     }
