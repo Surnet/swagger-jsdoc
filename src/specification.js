@@ -199,6 +199,10 @@ function build(options) {
             yamlDocsAnchors.set(anchor, parsed);
           }
         } else if (parsed.errors && parsed.errors.length) {
+          // Attach the relevent yaml section to the error for verbose logging
+          parsed.errors.forEach((err) => {
+            err.annotation = annotation;
+          });
           yamlDocsErrors.push(parsed);
         } else {
           yamlDocsReady.push(parsed);
@@ -218,6 +222,10 @@ function build(options) {
               yamlDocsAnchors.set(anchor, parsed);
             }
           } else if (parsed.errors && parsed.errors.length) {
+            // Attach the relevent yaml section to the error for verbose logging
+            parsed.errors.forEach((err) => {
+              err.annotation = doc;
+            });
             yamlDocsErrors.push(parsed);
           } else {
             yamlDocsReady.push(parsed);
@@ -259,8 +267,25 @@ function build(options) {
       }
     }
 
+    // Format errors into a printable/throwable string
     const errReport = yamlDocsErrors
-      .map(({ errors, filePath }) => `${filePath}: ${errors.join('\n')}`)
+      .map(({ errors, filePath }) => {
+        let str = `Error in ${filePath} :\n`;
+        if (options.verbose) {
+          str += errors
+            .map(
+              (e) =>
+                `${e.toString()}\nImbedded within:\n\`\`\`\n  ${e.annotation.replace(
+                  /\n/g,
+                  '\n  '
+                )}\n\`\`\``
+            )
+            .join('\n');
+        } else {
+          str += errors.map((e) => e.toString()).join('\n');
+        }
+        return str;
+      })
       .filter((error) => !!error);
 
     if (errReport.length) {
