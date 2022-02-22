@@ -1,7 +1,7 @@
 info:
   title: User Event API
   version: 1.0.0
-description: ' User Event API Specification'
+description: " User Event API Specification"
 openapi: 3.0.0
 paths: {}
 components:
@@ -24,9 +24,9 @@ channels:
   user/signedin:
     subscribe:
       message:
-        $ref: '#/components/messages/UserSignedIn'
+        $ref: "#/components/messages/UserSignedIn"
   user/signedup:
     subscribe:
       message:
-        $ref: '#/components/messages/UserSignedUp'
+        $ref: "#/components/messages/UserSignedUp"
 tags: []
