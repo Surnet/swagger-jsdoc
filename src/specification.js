@@ -106,6 +106,12 @@ function finalize(swaggerObject, options) {
   if (specification.openapi) {
     specification = clean(specification);
   }
+  
+  // required field channels is only present in asyncapi specification
+  // see https://www.asyncapi.com/docs/specifications/v2.3.0
+  if (specification.openapi || specification.swagger) {
+    delete specification.channels;
+  }
 
   return format(specification, options.format);
 }
@@ -137,14 +143,8 @@ function organize(swaggerObject, annotation, property) {
     'responses',
     'parameters',
     'definitions',
+    'channels',
   ];
-  
-  // include required field channels only for asyncapi specification
-  // see https://www.asyncapi.com/docs/specifications/v2.3.0
-  if (swaggerObject.asyncapi) {
-    commonProperties.push('channels');
-  }
-  
   if (commonProperties.includes(property)) {
     for (const definition of Object.keys(annotation[property])) {
       swaggerObject[property][definition] = mergeDeep(
