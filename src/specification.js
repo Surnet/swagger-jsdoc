@@ -35,28 +35,25 @@ function prepare(definition) {
       'securityDefinitions',
       'components',
     ],
-    v4: [
-      'components',
-      'channels',
-    ],
+    v4: ['components', 'channels'],
   };
 
   const getVersion = () => {
-    if(swaggerObject.asyncapi) {
+    if (swaggerObject.asyncapi) {
       return 'v4';
     }
 
-    if(swaggerObject.openapi) {
+    if (swaggerObject.openapi) {
       return 'v3';
     }
 
-    if(swaggerObject.swagger) {
+    if (swaggerObject.swagger) {
       return 'v2';
     }
 
     swaggerObject.swagger = '2.0';
     return 'v2';
-  }
+  };
 
   const version = getVersion();
 
