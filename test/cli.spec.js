@@ -123,7 +123,7 @@ describe('CLI module', () => {
 
   it('should generate json final file from separated files', async () => {
     const result = await sh(
-      `${bin} -d examples/eventDriven/openapiConfig.js examples/eventDriven/src/modules/**/*.yml -o examples/eventDriven/src/customSpec.json`
+      `${bin} -d examples/eventDriven/asyncApiConfig.js examples/eventDriven/src/modules/**/*.yml -o examples/eventDriven/src/customSpec.json`
     );
 
     expect(result.stdout).toMatchSnapshot();
@@ -131,7 +131,7 @@ describe('CLI module', () => {
 
   it('should generate yml final file from separated files', async () => {
     const result = await sh(
-      `${bin} -d examples/eventDriven/openapiConfig.js examples/eventDriven/src/modules/**/*.yml -o examples/eventDriven/src/customSpec.yml`
+      `${bin} -d examples/eventDriven/asyncApiConfig.js examples/eventDriven/src/modules/**/*.yml -o examples/eventDriven/src/customSpec.yml`
     );
 
     expect(result.stdout).toMatchSnapshot();

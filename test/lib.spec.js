@@ -111,7 +111,6 @@ describe('Main lib module', () => {
         },
         paths: {},
         components: {},
-        channels: {},
         tags: [],
       });
     });
