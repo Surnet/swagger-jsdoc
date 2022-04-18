@@ -18,7 +18,6 @@ const {
  * @returns {object} swaggerObject
  */
 function prepare(definition) {
-  let version;
   const swaggerObject = JSON.parse(JSON.stringify(definition));
   const specificationTemplate = {
     v2: [
@@ -35,18 +34,31 @@ function prepare(definition) {
       'parameters',
       'securityDefinitions',
       'components',
+    ],
+    v4: [
+      'components',
       'channels',
     ],
   };
 
-  if (swaggerObject.openapi) {
-    version = 'v3';
-  } else if (swaggerObject.swagger) {
-    version = 'v2';
-  } else {
-    version = 'v2';
+  const getVersion = () => {
+    if(swaggerObject.asyncapi) {
+      return 'v4';
+    }
+
+    if(swaggerObject.openapi) {
+      return 'v3';
+    }
+
+    if(swaggerObject.swagger) {
+      return 'v2';
+    }
+
     swaggerObject.swagger = '2.0';
+    return 'v2';
   }
+
+  const version = getVersion();
 
   specificationTemplate[version].forEach((property) => {
     swaggerObject[property] = swaggerObject[property] || {};

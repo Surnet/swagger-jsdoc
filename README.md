@@ -69,6 +69,7 @@ yarn add swagger-jsdoc
 
 - OpenAPI 3.x
 - Swagger 2
+- AsyncAPI 2.0
 
 ## Documentation
 
