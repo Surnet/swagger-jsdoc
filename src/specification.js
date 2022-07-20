@@ -167,7 +167,11 @@ function organize(swaggerObject, annotation, property) {
     } else if (!isTagPresentInTags(tags, swaggerObject.tags)) {
       swaggerObject.tags.push(tags);
     }
-  } else {
+  } else if (property === 'security') {
+    const { security } = annotation;
+    swaggerObject.security = security;
+  }  
+  else {
     // Paths which are not defined as "paths" property, starting with a slash "/"
     swaggerObject.paths[property] = mergeDeep(
       swaggerObject.paths[property],
