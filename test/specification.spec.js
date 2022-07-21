@@ -207,6 +207,22 @@ Imbedded within:
         IllegalInput: { description: 'Illegal input for operation.' },
       });
     });
+
+    it('should handle "security"', () => {
+      const annotation = {
+        security: [
+          {
+            bearerAuth: []
+          }
+        ]
+      };
+      specModule.organize(swaggerObject, annotation, 'security');
+      expect(swaggerObject.security).toEqual([
+        {
+          bearerAuth: []
+        }
+      ]);
+    })
   });
 
   describe('format', () => {
