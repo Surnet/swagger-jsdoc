@@ -1,47 +1,40 @@
 ---
 sidebar_position: 1
+title: Overview
 ---
 
-# Tutorial Intro
+# swagger-jsdoc
 
-Let's discover **Docusaurus in less than 5 minutes**.
+Document your code and keep a live and reusable OpenAPI (Swagger) specification. This specification can be the core of your API-driven project: generate
+documentation, servers, clients, tests and much more based on the rich [OpenAPI ecosystem of tools](http://swagger.io/).
 
-## Getting Started
+[![npm Downloads](https://img.shields.io/npm/dm/swagger-jsdoc.svg)](https://www.npmjs.com/package/swagger-jsdoc)
+![CI](https://github.com/Surnet/swagger-jsdoc/workflows/CI/badge.svg)
 
-Get started by **creating a new site**.
+## Goals
 
-Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new)**.
+**swagger-jsdoc** enables you to integrate [Swagger](http://swagger.io)
+using [`JSDoc`](https://jsdoc.app/) comments in your code. Just add `@swagger` (or `@openapi`) on top of your DocBlock and declare the meaning of your code in YAML complying to the OpenAPI specification. If you prefer to keep some parts of your specification aside your code in order to keep it lighter/cleaner, you can also pass these parts as separate input YAML files.
 
-### What you'll need
+`swagger-jsdoc` will parse the above-mentioned and output an OpenAPI specification. You can use it to integrate any server and client technology as long as both sides comply with the specification.
 
-- [Node.js](https://nodejs.org/en/download/) version 16.14 or above:
-  - When installing Node.js, you are recommended to check all checkboxes related to dependencies.
+Thus, the `swagger-jsdoc` project assumes that you want document your existing/living/working code in a way to "give life" to it, generating a specification which can then be fed into other Swagger tools, and not the vice-versa.
 
-## Generate a new site
+If you prefer to write the OpenAPI specification first and separately, you might check other projects facilitating this, such as
 
-Generate a new Docusaurus site using the **classic template**.
+- [swagger-editor](http://swagger.io/swagger-editor/)
+- [swagger-node](https://github.com/swagger-api/swagger-node)
 
-The classic template will automatically be added to your project after you run the command:
+### Webpack integration
 
-```bash
-npm init docusaurus@latest my-website classic
-```
+You can use this package with a webpack plugin to keep your swagger documentation up-to-date when building your app:
 
-You can type this command into Command Prompt, Powershell, Terminal, or any other integrated terminal of your code editor.
+- [swagger-jsdoc-webpack-plugin](https://github.com/patsimm/swagger-jsdoc-webpack-plugin) - Rebuild the swagger definition based on a predefined list of files on each webpack build.
+- [swagger-jsdoc-sync-webpack-plugin](https://github.com/gautier-lefebvre/swagger-jsdoc-sync-webpack-plugin) - Rebuild the swagger definition based on the files imported in your app on each webpack build.
 
-The command also installs all necessary dependencies you need to run Docusaurus.
+## Supported versions
 
-## Start your site
+- OpenAPI 3.x
+- Swagger 2.0
 
-Run the development server:
-
-```bash
-cd my-website
-npm run start
-```
-
-The `cd` command changes the directory you're working with. In order to work with your newly created Docusaurus site, you'll need to navigate the terminal there.
-
-The `npm run start` command builds your website locally and serves it through a development server, ready for you to view at http://localhost:3000/.
-
-Open `docs/intro.md` (this page) and edit some lines: the site **reloads automatically** and displays your changes.
+To make sure your end specification is valid, do read the most up-to date official [OpenAPI specification](https://github.com/OAI/OpenAPI-Specification).
