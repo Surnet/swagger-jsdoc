@@ -1,5 +1,4 @@
 // @ts-check
-// Note: type annotations allow type checking and IDEs autocompletion
 
 const lightCodeTheme = require('prism-react-renderer/themes/github');
 const darkCodeTheme = require('prism-react-renderer/themes/dracula');
@@ -30,8 +29,6 @@ const config = {
       ({
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
           editUrl:
             'https://github.com/Surnet/swagger-jsdoc/tree/master/docusaurus',
         },
@@ -80,36 +77,6 @@ const config = {
               },
             ],
           },
-          // {
-          //   title: 'Community',
-          //   items: [
-          //     {
-          //       label: 'Stack Overflow',
-          //       href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-          //     },
-          //     {
-          //       label: 'Discord',
-          //       href: 'https://discordapp.com/invite/docusaurus',
-          //     },
-          //     {
-          //       label: 'Twitter',
-          //       href: 'https://twitter.com/docusaurus',
-          //     },
-          //   ],
-          // },
-          // {
-          //   title: 'More',
-          //   items: [
-          //     {
-          //       label: 'Blog',
-          //       to: '/blog',
-          //     },
-          //     {
-          //       label: 'GitHub',
-          //       href: 'https://github.com/facebook/docusaurus',
-          //     },
-          //   ],
-          // },
         ],
         copyright: `Copyright © ${new Date().getFullYear()} swagger-jsdoc, Inc. Built with Docusaurus.`,
       },
