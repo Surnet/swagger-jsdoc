@@ -31,7 +31,7 @@ export default function Home() {
   return (
     <Layout
       title={`Hello from ${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />"
+      description="Generates swagger/openapi specification based on jsDoc comments and YAML files."
     >
       <HomepageHeader />
     </Layout>

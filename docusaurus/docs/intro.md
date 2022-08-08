@@ -1,47 +1,103 @@
 ---
 sidebar_position: 1
+title: Intro
 ---
 
-# Tutorial Intro
+# swagger-jsdoc
 
-Let's discover **Docusaurus in less than 5 minutes**.
+This library reads your [JSDoc](https://jsdoc.app/)-annotated source code and generates an [OpenAPI (Swagger) specification](https://swagger.io/specification/).
 
-## Getting Started
+[![npm Downloads](https://img.shields.io/npm/dm/swagger-jsdoc.svg)](https://www.npmjs.com/package/swagger-jsdoc)
+![CI](https://github.com/Surnet/swagger-jsdoc/workflows/CI/badge.svg)
 
-Get started by **creating a new site**.
+## Getting started
 
-Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new)**.
+Imagine having API files like these:
 
-### What you'll need
-
-- [Node.js](https://nodejs.org/en/download/) version 16.14 or above:
-  - When installing Node.js, you are recommended to check all checkboxes related to dependencies.
-
-## Generate a new site
-
-Generate a new Docusaurus site using the **classic template**.
-
-The classic template will automatically be added to your project after you run the command:
-
-```bash
-npm init docusaurus@latest my-website classic
+```javascript
+/**
+ * @openapi
+ * /:
+ *   get:
+ *     description: Welcome to swagger-jsdoc!
+ *     responses:
+ *       200:
+ *         description: Returns a mysterious string.
+ */
+app.get('/', (req, res) => {
+  res.send('Hello World!');
+});
 ```
 
-You can type this command into Command Prompt, Powershell, Terminal, or any other integrated terminal of your code editor.
+The library will take the contents of `@openapi` (or `@swagger`) with the following configuration:
 
-The command also installs all necessary dependencies you need to run Docusaurus.
+```javascript
+const swaggerJsdoc = require('swagger-jsdoc');
 
-## Start your site
+const options = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'Hello World',
+      version: '1.0.0',
+    },
+  },
+  apis: ['./src/routes*.js'], // files containing annotations as above
+};
 
-Run the development server:
-
-```bash
-cd my-website
-npm run start
+const openapiSpecification = swaggerJsdoc(options);
 ```
 
-The `cd` command changes the directory you're working with. In order to work with your newly created Docusaurus site, you'll need to navigate the terminal there.
+The resulting `openapiSpecification` will be a [swagger tools](https://swagger.io/tools/)-compatible (and validated) specification.
 
-The `npm run start` command builds your website locally and serves it through a development server, ready for you to view at http://localhost:3000/.
+![swagger-jsdoc example screenshot](/img/screenshot.png)
 
-Open `docs/intro.md` (this page) and edit some lines: the site **reloads automatically** and displays your changes.
+## System requirements
+
+- Node.js 12.x or higher
+
+You are viewing `swagger-jsdoc` v6 which is published in CommonJS module system.
+
+## Installation
+
+```bash
+npm install swagger-jsdoc --save
+```
+
+Or
+
+```bash
+yarn add swagger-jsdoc
+```
+
+## Supported specifications
+
+- OpenAPI 3.x
+- Swagger 2
+- AsyncAPI 2.0
+
+## Validation of swagger docs
+
+By default `swagger-jsdoc` tries to parse all docs to it's best capabilities. If you'd like to you can instruct an Error to be thrown instead if validation failed by setting the options flag `failOnErrors` to `true`. This is for instance useful if you want to verify that your swagger docs validate using a unit test.
+
+```javascript
+const swaggerJsdoc = require('swagger-jsdoc');
+
+const options = {
+  failOnErrors: true, // Whether or not to throw when parsing errors. Defaults to false.
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'Hello World',
+      version: '1.0.0',
+    },
+  },
+  apis: ['./src/routes*.js'],
+};
+
+const openapiSpecification = swaggerJsdoc(options);
+```
+
+## Documentation
+
+Click on the version you are using from navigation bar for further details.
