@@ -25,7 +25,7 @@ app.use(
 // https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md
 const swaggerDefinition = {
   info: {
-    // API informations (required)
+    // API information (required)
     title: 'Hello World', // Title (required)
     version: '1.0.0', // Version (required)
     description: 'A sample API', // Description (optional)
