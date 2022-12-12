@@ -37,7 +37,7 @@ const options = {
       version: '1.0.0',
     },
   },
-  apis: ['./src/routes*.js'], // files containing annotations as above
+  apis: ['**/src/routes*.js'], // files containing annotations as above
 };
 
 const openapiSpecification = swaggerJsdoc(options);
@@ -87,7 +87,7 @@ const options = {
       version: '1.0.0',
     },
   },
-  apis: ['./src/routes*.js'],
+  apis: ['**/src/routes*.js'],
 };
 
 const openapiSpecification = swaggerJsdoc(options);
