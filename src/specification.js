@@ -128,7 +128,10 @@ function organize(swaggerObject, annotation, property) {
   // Root property on purpose.
   // @see https://github.com/OAI/OpenAPI-Specification/blob/master/proposals/002_Webhooks.md#proposed-solution
   if (property === 'x-webhooks') {
-    swaggerObject[property] = annotation[property];
+    swaggerObject[property] = mergeDeep(
+      swaggerObject[property],
+      annotation[property]
+    )
   }
 
   // Other extensions can be in varying places depending on different vendors and opinions.
