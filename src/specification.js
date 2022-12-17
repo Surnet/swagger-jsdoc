@@ -131,7 +131,7 @@ function organize(swaggerObject, annotation, property) {
     swaggerObject[property] = mergeDeep(
       swaggerObject[property],
       annotation[property]
-    )
+    );
   }
 
   // Other extensions can be in varying places depending on different vendors and opinions.
