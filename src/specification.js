@@ -281,6 +281,7 @@ function build(options) {
 
     // Format errors into a printable/throwable string
     const errReport = yamlDocsErrors
+      .filter((doc) => doc.errors.length)
       .map(({ errors, filePath }) => {
         let str = `Error in ${filePath} :\n`;
         if (options.verbose) {
