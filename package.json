@@ -20,11 +20,11 @@
     "commander": "6.2.0",
     "doctrine": "3.0.0",
     "glob": "7.1.6",
-    "swagger-parser": "10.0.2",
+    "swagger-parser": "10.0.3",
     "yaml": "2.0.0-1"
   },
   "devDependencies": {
-    "body-parser": "1.19.0",
+    "body-parser": "1.20.2",
     "eslint": "^8.11.0",
     "eslint-config-airbnb-base": "15.0.0",
     "eslint-config-prettier": "8.5.0",
@@ -32,7 +32,7 @@
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-jest": "^26.1.1",
     "eslint-plugin-prettier": "^4.0.0",
-    "express": "4.17.3",
+    "express": "4.18.2",
     "husky": "7.0.4",
     "jest": "^27.5.1",
     "lint-staged": "10.5.2",
