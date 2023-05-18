@@ -184,8 +184,6 @@ function organize(swaggerObject, annotation, property) {
  * @returns {object} swaggerObject
  */
 function build(options) {
-  YAML.defaultOptions.keepCstNodes = true;
-
   // Get input definition and prepare the specification's skeleton
   const definition = options.swaggerDefinition || options.definition;
   const specification = prepare(definition);
@@ -205,7 +203,7 @@ function build(options) {
           filePath,
         });
 
-        const anchors = parsed.anchors.getNames();
+        const anchors = parsed.anchors ? parsed.anchors.getNames() : [];
         if (anchors.length) {
           for (const anchor of anchors) {
             yamlDocsAnchors.set(anchor, parsed);
@@ -228,7 +226,7 @@ function build(options) {
         for (const doc of extractYamlFromJsDoc(jsDocComment)) {
           const parsed = Object.assign(YAML.parseDocument(doc), { filePath });
 
-          const anchors = parsed.anchors.getNames();
+          const anchors = parsed.anchors ? parsed.anchors.getNames() : [];
           if (anchors.length) {
             for (const anchor of anchors) {
               yamlDocsAnchors.set(anchor, parsed);

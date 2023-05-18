@@ -3,7 +3,7 @@ const { promisify } = require('util');
 const { exec } = require('child_process');
 
 const sh = promisify(exec);
-const dir = process.env.PWD;
+const dir = process.env.PWD || process.cwd();
 const bin = `${dir}/bin/swagger-jsdoc.js`;
 
 describe('CLI module', () => {
@@ -138,9 +138,17 @@ describe('CLI module', () => {
   });
 
   afterAll(() => {
-    fs.unlinkSync(`${dir}/swagger.json`);
-    fs.unlinkSync(`${dir}/customSpec.json`);
-    fs.unlinkSync(`${dir}/customSpec.yaml`);
-    fs.unlinkSync(`${dir}/customSpec.yml`);
+    if (fs.existsSync(`${dir}/swagger.json`)) {
+      fs.unlinkSync(`${dir}/swagger.json`);
+    }
+    if (fs.existsSync(`${dir}/customSpec.json`)) {
+      fs.unlinkSync(`${dir}/customSpec.json`);
+    }
+    if (fs.existsSync(`${dir}/customSpec.yaml`)) {
+      fs.unlinkSync(`${dir}/customSpec.yaml`);
+    }
+    if (fs.existsSync(`${dir}/customSpec.yml`)) {
+      fs.unlinkSync(`${dir}/customSpec.yml`);
+    }
   });
 });

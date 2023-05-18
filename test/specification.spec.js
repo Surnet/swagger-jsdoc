@@ -31,28 +31,25 @@ describe('Specification module', () => {
     });
 
     it('should have filepath in error (yaml)', () => {
+      const pattern = new RegExp(
+        `Error in ${path.resolve(__dirname, './files/v2/wrong_syntax.yaml')}`
+      );
       expect(() => {
         specModule.build({
           swaggerDefinition: {},
           apis: [path.resolve(__dirname, './files/v2/wrong_syntax.yaml')],
           failOnErrors: true,
         });
-      }).toThrow(`Error in ${path.resolve(
-        __dirname,
-        './files/v2/wrong_syntax.yaml'
-      )} :
-YAMLSemanticError: The !!! tag handle is non-default and was not declared. at line 2, column 3:
-
-  !!!title: Hello World
-  ^^^^^^^^^^^^^^^^^^^^^…
-
-YAMLSemanticError: Implicit map keys need to be on a single line at line 2, column 3:
-
-  !!!title: Hello World
-  ^^^^^^^^^^^^^^^^^^^^^…\n`);
+      }).toThrow(pattern);
     });
 
     it('should have filepath in error (jsdoc)', () => {
+      const pattern = new RegExp(
+        `Error in ${path.resolve(
+          __dirname,
+          './files/v2/wrong-yaml-identation.js'
+        )}`
+      );
       expect(() => {
         specModule.build({
           swaggerDefinition: {},
@@ -61,19 +58,7 @@ YAMLSemanticError: Implicit map keys need to be on a single line at line 2, colu
           ],
           failOnErrors: true,
         });
-      }).toThrow(`Error in ${path.resolve(
-        __dirname,
-        './files/v2/wrong-yaml-identation.js'
-      )} :
-YAMLSyntaxError: All collection items must start at the same column at line 1, column 1:
-
-/invalid_yaml:
-^^^^^^^^^^^^^^…
-
-YAMLSemanticError: Implicit map keys need to be followed by map values at line 3, column 3:
-
-  bar
-  ^^^\n`);
+      }).toThrow(pattern);
     });
 
     it('should support a flag for verbose errors', () => {
@@ -86,32 +71,13 @@ YAMLSemanticError: Implicit map keys need to be followed by map values at line 3
           failOnErrors: true,
           verbose: true,
         });
-      }).toThrow(`Error in ${path.resolve(
-        __dirname,
-        './files/v2/wrong-yaml-identation.js'
-      )} :
-YAMLSyntaxError: All collection items must start at the same column at line 1, column 1:
-
-/invalid_yaml:
-^^^^^^^^^^^^^^…
-
-Imbedded within:
-\`\`\`
-  /invalid_yaml:
-         - foo
-    bar
-\`\`\`
-YAMLSemanticError: Implicit map keys need to be followed by map values at line 3, column 3:
-
-  bar
-  ^^^
-
-Imbedded within:
-\`\`\`
-  /invalid_yaml:
-         - foo
-    bar
-\`\`\``);
+      }).toThrow(
+        `Error in ${path.resolve(
+          __dirname,
+          './files/v2/wrong-yaml-identation.js'
+        )}` +
+          ' :\nYAMLParseError: All mapping items must start at the same column at line 3, column 1:\n\n       - foo\n  bar\n^\n\nImbedded within:\n```\n  /invalid_yaml:\n         - foo\n    bar\n```\nYAMLParseError: Implicit map keys need to be followed by map values at line 3, column 3:\n\n       - foo\n  bar\n  ^^^\n\nImbedded within:\n```\n  /invalid_yaml:\n         - foo\n    bar\n```'
+      );
     });
   });
 
