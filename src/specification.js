@@ -194,39 +194,17 @@ function build(options) {
   const yamlDocsReady = [];
 
   for (const filePath of convertGlobPaths(options.apis)) {
-    const {
-      yaml: yamlAnnotations,
-      jsdoc: jsdocAnnotations,
-    } = extractAnnotations(filePath, options.encoding);
+    try {
+      const {
+        yaml: yamlAnnotations,
+        jsdoc: jsdocAnnotations,
+      } = extractAnnotations(filePath, options.encoding);
 
-    if (yamlAnnotations.length) {
-      for (const annotation of yamlAnnotations) {
-        const parsed = Object.assign(YAML.parseDocument(annotation), {
-          filePath,
-        });
-
-        const anchors = parsed.anchors.getNames();
-        if (anchors.length) {
-          for (const anchor of anchors) {
-            yamlDocsAnchors.set(anchor, parsed);
-          }
-        } else if (parsed.errors && parsed.errors.length) {
-          // Attach the relevent yaml section to the error for verbose logging
-          parsed.errors.forEach((err) => {
-            err.annotation = annotation;
+      if (yamlAnnotations.length) {
+        for (const annotation of yamlAnnotations) {
+          const parsed = Object.assign(YAML.parseDocument(annotation), {
+            filePath,
           });
-          yamlDocsErrors.push(parsed);
-        } else {
-          yamlDocsReady.push(parsed);
-        }
-      }
-    }
-
-    if (jsdocAnnotations.length) {
-      for (const annotation of jsdocAnnotations) {
-        const jsDocComment = doctrine.parse(annotation, { unwrap: true });
-        for (const doc of extractYamlFromJsDoc(jsDocComment)) {
-          const parsed = Object.assign(YAML.parseDocument(doc), { filePath });
 
           const anchors = parsed.anchors.getNames();
           if (anchors.length) {
@@ -236,13 +214,42 @@ function build(options) {
           } else if (parsed.errors && parsed.errors.length) {
             // Attach the relevent yaml section to the error for verbose logging
             parsed.errors.forEach((err) => {
-              err.annotation = doc;
+              err.annotation = annotation;
             });
             yamlDocsErrors.push(parsed);
           } else {
             yamlDocsReady.push(parsed);
           }
         }
+      }
+
+      if (jsdocAnnotations.length) {
+        for (const annotation of jsdocAnnotations) {
+          const jsDocComment = doctrine.parse(annotation, { unwrap: true });
+          for (const doc of extractYamlFromJsDoc(jsDocComment)) {
+            const parsed = Object.assign(YAML.parseDocument(doc), { filePath });
+
+            const anchors = parsed.anchors.getNames();
+            if (anchors.length) {
+              for (const anchor of anchors) {
+                yamlDocsAnchors.set(anchor, parsed);
+              }
+            } else if (parsed.errors && parsed.errors.length) {
+              // Attach the relevent yaml section to the error for verbose logging
+              parsed.errors.forEach((err) => {
+                err.annotation = doc;
+              });
+              yamlDocsErrors.push(parsed);
+            } else {
+              yamlDocsReady.push(parsed);
+            }
+          }
+        }
+      }
+    } catch (err) {
+      if (options.failOnErrors) {
+        console.error(`Error parsing ${filePath}: ${err.message}`);
+        throw new Error(err);
       }
     }
   }
