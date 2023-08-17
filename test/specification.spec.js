@@ -1,9 +1,20 @@
 const path = require('path');
+const fs = require('fs');
 const specModule = require('../src/specification');
 const swaggerObject = require('./files/v2/swaggerObject.json');
 
+const originalReadFileSync = fs.readFileSync;
+let readFileSyncSpy;
 describe('Specification module', () => {
   describe('build', () => {
+    beforeEach(() => {
+      readFileSyncSpy = jest.spyOn(fs, 'readFileSync');
+    });
+
+    afterEach(() => {
+      readFileSyncSpy.mockRestore();
+    });
+
     it('should be a function', () => {
       expect(typeof specModule.build).toBe('function');
     });
@@ -28,6 +39,57 @@ describe('Specification module', () => {
         securityDefinitions: {},
         tags: [],
       });
+    });
+
+    it('should not throw an error if file cannot be open, and failOnErrors is false', () => {
+      readFileSyncSpy.mockImplementation((filePath, options) => {
+        if (
+          filePath === path.resolve(__dirname, './files/v2/wrong_syntax.yaml')
+        ) {
+          throw new Error('ENOENT: no such file or directory');
+        }
+
+        return originalReadFileSync(filePath, options);
+      });
+
+      expect(
+        specModule.build({
+          swaggerDefinition: {},
+          apis: [
+            path.resolve(__dirname, './files/v2/wrong_syntax.yaml'),
+            path.resolve(__dirname, './files/v2/api_definition.yaml'),
+          ],
+          failOnErrors: false,
+        })
+      ).toEqual({
+        swagger: '2.0',
+        paths: {
+          info: {
+            title: 'Hello World',
+            version: '1.0.0',
+            description: 'A sample API',
+          },
+        },
+        definitions: {},
+        responses: {},
+        parameters: {},
+        securityDefinitions: {},
+        tags: [],
+      });
+    });
+
+    it('should throw an error if file cannot be open, and failOnErrors is true', () => {
+      readFileSyncSpy.mockImplementation(() => {
+        throw new Error('ENOENT: no such file or directory');
+      });
+
+      expect(() => {
+        specModule.build({
+          swaggerDefinition: {},
+          apis: [path.resolve(__dirname, './files/v2/wrong_syntax.yaml')],
+          failOnErrors: true,
+        });
+      }).toThrow();
     });
 
     it('should have filepath in error (yaml)', () => {
