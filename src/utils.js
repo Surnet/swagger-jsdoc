@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const glob = require('glob');
+const { globSync } = require('glob');
 const mergeWith = require('lodash.mergewith');
 
 /**
@@ -10,7 +10,7 @@ const mergeWith = require('lodash.mergewith');
  */
 function convertGlobPaths(globs) {
   return globs
-    .map((globString) => glob.sync(globString))
+    .map((globString) => globSync(globString))
     .reduce((previous, current) => previous.concat(current), []);
 }
 
