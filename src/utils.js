@@ -79,7 +79,7 @@ function extractAnnotations(filePath, encoding = 'utf8') {
     default: {
       regexResults = fileContent.match(jsDocRegex) || [];
       for (const result of regexResults) {
-        jsdoc.push(result);
+        jsdoc.push(convertToJSDocFormat(result));
       }
     }
   }
@@ -139,6 +139,24 @@ function loadDefinition(defPath, swaggerDefinition) {
  */
 function mergeDeep(first, second) {
   return mergeWith({}, first, second, (a, b) => (b === null ? a : undefined));
+}
+
+// Since We accept YAML without leading '*' now,
+// we need to add necessary '*' if missing to make a valid JSDoc
+function convertToJSDocFormat(content) {
+  const cond = content.split('\n').filter(val => val).every(val => val.includes('*'))
+  if (cond) {
+      return content
+  }
+  const swaggerContent = content.match(/\/\*\*([\s\S]*?)\*\//);
+
+  if (!swaggerContent) return content;
+  let swaggerText = swaggerContent[0]
+      .replace(/\/\*\*\s*\n/, '/**\n')
+      .replace(/^(?!\/\*\*|\*\/|\s*$)/gm, ' * ');
+  swaggerText = swaggerText.replace(/\*\s*$/, '');
+
+  return swaggerText
 }
 
 module.exports.mergeDeep = mergeDeep;

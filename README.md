@@ -24,6 +24,25 @@ app.get('/', (req, res) => {
 });
 ```
 
+Or like these:
+
+```javascript
+/**
+@openapi
+/:
+  get:
+    description: Welcome to swagger-jsdoc!
+    responses:
+      200:
+        description: Returns a mysterious string.
+*/
+app.get('/', (req, res) => {
+  res.send('Hello World!');
+});
+```
+
+Start with `@openapi` or `@openapi` **WITHOUT** a leading `*` and followed by standard OpenAPI definition. You can get more details from [Paths and Operations | Swagger Docs](https://swagger.io/docs/specification/v3_0/paths-and-operations/). 
+
 The library will take the contents of `@openapi` (or `@swagger`) with the following configuration:
 
 ```javascript
