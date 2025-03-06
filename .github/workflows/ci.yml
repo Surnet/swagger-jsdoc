@@ -6,9 +6,9 @@ jobs:
     name: audit
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Run audit
-        run: yarn audit
+        run: npm audit
 
   tests:
     name: tests
@@ -16,14 +16,14 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x, 14.x]
+        node-version: [16.x, 18.x, 20.x, 22.x]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: npm ci
       - name: Run tests
-        run: yarn test
+        run: npm test
 
   publish:
     name: publish
@@ -31,7 +31,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Publish
         uses: mikeal/merge-release@master
         env:

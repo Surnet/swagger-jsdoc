@@ -3,7 +3,6 @@
 
 // Dependencies
 const express = require('express');
-const bodyParser = require('body-parser');
 const routes = require('./routes');
 const routes2 = require('./routes2');
 const swaggerJsdoc = require('../..');
@@ -12,9 +11,9 @@ const PORT = process.env.PORT || 3000;
 
 // Initialize express
 const app = express();
-app.use(bodyParser.json()); // To support JSON-encoded bodies
+app.use(express.json()); // To support JSON-encoded bodies
 app.use(
-  bodyParser.urlencoded({
+  express.urlencoded({
     // To support URL-encoded bodies
     extended: true,
   })
