@@ -35,6 +35,6 @@ describe('Example for using anchors and aliases in YAML documents', () => {
           './examples/yaml-anchors-aliases/example.js',
         ],
       });
-    }).not.toThrowError();
+    }).not.toThrow();
   });
 });
