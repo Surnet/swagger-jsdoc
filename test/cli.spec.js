@@ -138,9 +138,17 @@ describe('CLI module', () => {
   });
 
   afterAll(() => {
-    fs.unlinkSync(`${dir}/swagger.json`);
-    fs.unlinkSync(`${dir}/customSpec.json`);
-    fs.unlinkSync(`${dir}/customSpec.yaml`);
-    fs.unlinkSync(`${dir}/customSpec.yml`);
+    const tryUnlink = (file) => {
+      try {
+        fs.unlinkSync(file);
+      } catch (e) {
+        // File may not exist
+      }
+    };
+
+    tryUnlink(`${dir}/swagger.json`);
+    tryUnlink(`${dir}/customSpec.json`);
+    tryUnlink(`${dir}/customSpec.yaml`);
+    tryUnlink(`${dir}/customSpec.yml`);
   });
 });
