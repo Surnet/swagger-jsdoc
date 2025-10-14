@@ -1,5 +1,5 @@
 const doctrine = require('doctrine');
-const parser = require('swagger-parser');
+const parser = require('@apidevtools/swagger-parser');
 const YAML = require('yaml');
 
 const {

@@ -34,7 +34,7 @@ exports[`CLI module should generate yml final file from separated files 1`] = `
 
 exports[`CLI module should reject definition file with invalid JSON syntax 1`] = `
 "Error while loading definition file 'test/files/v2/wrong_syntax.json':
-Unexpected token t in JSON at position 18
+Expected property name or '}' in JSON at position 18 (line 3 column 5)
 "
 `;
 
