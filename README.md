@@ -49,7 +49,7 @@ The resulting `openapiSpecification` will be a [swagger tools](https://swagger.i
 
 ## System requirements
 
-- Node.js 12.x or higher
+- Node.js 16.x or higher
 
 You are viewing `swagger-jsdoc` v6 which is published in CommonJS module system.
 
