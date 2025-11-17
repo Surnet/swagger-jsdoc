@@ -7,7 +7,7 @@
   "asyncapi": "2.0.0",
   "components": {
     "messages": {
-      "UserSignedIn": {
+      "UserSignedUp": {
         "payload": {
           "type": "object",
           "properties": {
@@ -18,7 +18,7 @@
           }
         }
       },
-      "UserSignedUp": {
+      "UserSignedIn": {
         "payload": {
           "type": "object",
           "properties": {
@@ -32,17 +32,17 @@
     }
   },
   "channels": {
-    "user/signedin": {
-      "subscribe": {
-        "message": {
-          "$ref": "#/components/messages/UserSignedIn"
-        }
-      }
-    },
     "user/signedup": {
       "subscribe": {
         "message": {
           "$ref": "#/components/messages/UserSignedUp"
+        }
+      }
+    },
+    "user/signedin": {
+      "subscribe": {
+        "message": {
+          "$ref": "#/components/messages/UserSignedIn"
         }
       }
     }
