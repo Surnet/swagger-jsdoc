@@ -141,6 +141,5 @@ describe('CLI module', () => {
     fs.unlinkSync(`${dir}/swagger.json`);
     fs.unlinkSync(`${dir}/customSpec.json`);
     fs.unlinkSync(`${dir}/customSpec.yaml`);
-    fs.unlinkSync(`${dir}/customSpec.yml`);
   });
 });
