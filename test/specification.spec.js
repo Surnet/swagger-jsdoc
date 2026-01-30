@@ -103,15 +103,16 @@ describe('Specification module', () => {
         __dirname,
         './files/v2/wrong_syntax.yaml'
       )} :
-YAMLSemanticError: The !!! tag handle is non-default and was not declared. at line 2, column 3:
+YAMLParseError: Implicit keys need to be on a single line at line 2, column 13:
 
   !!!title: Hello World
-  ^^^^^^^^^^^^^^^^^^^^^…
+            ^
 
-YAMLSemanticError: Implicit map keys need to be on a single line at line 2, column 3:
+YAMLParseError: Could not resolve tag: !!!title: at line 2, column 3:
 
+info:
   !!!title: Hello World
-  ^^^^^^^^^^^^^^^^^^^^^…\n`);
+  ^^^^^^^^^\n`);
     });
 
     it('should have filepath in error (jsdoc)', () => {
@@ -127,13 +128,15 @@ YAMLSemanticError: Implicit map keys need to be on a single line at line 2, colu
         __dirname,
         './files/v2/wrong-yaml-identation.js'
       )} :
-YAMLSyntaxError: All collection items must start at the same column at line 1, column 1:
+YAMLParseError: All mapping items must start at the same column at line 3, column 1:
 
-/invalid_yaml:
-^^^^^^^^^^^^^^…
+       - foo
+  bar
+^
 
-YAMLSemanticError: Implicit map keys need to be followed by map values at line 3, column 3:
+YAMLParseError: Implicit map keys need to be followed by map values at line 3, column 3:
 
+       - foo
   bar
   ^^^\n`);
     });
@@ -152,10 +155,11 @@ YAMLSemanticError: Implicit map keys need to be followed by map values at line 3
         __dirname,
         './files/v2/wrong-yaml-identation.js'
       )} :
-YAMLSyntaxError: All collection items must start at the same column at line 1, column 1:
+YAMLParseError: All mapping items must start at the same column at line 3, column 1:
 
-/invalid_yaml:
-^^^^^^^^^^^^^^…
+       - foo
+  bar
+^
 
 Imbedded within:
 \`\`\`
@@ -163,8 +167,9 @@ Imbedded within:
          - foo
     bar
 \`\`\`
-YAMLSemanticError: Implicit map keys need to be followed by map values at line 3, column 3:
+YAMLParseError: Implicit map keys need to be followed by map values at line 3, column 3:
 
+       - foo
   bar
   ^^^
 

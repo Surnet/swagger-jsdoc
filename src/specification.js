@@ -1,5 +1,5 @@
 const doctrine = require('doctrine');
-const parser = require('swagger-parser');
+const parser = require('@apidevtools/swagger-parser');
 const YAML = require('yaml');
 
 const {
@@ -184,7 +184,8 @@ function organize(swaggerObject, annotation, property) {
  * @returns {object} swaggerObject
  */
 function build(options) {
-  YAML.defaultOptions.keepCstNodes = true;
+  // YAML 2.x parseDocument options
+  const yamlParseOptions = { keepCstNodes: true };
 
   // Get input definition and prepare the specification's skeleton
   const definition = options.swaggerDefinition || options.definition;
@@ -202,11 +203,17 @@ function build(options) {
 
       if (yamlAnnotations.length) {
         for (const annotation of yamlAnnotations) {
-          const parsed = Object.assign(YAML.parseDocument(annotation), {
-            filePath,
-          });
+          const parsed = Object.assign(
+            YAML.parseDocument(annotation, yamlParseOptions),
+            {
+              filePath,
+            }
+          );
 
-          const anchors = parsed.anchors.getNames();
+          const anchors =
+            parsed.anchors && parsed.anchors.getNames
+              ? parsed.anchors.getNames()
+              : [];
           if (anchors.length) {
             for (const anchor of anchors) {
               yamlDocsAnchors.set(anchor, parsed);
@@ -227,9 +234,15 @@ function build(options) {
         for (const annotation of jsdocAnnotations) {
           const jsDocComment = doctrine.parse(annotation, { unwrap: true });
           for (const doc of extractYamlFromJsDoc(jsDocComment)) {
-            const parsed = Object.assign(YAML.parseDocument(doc), { filePath });
+            const parsed = Object.assign(
+              YAML.parseDocument(doc, yamlParseOptions),
+              { filePath }
+            );
 
-            const anchors = parsed.anchors.getNames();
+            const anchors =
+              parsed.anchors && parsed.anchors.getNames
+                ? parsed.anchors.getNames()
+                : [];
             if (anchors.length) {
               for (const anchor of anchors) {
                 yamlDocsAnchors.set(anchor, parsed);
@@ -270,7 +283,8 @@ function build(options) {
           const anchorString = anchor.cstNode.toString();
           const originalString = docWithErr.cstNode.toString();
           const readyDocument = YAML.parseDocument(
-            `${anchorString}\n${originalString}`
+            `${anchorString}\n${originalString}`,
+            yamlParseOptions
           );
 
           yamlDocsReady.push(readyDocument);
@@ -321,10 +335,57 @@ function build(options) {
     }
   }
 
+  // Collect all anchor source strings for potential merging
+  const allAnchorStrings = Array.from(yamlDocsAnchors.values())
+    .map((doc) => (doc.cstNode ? doc.cstNode.toString() : ''))
+    .filter((str) => str);
+
   for (const document of yamlDocsReady) {
-    const parsedDoc = document.toJSON();
-    for (const property in parsedDoc) {
-      organize(specification, parsedDoc, property);
+    try {
+      const parsedDoc = document.toJSON();
+      for (const property in parsedDoc) {
+        organize(specification, parsedDoc, property);
+      }
+    } catch (err) {
+      // YAML 2.x throws ReferenceError for unresolved aliases during toJSON()
+      if (
+        err.name === 'ReferenceError' &&
+        err.message.includes('Unresolved alias')
+      ) {
+        // Try merging with all known anchors
+        if (allAnchorStrings.length > 0 && document.cstNode) {
+          try {
+            const originalString = document.cstNode.toString();
+            const mergedString = `${allAnchorStrings.join(
+              '\n'
+            )}\n${originalString}`;
+            // Use parseAllDocuments to handle multiple YAML documents
+            const mergedDocs = YAML.parseAllDocuments(
+              mergedString,
+              yamlParseOptions
+            );
+            // Process only the last document (the original, not the anchor definitions)
+            const lastDoc = mergedDocs[mergedDocs.length - 1];
+            if (lastDoc) {
+              const parsedDoc = lastDoc.toJSON();
+              for (const property in parsedDoc) {
+                organize(specification, parsedDoc, property);
+              }
+            }
+            // eslint-disable-next-line no-continue
+            continue;
+          } catch (mergeErr) {
+            // Fall through to error handling below
+            if (options.failOnErrors) {
+              throw mergeErr;
+            }
+          }
+        }
+      }
+      // If we couldn't handle it, throw if failOnErrors
+      if (options.failOnErrors) {
+        throw err;
+      }
     }
   }
 
