@@ -1,5 +1,5 @@
 const doctrine = require('doctrine');
-const parser = require('swagger-parser');
+const parser = require('@apidevtools/swagger-parser');
 const YAML = require('yaml');
 
 const {
@@ -184,7 +184,8 @@ function organize(swaggerObject, annotation, property) {
  * @returns {object} swaggerObject
  */
 function build(options) {
-  YAML.defaultOptions.keepCstNodes = true;
+  // YAML 2.x parseDocument options
+  const yamlParseOptions = { keepCstNodes: true };
 
   // Get input definition and prepare the specification's skeleton
   const definition = options.swaggerDefinition || options.definition;
@@ -202,11 +203,17 @@ function build(options) {
 
       if (yamlAnnotations.length) {
         for (const annotation of yamlAnnotations) {
-          const parsed = Object.assign(YAML.parseDocument(annotation), {
-            filePath,
-          });
+          const parsed = Object.assign(
+            YAML.parseDocument(annotation, yamlParseOptions),
+            {
+              filePath,
+            }
+          );
 
-          const anchors = parsed.anchors.getNames();
+          const anchors =
+            parsed.anchors && parsed.anchors.getNames
+              ? parsed.anchors.getNames()
+              : [];
           if (anchors.length) {
             for (const anchor of anchors) {
               yamlDocsAnchors.set(anchor, parsed);
@@ -227,9 +234,15 @@ function build(options) {
         for (const annotation of jsdocAnnotations) {
           const jsDocComment = doctrine.parse(annotation, { unwrap: true });
           for (const doc of extractYamlFromJsDoc(jsDocComment)) {
-            const parsed = Object.assign(YAML.parseDocument(doc), { filePath });
+            const parsed = Object.assign(
+              YAML.parseDocument(doc, yamlParseOptions),
+              { filePath }
+            );
 
-            const anchors = parsed.anchors.getNames();
+            const anchors =
+              parsed.anchors && parsed.anchors.getNames
+                ? parsed.anchors.getNames()
+                : [];
             if (anchors.length) {
               for (const anchor of anchors) {
                 yamlDocsAnchors.set(anchor, parsed);
@@ -270,7 +283,8 @@ function build(options) {
           const anchorString = anchor.cstNode.toString();
           const originalString = docWithErr.cstNode.toString();
           const readyDocument = YAML.parseDocument(
-            `${anchorString}\n${originalString}`
+            `${anchorString}\n${originalString}`,
+            yamlParseOptions
           );
 
           yamlDocsReady.push(readyDocument);
@@ -321,10 +335,54 @@ function build(options) {
     }
   }
 
+  // Process documents, handling cross-document anchor/alias references
+  // YAML 2.x throws ReferenceError for unresolved aliases during toJSON()
+  // Collect all anchor definitions into a single string for merging
+  const allAnchorsString = Array.from(yamlDocsAnchors.values())
+    .map((doc) => (doc.cstNode ? doc.cstNode.toString() : ''))
+    .filter((str) => str)
+    .join('\n');
+
   for (const document of yamlDocsReady) {
-    const parsedDoc = document.toJSON();
-    for (const property in parsedDoc) {
-      organize(specification, parsedDoc, property);
+    let processed = false;
+    try {
+      const parsedDoc = document.toJSON();
+      for (const property in parsedDoc) {
+        organize(specification, parsedDoc, property);
+      }
+      processed = true;
+    } catch (err) {
+      if (
+        err.name === 'ReferenceError' &&
+        err.message.includes('Unresolved alias')
+      ) {
+        // Try to resolve by merging with all anchor documents
+        if (allAnchorsString) {
+          try {
+            const originalString = document.cstNode
+              ? document.cstNode.toString()
+              : '';
+            const mergedDocument = YAML.parseDocument(
+              `${allAnchorsString}\n${originalString}`,
+              yamlParseOptions
+            );
+            const parsedDoc = mergedDocument.toJSON();
+            for (const property in parsedDoc) {
+              organize(specification, parsedDoc, property);
+            }
+            processed = true;
+          } catch (mergeErr) {
+            // If merge fails, fall through to error handling
+            if (options.failOnErrors) {
+              throw mergeErr;
+            }
+          }
+        }
+      }
+      // If we can't handle the error and haven't processed, throw if failOnErrors
+      if (!processed && options.failOnErrors) {
+        throw err;
+      }
     }
   }
 

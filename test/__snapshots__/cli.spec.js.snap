@@ -34,16 +34,16 @@ exports[`CLI module should generate yml final file from separated files 1`] = `
 
 exports[`CLI module should reject definition file with invalid JSON syntax 1`] = `
 "Error while loading definition file 'test/files/v2/wrong_syntax.json':
-Expected property name or '}' in JSON at position 18 (line 3 column 5)
+Expected property name or '}' in JSON at position 18
 "
 `;
 
 exports[`CLI module should reject definition file with invalid YAML syntax 1`] = `
 "Error while loading definition file 'test/files/v2/wrong_syntax.yaml':
-The !!! tag handle is non-default and was not declared. at line 2, column 3:
+Implicit keys need to be on a single line at line 2, column 13:
 
   !!!title: Hello World
-  ^^^^^^^^^^^^^^^^^^^^^…
+            ^
 
 "
 `;
@@ -53,13 +53,15 @@ exports[`CLI module should report YAML documents with errors 1`] = `
 
 
  Error in test/files/v2/wrong-yaml-identation.js :
-YAMLSyntaxError: All collection items must start at the same column at line 1, column 1:
+YAMLParseError: All mapping items must start at the same column at line 3, column 1:
 
-/invalid_yaml:
-^^^^^^^^^^^^^^…
+       - foo
+  bar
+^
 
-YAMLSemanticError: Implicit map keys need to be followed by map values at line 3, column 3:
+YAMLParseError: Implicit map keys need to be followed by map values at line 3, column 3:
 
+       - foo
   bar
   ^^^
 
