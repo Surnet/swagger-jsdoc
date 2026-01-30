@@ -22,7 +22,7 @@
     "doctrine": "3.0.0",
     "glob": "11.1.0",
     "lodash.mergewith": "^4.6.2",
-    "yaml": "^2.8.1"
+    "yaml": "^2.3.4"
   },
   "devDependencies": {
     "body-parser": "^1.20.4",

@@ -335,52 +335,55 @@ function build(options) {
     }
   }
 
-  // Process documents, handling cross-document anchor/alias references
-  // YAML 2.x throws ReferenceError for unresolved aliases during toJSON()
-  // Collect all anchor definitions into a single string for merging
-  const allAnchorsString = Array.from(yamlDocsAnchors.values())
+  // Collect all anchor source strings for potential merging
+  const allAnchorStrings = Array.from(yamlDocsAnchors.values())
     .map((doc) => (doc.cstNode ? doc.cstNode.toString() : ''))
-    .filter((str) => str)
-    .join('\n');
+    .filter((str) => str);
 
   for (const document of yamlDocsReady) {
-    let processed = false;
     try {
       const parsedDoc = document.toJSON();
       for (const property in parsedDoc) {
         organize(specification, parsedDoc, property);
       }
-      processed = true;
     } catch (err) {
+      // YAML 2.x throws ReferenceError for unresolved aliases during toJSON()
       if (
         err.name === 'ReferenceError' &&
         err.message.includes('Unresolved alias')
       ) {
-        // Try to resolve by merging with all anchor documents
-        if (allAnchorsString) {
+        // Try merging with all known anchors
+        if (allAnchorStrings.length > 0 && document.cstNode) {
           try {
-            const originalString = document.cstNode
-              ? document.cstNode.toString()
-              : '';
-            const mergedDocument = YAML.parseDocument(
-              `${allAnchorsString}\n${originalString}`,
+            const originalString = document.cstNode.toString();
+            const mergedString = `${allAnchorStrings.join(
+              '\n'
+            )}\n${originalString}`;
+            // Use parseAllDocuments to handle multiple YAML documents
+            const mergedDocs = YAML.parseAllDocuments(
+              mergedString,
               yamlParseOptions
             );
-            const parsedDoc = mergedDocument.toJSON();
-            for (const property in parsedDoc) {
-              organize(specification, parsedDoc, property);
+            // Process only the last document (the original, not the anchor definitions)
+            const lastDoc = mergedDocs[mergedDocs.length - 1];
+            if (lastDoc) {
+              const parsedDoc = lastDoc.toJSON();
+              for (const property in parsedDoc) {
+                organize(specification, parsedDoc, property);
+              }
             }
-            processed = true;
+            // eslint-disable-next-line no-continue
+            continue;
           } catch (mergeErr) {
-            // If merge fails, fall through to error handling
+            // Fall through to error handling below
             if (options.failOnErrors) {
               throw mergeErr;
             }
           }
         }
       }
-      // If we can't handle the error and haven't processed, throw if failOnErrors
-      if (!processed && options.failOnErrors) {
+      // If we couldn't handle it, throw if failOnErrors
+      if (options.failOnErrors) {
         throw err;
       }
     }
