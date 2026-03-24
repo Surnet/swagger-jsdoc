@@ -118,7 +118,12 @@ describe('CLI module', () => {
     expect(result.stdout).toContain(
       'Not all input has been taken into account at your final specification.'
     );
-    expect(result.stderr).toMatchSnapshot();
+    expect(result.stderr).toContain(
+      'YAMLSyntaxError: All collection items must start at the same column'
+    );
+    expect(result.stderr).toContain(
+      'YAMLSemanticError: Implicit map keys need to be followed by map values'
+    );
   });
 
   it('should generate json final file from separated files', async () => {
