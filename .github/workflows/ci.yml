@@ -6,7 +6,7 @@ jobs:
     name: audit
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Run audit
         run: yarn audit
 
@@ -19,8 +19,8 @@ jobs:
         node-version: [22.x, 24.x]
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
@@ -34,11 +34,11 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: '24.x'
           registry-url: 'https://registry.npmjs.org'
@@ -48,7 +48,22 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
       - name: Bump version and publish
         run: |
-          npm version patch -m "chore: bump version to %s [skip ci]"
+          LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+          if [ -z "$LAST_TAG" ]; then
+            COMMITS=$(git log --pretty=format:"%s")
+          else
+            COMMITS=$(git log "${LAST_TAG}..HEAD" --pretty=format:"%s")
+          fi
+
+          if echo "$COMMITS" | grep -qi "BREAKING"; then
+            BUMP="major"
+          elif echo "$COMMITS" | grep -qi "^feat"; then
+            BUMP="minor"
+          else
+            BUMP="patch"
+          fi
+
+          npm version "$BUMP" -m "chore: bump version to %s [skip ci]"
           npm publish --access public
           git push --follow-tags
         env:
