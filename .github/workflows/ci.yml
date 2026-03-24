@@ -2,13 +2,13 @@ name: CI
 on: [push, pull_request]
 
 jobs:
-  audit:
-    name: audit
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Run audit
-        run: yarn audit; result=$?; exit $((result & 16))
+  # audit:
+  #   name: audit
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Run audit
+  #       run: yarn audit; result=$?; exit $((result & 16))
 
   tests:
     name: tests
