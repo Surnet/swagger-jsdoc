@@ -1,6 +1,6 @@
 {
   "name": "@mkonikov/swagger-jsdoc",
-  "description": "Generates swagger doc based on JSDoc",
+  "description": "FORK: Generates swagger doc based on JSDoc",
   "version": "1.0.0",
   "engines": {
     "node": ">=20.0.0"
