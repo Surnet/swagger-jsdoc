@@ -16,6 +16,7 @@ program
     'Input swagger definition.'
   )
   .option('-o, --output [swaggerSpec.json]', 'Output swagger specification.')
+  .option('-b, --bail', 'Exit with failure status (1) if generation errors.')
   .parse(process.argv);
 
 if (!process.argv.slice(2).length) {
@@ -23,7 +24,7 @@ if (!process.argv.slice(2).length) {
   process.exit();
 }
 
-const { definition } = program;
+const { definition, bail: bailOnError } = program;
 const output = program.output || 'swagger.json';
 
 if (!definition) {
@@ -71,16 +72,30 @@ if (!program.args.length) {
 
 const format = path.extname(output);
 
-const result = swaggerJsdoc({
-  swaggerDefinition,
-  apis: program.args,
-  format,
-});
+function doGeneration(failOnErrors) {
+  const result = swaggerJsdoc({
+    failOnErrors,
+    swaggerDefinition,
+    apis: program.args,
+    format,
+  });
 
-if (format === '.json') {
-  fs.writeFileSync(output, JSON.stringify(result, null, 2));
-} else {
-  fs.writeFileSync(output, result);
+  if (format === '.json') {
+    fs.writeFileSync(output, JSON.stringify(result, null, 2));
+  } else {
+    fs.writeFileSync(output, result);
+  }
+
+  console.log('Swagger specification is ready.');
 }
 
-console.log('Swagger specification is ready.');
+if (bailOnError === true) {
+  try {
+    doGeneration(bailOnError);
+  } catch (err) {
+    console.log('Swagger specification generation failed \n\n', err.message);
+    process.exit(1);
+  }
+} else {
+  doGeneration(false);
+}
